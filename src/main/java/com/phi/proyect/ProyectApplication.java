@@ -1,6 +1,8 @@
 package com.phi.proyect;
 
 import com.phi.proyect.configure.JWTAuthorizationFilter;
+import com.phi.proyect.controller.HomeController;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +31,9 @@ public class ProyectApplication {
                     .authorizeRequests()
                     .antMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
                     .antMatchers(HttpMethod.POST, "/phiinvestment/login").permitAll()
-                    .anyRequest().authenticated();
+                    .anyRequest().authenticated().and().formLogin()
+                    .failureUrl("/fault")
+                    .defaultSuccessUrl("/index",true);
         }
     }
 }

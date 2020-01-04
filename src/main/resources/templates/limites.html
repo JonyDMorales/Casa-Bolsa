@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${titulo}"></title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+
+</head>
+<body>
+
+<div class="container">
+		<h1 class="text-primary" th:text="${titulo}"></h1>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>contraparte</th>
+					<th>Limite Global</th>
+					<th>Límite Operaciones Directo</th>
+					<th>Límite Operaciones en Reporto</th>
+					<th>Límite por Operción</th>
+					<th>Límite Mercado de Cambios</th>
+					<th>Límite por Operción Mercado de Cambios</th>
+					<th>Estatus</th>
+					<th>Fecha Alta</th>
+					<th>Fecha Modificacion</th>
+					<th>editar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="limite: ${data}">
+					<td th:text="${limite.id}"></td>
+					<td th:text="${limite.contraparte}"></td>
+					<td th:text="${limite.globalLimit}"></td>
+					<td th:text="${limite.directOperationLimit}"></td>
+					<td th:text="${limite.reportoOperationLimit}"></td>
+					<td th:text="${limite.operationLimitMoneyMarket}"></td>
+					<td th:text="${limite.exchangeMarketLimit}"></td>
+					<td th:text="${limite.limitOperationExchangeMarket}"></td>
+					<td th:text="${limite.estatus}"></td>
+					<td th:text="${limite.fechaAlta}"></td>
+					<td th:text="${limite.fechaModificacion}"></td>
+					<td> <a class="btn btn-primary btn-xs" th:href="@{/form/} + ${limite.id}">Editar</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+
+
+</body>
+</html>

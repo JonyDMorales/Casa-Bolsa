@@ -33,7 +33,7 @@ public class ProyectApplication {
                     .antMatchers(HttpMethod.POST, "/phiinvestment/login").permitAll()
                     .anyRequest().authenticated().and().formLogin()
                     .failureUrl("/fault")
-                    .defaultSuccessUrl("/index",true);
+                    .defaultSuccessUrl("/limiteslineas",true);
         }
     }
 }

@@ -10,13 +10,26 @@
 
 </head>
 <body>
-
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">Spring Boot</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarNav" aria-controls="navbarNav"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" th:href="@{/listar}">Listar</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/form}">Crear Cliente</a></li>
+			</ul>
+		</div>
+	</nav>
 <div class="container">
 		<h1 class="text-primary" th:text="${titulo}"></h1>
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>id</th>
 					<th>contraparte</th>
 					<th>Limite Global</th>
 					<th>Límite Operaciones Directo</th>
@@ -24,15 +37,11 @@
 					<th>Límite por Operción</th>
 					<th>Límite Mercado de Cambios</th>
 					<th>Límite por Operción Mercado de Cambios</th>
-					<th>Estatus</th>
-					<th>Fecha Alta</th>
-					<th>Fecha Modificacion</th>
 					<th>editar</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr th:each="limite: ${data}">
-					<td th:text="${limite.id}"></td>
 					<td th:text="${limite.contraparte}"></td>
 					<td th:text="${limite.globalLimit}"></td>
 					<td th:text="${limite.directOperationLimit}"></td>
@@ -40,9 +49,6 @@
 					<td th:text="${limite.operationLimitMoneyMarket}"></td>
 					<td th:text="${limite.exchangeMarketLimit}"></td>
 					<td th:text="${limite.limitOperationExchangeMarket}"></td>
-					<td th:text="${limite.estatus}"></td>
-					<td th:text="${limite.fechaAlta}"></td>
-					<td th:text="${limite.fechaModificacion}"></td>
 					<td> <a class="btn btn-primary btn-xs" th:href="@{/form/} + ${limite.id}">Editar</a></td>
 				</tr>
 			</tbody>

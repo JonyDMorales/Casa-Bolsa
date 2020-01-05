@@ -1,6 +1,7 @@
 package com.phi.proyect.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,17 +17,29 @@ public class LimitesLineasService {
     @Autowired
 	private LimitesLineasRepository llr ;
 	
-    public void save(LimitesLineas limitesLineas) {
+    @Transactional
+    public LimitesLineas create(LimitesLineas limitesLineas) {
+    	return this.llr.save(limitesLineas);
     	
-    	this.llr.save(limitesLineas);
-    	
+    }
+    
+    @Transactional
+    public LimitesLineas update(LimitesLineas limitesLineas) {
+    	return this.llr.save(limitesLineas);
     }
     
     
     public List<LimitesLineas> findAll(){
-    	
     	return llr.findAll();
-    	
+    }
+    
+    public Optional<LimitesLineas> findById(Integer id){
+    	return llr.findById(id);
+    }
+    
+    @Transactional
+    public void delete(Integer id) {
+    	this.llr.deleteById(id);
     }
 
 }

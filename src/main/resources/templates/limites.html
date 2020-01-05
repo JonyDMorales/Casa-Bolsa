@@ -29,7 +29,7 @@
 <div class="container">
 		<h1 class="text-primary" th:text="${titulo}"></h1>
 		<br>
-		<a class="btn btn-primary btn-xs" onclick="deleteq()">Agregar</a>
+		<a class="btn btn-primary btn-xs" onclick="guardar()" style="color: white">Agregar</a>
 		<table class="table table-striped" id="limites" >
 			<thead> 
 				<tr>
@@ -52,7 +52,7 @@
 					<td th:text="${limite.operationLimitMoneyMarket}"></td>
 					<td th:text="${limite.exchangeMarketLimit}"></td>
 					<td th:text="${limite.limitOperationExchangeMarket}"></td>
-					<td> <a class="btn btn-primary btn-xs" th:href="@{/form/} + ${limite.id}">Editar</a></td>
+					<td> <a class="btn btn-danger btn-xs" th:onclick="|deleteq('${limite.id}')|">Eliminar</a></td>
 				</tr>
 			</tbody>
 		</table>

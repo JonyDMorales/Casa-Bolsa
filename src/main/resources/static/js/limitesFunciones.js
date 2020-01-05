@@ -138,10 +138,10 @@ function update() {
 }
 
 
-function deleteq() {
+function deleteq(id) {
 	$.ajax({
 		async : true,
-		url : '/limiteslineas/2',
+		url : '/limiteslineas/'+id,
 		type : 'delete',//POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
 		processData:false,

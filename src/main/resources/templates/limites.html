@@ -29,7 +29,7 @@
 <div class="container">
 		<h1 class="text-primary" th:text="${titulo}"></h1>
 		<br>
-		<a class="btn btn-primary btn-xs" onclick="guardar()" style="color: white">Agregar</a>
+		<a class="btn btn-primary btn-xs" onclick="addRow()" id="btnAgregar" style="color: white">Agregar</a>
 		<table class="table table-striped" id="limites" >
 			<thead> 
 				<tr>
@@ -40,11 +40,11 @@
 					<th>Límite por Operción</th>
 					<th>Límite Mercado de Cambios</th>
 					<th>Límite por Operción Mercado de Cambios</th>
-					<th>editar</th>
+					<th></th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr th:each="limite: ${data}">
+			<tbody id="tableLimites">
+				<tr th:each="limite: ${data}"  th:id="row+${limite.id}">
 					<td th:text="${limite.contraparte}"></td>
 					<td th:text="${limite.globalLimit}"></td>
 					<td th:text="${limite.directOperationLimit}"></td>
@@ -52,7 +52,7 @@
 					<td th:text="${limite.operationLimitMoneyMarket}"></td>
 					<td th:text="${limite.exchangeMarketLimit}"></td>
 					<td th:text="${limite.limitOperationExchangeMarket}"></td>
-					<td> <a class="btn btn-danger btn-xs" th:onclick="|deleteq('${limite.id}')|">Eliminar</a></td>
+					<td> <a class="btn btn-danger btn-xs" style="color: white" th:onclick="|deleteq('${limite.id}')|">Eliminar</a></td>
 				</tr>
 			</tbody>
 		</table>

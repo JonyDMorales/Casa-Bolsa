@@ -94,7 +94,7 @@ public class LimitesLineasController {
 		Optional<LimitesLineas> limitesLineasOptional = lls.findById(id);
 		if (limitesLineasOptional.isPresent()) {
 			lls.delete(id);
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<LimitesLineas>(HttpStatus.OK);
 		}else {
 			return new ResponseEntity<LimitesLineas>(HttpStatus.NOT_FOUND);
 		}

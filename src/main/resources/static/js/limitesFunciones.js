@@ -95,7 +95,7 @@ function guardar() {
 	$.ajax({
 		async : true,
 		url : '/limiteslineas',
-		type : 'post',//POST,PUT,DELETE,GET,PATCH
+		type : 'post',// POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
 		data : JSON.stringify({
 			contraparte : $("#contraparte").val(),
@@ -123,6 +123,7 @@ function guardar() {
 					'<td>'+response.limitOperationExchangeMarket+'</td>'+
 					"<td> <a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+response.id+"')\">Eliminar</a></td>"+
 				'</tr>');
+			Swal.fire('La contraparte se registro correctamente','','success')	
 		},
 		error : function(d) {
 			console.log(d);
@@ -136,7 +137,7 @@ function update() {
 	$.ajax({
 		async : true,
 		url : '/limiteslineas/2',
-		type : 'put',//POST,PUT,DELETE,GET,PATCH
+		type : 'put',// POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
 		data : JSON.stringify({
 			contraparte : "Bancomer2",
@@ -164,20 +165,34 @@ function update() {
 
 
 function deleteq(id) {
-	$.ajax({
-		async : true,
-		url : '/limiteslineas/'+id,
-		type : 'delete',//POST,PUT,DELETE,GET,PATCH
-		dataType: 'json',
-		processData:false,
-		contentType:"application/json",
-		success : function(da) { // true
-			console.log(da);
-			
-		},
-		error : function(d) {
-			console.log(d);
-			$("#row"+id).remove();
-		}
-	});
+	Swal.fire({
+		  title: '¿Esta seguro de querer eliminar la contraparte?',
+		  text: "",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Aceptar'
+		}).then((result) => {
+		  if (result.value) {
+				$.ajax({
+					async : true,
+					url : '/limiteslineas/'+id,
+					type : 'delete',// POST,PUT,DELETE,GET,PATCH
+					dataType: 'json',
+					processData:false,
+					contentType:"application/json",
+					success : function(da) { // true
+						console.log(da);
+						
+					},
+					error : function(d) {
+						console.log(d);
+						$("#row"+id).remove();
+						Swal.fire('La contraparte se elimino correctamente','','success')
+					}
+				});
+		  }
+		})
+
 }

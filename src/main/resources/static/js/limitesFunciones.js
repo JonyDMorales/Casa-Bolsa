@@ -1,6 +1,3 @@
-/**
- * 
- */
 
 var myTable2;
 
@@ -142,44 +139,74 @@ function addRow() {
 }
 
 function guardar() {
-	$.ajax({
-		async : true,
-		url : '/limiteslineas',
-		type : 'post',// POST,PUT,DELETE,GET,PATCH
-		dataType: 'json',
-		data : JSON.stringify({
-			contraparte : $("#contraparte").val(),
-			globalLimit : $("#globalLimit").val(),
-			directOperationLimit : $("#directOperationLimit").val(),
-			reportoOperationLimit : $("#reportoOperationLimit").val(),
-			operationLimitMoneyMarket : $("#operationLimitMoneyMarket").val(),
-			exchangeMarketLimit : $("#exchangeMarketLimit").val(),
-			limitOperationExchangeMarket : $("#limitOperationExchangeMarket").val(),
-			mercado : "mexicano",
-			usuario : "Roberto"
-		}),
-		processData:false,
-		contentType:"application/json",
-		success : function(response) { // true
-			console.log(response);
-			$("#rowNewInfo").remove();
-			$("#tableLimites").prepend('<tr id="row'+response.id+'">'+
-					'<td>'+response.contraparte+'</td>'+
-					'<td>'+response.globalLimit+'</td>'+
-					'<td>'+response.directOperationLimit+'</td>'+
-					'<td>'+response.reportoOperationLimit+'</td>'+
-					'<td>'+response.operationLimitMoneyMarket+'</td>'+
-					'<td>'+response.exchangeMarketLimit+'</td>'+
-					'<td>'+response.limitOperationExchangeMarket+'</td>'+
-					"<td> <a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+response.id+"')\">Eliminar</a></td>"+
-				'</tr>');
-			Swal.fire('La contraparte se registro correctamente','','success')	
-		},
-		error : function(d) {
-			console.log(d);
+	if($("#contraparte").val()==""){
+		alertify.error('Campo contraparte es necesario');
+		
+	}else if($("#globalLimit").val()==""){
+		alertify.error('Campo limite global es necesario');
+		
+	}else if($("#directOperationLimit").val()==""){
+		alertify.error('Campo limite operaciones directo es necesario');
 
-		}
-	});
+	}else if($("#reportoOperationLimit").val()==""){
+		alertify.error('Campo limite operaciones reporto es necesario');
+
+	}else if($("#operationLimitMoneyMarket").val()==""){
+		alertify.error('Campo limite por operacion es necesario');
+
+	}else if($("#exchangeMarketLimit").val()==""){
+		alertify.error('Campo limite mercado es necesario');
+
+	}else if($("#limitOperationExchangeMarket").val()==""){
+		alertify.error('Campo limite por operacion mercado es necesario');
+
+	}else{
+		
+		
+		$.ajax({
+			async : true,
+			url : '/limiteslineas',
+			type : 'post',// POST,PUT,DELETE,GET,PATCH
+			dataType: 'json',
+			data : JSON.stringify({
+				contraparte : $("#contraparte").val(),
+				globalLimit : $("#globalLimit").val(),
+				directOperationLimit : $("#directOperationLimit").val(),
+				reportoOperationLimit : $("#reportoOperationLimit").val(),
+				operationLimitMoneyMarket : $("#operationLimitMoneyMarket").val(),
+				exchangeMarketLimit : $("#exchangeMarketLimit").val(),
+				limitOperationExchangeMarket : $("#limitOperationExchangeMarket").val(),
+				mercado : "mexicano",
+				usuario : "Roberto"
+			}),
+			processData:false,
+			contentType:"application/json",
+			success : function(response) { // true
+				console.log(response);
+				$("#rowNewInfo").remove();
+				$("#tableLimites").prepend('<tr id="row'+response.id+'">'+
+						'<td>'+response.contraparte+'</td>'+
+						'<td>'+response.globalLimit+'</td>'+
+						'<td>'+response.directOperationLimit+'</td>'+
+						'<td>'+response.reportoOperationLimit+'</td>'+
+						'<td>'+response.operationLimitMoneyMarket+'</td>'+
+						'<td>'+response.exchangeMarketLimit+'</td>'+
+						'<td>'+response.limitOperationExchangeMarket+'</td>'+
+						"<td> <a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+response.id+"')\">Eliminar</a></td>"+
+					'</tr>');
+				Swal.fire('La contraparte se registro correctamente','','success')	
+				
+				myTable2.draw();
+			},
+			error : function(d) {
+				console.log(d);
+
+			}
+		});
+		
+	}
+	
+
 }
 
 

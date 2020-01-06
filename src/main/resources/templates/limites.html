@@ -33,6 +33,8 @@
 		<table class="table table-striped" id="limites" >
 			<thead> 
 				<tr>
+					<th style="display:none" >id</th>
+				
 					<th>contraparte</th>
 					<th>Limite Global</th>
 					<th>Límite Operaciones Directo</th>
@@ -45,6 +47,7 @@
 			</thead>
 			<tbody id="tableLimites">
 				<tr th:each="limite: ${data}"  th:id="row+${limite.id}">
+					<td style="display:none" th:text="${limite.id}"></td>
 					<td th:text="${limite.contraparte}"></td>
 					<td th:text="${limite.globalLimit}"></td>
 					<td th:text="${limite.directOperationLimit}"></td>

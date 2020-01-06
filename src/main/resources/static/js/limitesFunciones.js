@@ -49,7 +49,7 @@ $(document)
 					myTable2.MakeCellsEditable({
 						"onUpdate" : myCallbackFunction2,
 						"inputCss" : 'form-control',
-						"columns" : [ 4 ],
+						"columns" : [1,2,3,4,5,6,7],
 						"allowNulls" : {
 							"columns" : [ 3 ],
 							"errorClass" : 'error'
@@ -73,7 +73,57 @@ $(document)
 				});
 
 function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
+	
+	/*console.log(updatedRow.id)
+	
+	updatedRow.data().forEach(function(element, i) {
+	
+	
+		console.log(element)
+	
+	})*/
+	
+	var datos = [];
 
+	console.log(updatedRow.data())
+	
+    datos.push(updatedRow.data());
+	console.log(datos);
+
+	console.log(datos[0][1]);
+
+	
+	$.ajax({
+		async : true,
+		url : '/limiteslineas/'+ datos[0][0],
+		type : 'put',// POST,PUT,DELETE,GET,PATCH
+		dataType: 'json',
+		data : JSON.stringify({
+			contraparte : datos[0][1],
+			globalLimit : datos[0][2],
+			directOperationLimit : datos[0][3],
+			reportoOperationLimit : datos[0][4],
+			operationLimitMoneyMarket : datos[0][5],
+			exchangeMarketLimit : datos[0][6],
+			limitOperationExchangeMarket : datos[0][7],
+			mercado : "mexicano",
+			usuario : "Roberto"
+		}),
+		processData:false,
+		contentType:"application/json",
+		success : function(da) { // true
+			console.log(da);
+
+		},
+		error : function(d) {
+			console.log(d);
+
+		}
+	});
+	
+	
+	
+	
 }
 
 

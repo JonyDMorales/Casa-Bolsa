@@ -81,12 +81,12 @@ function addRow() {
 	$("#btnAgregar").slideUp( "slow" )
 	$("#tableLimites").prepend('<tr id="rowNewInfo">'+
 	'<td><input type="text" id="contraparte" class="form-control"/></td>'+
-	'<td><input type="text" id="globalLimit" class="form-control"/></td>'+
-	'<td><input type="text" id="directOperationLimit" class="form-control"/></td>'+
-	'<td><input type="text" id="reportoOperationLimit" class="form-control"/></td>'+
-	'<td><input type="text" id="operationLimitMoneyMarket" class="form-control"/></td>'+
-	'<td><input type="text" id="exchangeMarketLimit" class="form-control"/></td>'+
-	'<td><input type="text" id="limitOperationExchangeMarket" class="form-control"/></td>'+
+	'<td><input type="number" id="globalLimit" class="form-control"/></td>'+
+	'<td><input type="number" id="directOperationLimit" class="form-control"/></td>'+
+	'<td><input type="number" id="reportoOperationLimit" class="form-control"/></td>'+
+	'<td><input type="number" id="operationLimitMoneyMarket" class="form-control"/></td>'+
+	'<td><input type="number" id="exchangeMarketLimit" class="form-control"/></td>'+
+	'<td><input type="number" id="limitOperationExchangeMarket" class="form-control"/></td>'+
 	'<td> <a class="btn btn-success btn-xs" style="color: white" onclick="guardar()">Guardar</a></td>'+
 '</tr>');
 }
@@ -98,13 +98,13 @@ function guardar() {
 		type : 'post',//POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
 		data : JSON.stringify({
-			contraparte : $("#contraparte").value(),
-			globalLimit : $("#globalLimit").value(),
-			directOperationLimit : $("#directOperationLimit").value(),
-			reportoOperationLimit : $("#reportoOperationLimit").value(),
-			operationLimitMoneyMarket : $("#operationLimitMoneyMarket").value(),
-			exchangeMarketLimit : $("#exchangeMarketLimit").value(),
-			limitOperationExchangeMarket : $("#limitOperationExchangeMarket").value(),
+			contraparte : $("#contraparte").val(),
+			globalLimit : $("#globalLimit").val(),
+			directOperationLimit : $("#directOperationLimit").val(),
+			reportoOperationLimit : $("#reportoOperationLimit").val(),
+			operationLimitMoneyMarket : $("#operationLimitMoneyMarket").val(),
+			exchangeMarketLimit : $("#exchangeMarketLimit").val(),
+			limitOperationExchangeMarket : $("#limitOperationExchangeMarket").val(),
 			mercado : "mexicano",
 			usuario : "Roberto"
 		}),
@@ -113,7 +113,7 @@ function guardar() {
 		success : function(response) { // true
 			console.log(response);
 			$("#rowNewInfo").remove();
-			$("#tableLimites").prepend('<tr>'+
+			$("#tableLimites").prepend('<tr id="row'+response.id+'">'+
 					'<td>'+response.contraparte+'</td>'+
 					'<td>'+response.globalLimit+'</td>'+
 					'<td>'+response.directOperationLimit+'</td>'+
@@ -121,7 +121,7 @@ function guardar() {
 					'<td>'+response.operationLimitMoneyMarket+'</td>'+
 					'<td>'+response.exchangeMarketLimit+'</td>'+
 					'<td>'+response.limitOperationExchangeMarket+'</td>'+
-					'<td> <a class="btn btn-danger btn-xs" style="color: white" onclick="guardar('+response.id+')">Eliminar</a></td>'+
+					"<td> <a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+response.id+"')\">Eliminar</a></td>"+
 				'</tr>');
 		},
 		error : function(d) {
@@ -173,11 +173,11 @@ function deleteq(id) {
 		contentType:"application/json",
 		success : function(da) { // true
 			console.log(da);
-			$("#row"+id).remove();
+			
 		},
 		error : function(d) {
 			console.log(d);
-
+			$("#row"+id).remove();
 		}
 	});
 }

@@ -11,7 +11,16 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" type="text/css" href="/css/limitesStyle.css">
 <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-
+<style>
+    .alertify-notifier .ajs-message.ajs-error{
+        color: #fff;
+        background: rgba(217, 92, 92, 0,95);
+        text-shadow: -1px -1px 0 rgba(0, 0, 0, 0,5);
+    }
+    .hide_column {
+    display : none;
+}
+</style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -36,8 +45,6 @@
 		<table class="table table-striped" id="limites" >
 			<thead> 
 				<tr>
-					<th style="display:none" >id</th>
-				
 					<th>contraparte</th>
 					<th>Limite Global</th>
 					<th>Límite Operaciones Directo</th>
@@ -49,8 +56,7 @@
 				</tr>
 			</thead>
 			<tbody id="tableLimites">
-				<tr th:each="limite: ${data}"  th:id="row+${limite.id}">
-					<td style="display:none" th:text="${limite.id}"></td>
+				<tr th:each="limite: ${data}"  th:id="${limite.id}">
 					<td th:text="${limite.contraparte}"></td>
 					<td th:text="${limite.globalLimit}"></td>
 					<td th:text="${limite.directOperationLimit}"></td>
@@ -58,7 +64,7 @@
 					<td th:text="${limite.operationLimitMoneyMarket}"></td>
 					<td th:text="${limite.exchangeMarketLimit}"></td>
 					<td th:text="${limite.limitOperationExchangeMarket}"></td>
-					<td> <a class="btn btn-danger btn-xs" style="color: white" th:onclick="|deleteq('${limite.id}')|">Eliminar</a></td>
+					<td> <a class="btn btn-danger btn-xs" style="color: white" th:onclick="|deleteq('${limite.id}',this)|">Eliminar</a></td>
 				</tr>
 			</tbody>
 		</table>

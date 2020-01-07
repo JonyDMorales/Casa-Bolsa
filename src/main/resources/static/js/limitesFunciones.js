@@ -14,7 +14,7 @@ $(document)
 										"displayLength" : 50,
 										"lengthMenu" : [ 50, 100, 150, 200,
 												250, 300 ],
-										"order" : [ [ 7, "asc" ] ],
+										"order" : [ [ 7, "desc" ] ],
 
 										"language" : {
 											"sProcessing" : "Procesando...",
@@ -46,7 +46,7 @@ $(document)
 					myTable2.MakeCellsEditable({
 						"onUpdate" : myCallbackFunction2,
 						"inputCss" : 'form-control',
-						"columns" : [1,2,3,4,5,6,7],
+						"columns" : [0,1,2,3,4,5,6],
 						"allowNulls" : {
 							"columns" : [ 3 ],
 							"errorClass" : 'error'
@@ -71,14 +71,14 @@ $(document)
 
 function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
 	
-	/*console.log(updatedRow.id)
-	
-	updatedRow.data().forEach(function(element, i) {
-	
-	
-		console.log(element)
-	
-	})*/
+	/*
+	 * console.log(updatedRow.id)
+	 * 
+	 * updatedRow.data().forEach(function(element, i) {
+	 * 
+	 * 
+	 * console.log(element) })
+	 */
 	
 	var datos = [];
 
@@ -87,22 +87,21 @@ function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
     datos.push(updatedRow.data());
 	console.log(datos);
 
-	console.log(datos[0][1]);
 
-	
+	var id = datos[0]['DT_RowId'];
 	$.ajax({
 		async : true,
-		url : '/limiteslineas/'+ datos[0][0],
+		url : '/limiteslineas/'+ id,
 		type : 'put',// POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
 		data : JSON.stringify({
-			contraparte : datos[0][1],
-			globalLimit : datos[0][2],
-			directOperationLimit : datos[0][3],
-			reportoOperationLimit : datos[0][4],
-			operationLimitMoneyMarket : datos[0][5],
-			exchangeMarketLimit : datos[0][6],
-			limitOperationExchangeMarket : datos[0][7],
+			contraparte : datos[0][0],
+			globalLimit : datos[0][1],
+			directOperationLimit : datos[0][2],
+			reportoOperationLimit : datos[0][3],
+			operationLimitMoneyMarket : datos[0][4],
+			exchangeMarketLimit : datos[0][5],
+			limitOperationExchangeMarket : datos[0][6],
 			mercado : "mexicano",
 			usuario : "Roberto"
 		}),
@@ -126,38 +125,49 @@ function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
 
 function addRow() {
 	$("#btnAgregar").slideUp( "slow" )
-	$("#tableLimites").prepend('<tr id="rowNewInfo">'+
-	'<td><input type="text" id="contraparte" class="form-control"/></td>'+
-	'<td><input type="number" id="globalLimit" class="form-control"/></td>'+
-	'<td><input type="number" id="directOperationLimit" class="form-control"/></td>'+
-	'<td><input type="number" id="reportoOperationLimit" class="form-control"/></td>'+
-	'<td><input type="number" id="operationLimitMoneyMarket" class="form-control"/></td>'+
-	'<td><input type="number" id="exchangeMarketLimit" class="form-control"/></td>'+
-	'<td><input type="number" id="limitOperationExchangeMarket" class="form-control"/></td>'+
-	'<td> <a class="btn btn-success btn-xs" style="color: white" onclick="guardar()">Guardar</a></td>'+
-'</tr>');
+	myTable2.row.add( [
+'<input type="text" id="contraparte" class="form-control"/>',
+'<input type="number" id="globalLimit" class="form-control"/>',
+'<input type="number" id="directOperationLimit" class="form-control"/>',
+'<input type="number" id="reportoOperationLimit" class="form-control"/>',
+'<input type="number" id="operationLimitMoneyMarket" class="form-control"/>',
+'<input type="number" id="exchangeMarketLimit" class="form-control"/>',
+'<input type="number" id="limitOperationExchangeMarket" class="form-control"/>',
+'<a class="btn btn-danger btn-xs" style="color: white" onclick="cancel(this)">X</a><a class="btn btn-success btn-xs" style="color: white" onclick="guardar(this)">&#10003;</a>'] ).draw( false );
 }
 
-function guardar() {
+function cancel(row){
+	$("#btnAgregar").slideDown( "slow" )
+	myTable2.row( $(row).parents('tr') ).remove();
+	myTable2.draw();
+}
+
+function guardar(row) {
 	if($("#contraparte").val()==""){
+		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('Campo contraparte es necesario');
-		
 	}else if($("#globalLimit").val()==""){
+		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('Campo limite global es necesario');
 		
 	}else if($("#directOperationLimit").val()==""){
+		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('Campo limite operaciones directo es necesario');
 
 	}else if($("#reportoOperationLimit").val()==""){
+		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('Campo limite operaciones reporto es necesario');
 
 	}else if($("#operationLimitMoneyMarket").val()==""){
+		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('Campo limite por operacion es necesario');
 
 	}else if($("#exchangeMarketLimit").val()==""){
+		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('Campo limite mercado es necesario');
 
 	}else if($("#limitOperationExchangeMarket").val()==""){
+		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('Campo limite por operacion mercado es necesario');
 
 	}else{
@@ -184,19 +194,27 @@ function guardar() {
 			success : function(response) { // true
 				console.log(response);
 				$("#rowNewInfo").remove();
-				$("#tableLimites").prepend('<tr id="row'+response.id+'">'+
-						'<td>'+response.contraparte+'</td>'+
-						'<td>'+response.globalLimit+'</td>'+
-						'<td>'+response.directOperationLimit+'</td>'+
-						'<td>'+response.reportoOperationLimit+'</td>'+
-						'<td>'+response.operationLimitMoneyMarket+'</td>'+
-						'<td>'+response.exchangeMarketLimit+'</td>'+
-						'<td>'+response.limitOperationExchangeMarket+'</td>'+
-						"<td> <a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+response.id+"')\">Eliminar</a></td>"+
-					'</tr>');
+				
+				
+				
+			
+				
+				
+				myTable2.row.add([
+					 response.contraparte,
+					 response.globalLimit,
+					 response.directOperationLimit,
+					 response.reportoOperationLimit,
+					 response.operationLimitMoneyMarket,
+					 response.exchangeMarketLimit,
+					 response.limitOperationExchangeMarket,
+					 "<a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+response.id+"')\">Eliminar</a>"
+			        ]).node().id = response.id;
+				myTable2.row( $(row).parents('tr') ).remove();
+				myTable2.draw();
 				Swal.fire('La contraparte se registro correctamente','','success')	
 				
-				myTable2.draw();
+				
 			},
 			error : function(d) {
 				console.log(d);
@@ -241,7 +259,8 @@ function update() {
 }
 
 
-function deleteq(id) {
+function deleteq(id,data) {
+	
 	Swal.fire({
 		  title: '¿Esta seguro de querer eliminar la contraparte?',
 		  text: "",
@@ -265,7 +284,8 @@ function deleteq(id) {
 					},
 					error : function(d) {
 						console.log(d);
-						$("#row"+id).remove();
+						
+						myTable2.row( $(data).parents('tr') ).remove().draw();
 						Swal.fire('La contraparte se elimino correctamente','','success')
 					}
 				});

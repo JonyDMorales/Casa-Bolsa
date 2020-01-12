@@ -143,6 +143,14 @@ function cancel(row){
 }
 
 function guardar(row) {
+	var validacionLimiteGlobal=(parseInt($("#directOperationLimit").val()))+(parseInt($("#reportoOperationLimit").val()))+(parseInt($("#exchangeMarketLimit").val()));
+	//console.log(validacionLimiteGlobal)
+	var validacionOperacionMercadoMoney=(parseInt($("#directOperationLimit").val()))+(parseInt($("#reportoOperationLimit").val()));
+	//console.log(validacionOperacionMercadoMoney)
+	var validacionOperacionMercadoCambios=(parseInt($("#exchangeMarketLimit").val()));
+	//console.log(validacionOperacionMercadoCambios)
+	
+	
 	if($("#contraparte").val()==""){
 		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('Campo contraparte es necesario');
@@ -170,8 +178,22 @@ function guardar(row) {
 		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('Campo limite por operacion mercado es necesario');
 
-	}else{
+	}else if($("#globalLimit").val()<validacionLimiteGlobal){
 		
+		$("#globalLimit").focus();
+		alertify.set('notifier', 'position', 'bottom-left');
+		alertify.error('El campo limite global debe ser mayor');
+	}else if($("#operationLimitMoneyMarket").val()>validacionOperacionMercadoMoney){
+		
+		$("#operationLimitMoneyMarket").focus();
+		alertify.set('notifier', 'position', 'bottom-left');
+		alertify.error('El campo limite por operación debe ser menor');
+	}else if($("#limitOperationExchangeMarket").val()>validacionOperacionMercadoCambios){
+		
+		$("#limitOperationExchangeMarket").focus();
+		alertify.set('notifier', 'position', 'bottom-left');
+		alertify.error('El campo limite por operación mercado de cambios debe ser menor');
+	}else{
 		
 		$.ajax({
 			async : true,

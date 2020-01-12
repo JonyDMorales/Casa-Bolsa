@@ -56,7 +56,8 @@
 				</tr>
 			</thead>
 			<tbody id="tableLimites">
-				<tr th:each="limite: ${data}"  th:id="${limite.id}">
+				<!--<tr th:each="limite: ${data}"  th:id="${limite.id}">-->
+				<tr th:each="limite: ${data}" >
 					<td th:text="${limite.contraparte}"></td>
 					<td th:text="${limite.globalLimit}"></td>
 					<td th:text="${limite.directOperationLimit}"></td>
@@ -64,7 +65,8 @@
 					<td th:text="${limite.operationLimitMoneyMarket}"></td>
 					<td th:text="${limite.exchangeMarketLimit}"></td>
 					<td th:text="${limite.limitOperationExchangeMarket}"></td>
-					<td> <a class="btn btn-danger btn-xs" style="color: white" th:onclick="|deleteq('${limite.id}',this)|">Eliminar</a></td>
+					<!--<td> <a class="btn btn-danger btn-xs" style="color: white" th:onclick="|deleteq('${limite.id}',this)|">Eliminar</a></td>-->
+					<td> <a class="btn btn-danger btn-xs" style="color: white">Eliminar</a></td>
 				</tr>
 			</tbody>
 		</table>

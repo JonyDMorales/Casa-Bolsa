@@ -27,7 +27,7 @@ public class ContraparteController {
 		
 		List<LimitesLineas> lista = lls.findAll();
 		for (int i = 0; i < lista.size(); i++) {
-		  System.out.println(lista.get(i).getId());
+		  //System.out.println(lista.get(i).getId());
 		  //Float suma = lista.get(i).getGlobalLimit() - lista.get(i)
 
 		}

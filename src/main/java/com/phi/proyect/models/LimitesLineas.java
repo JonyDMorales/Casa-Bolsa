@@ -15,9 +15,10 @@ public class LimitesLineas implements Serializable{
 
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
-	
 	private String contraparte;
+   // private Integer id;
+	
+	
 	private Float globalLimit;
 	private Float directOperationLimit;
 	private Float reportoOperationLimit;
@@ -38,7 +39,7 @@ public class LimitesLineas implements Serializable{
 
 
 
-	public Integer getId() {
+	/*public Integer getId() {
 		return id;
 	}
 
@@ -46,7 +47,7 @@ public class LimitesLineas implements Serializable{
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
+	}*/
 
 
 

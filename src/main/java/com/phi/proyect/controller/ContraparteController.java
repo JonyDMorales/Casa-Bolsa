@@ -11,7 +11,7 @@ import com.phi.proyect.models.LimitesLineas;
 import com.phi.proyect.service.LimitesLineasService;
 
 @RestController
-@RequestMapping("/contraparte")
+@RequestMapping("/semaforosalertas")
 public class ContraparteController {
 
 	private final LimitesLineasService lls;
@@ -26,11 +26,15 @@ public class ContraparteController {
 		ModelAndView mav = new ModelAndView();
 		
 		List<LimitesLineas> lista = lls.findAll();
-		for (int i = 0; i < lista.size(); i++) {
+		//for (int i = 0; i < lista.size(); i++) {
 		  //System.out.println(lista.get(i).getId());
 		  //Float suma = lista.get(i).getGlobalLimit() - lista.get(i)
 
-		}
+		//}
+		
+		mav.addObject("data", lista);
+		mav.addObject("titulo", "Semaforos y Alertas");
+		mav.setViewName("semaforosalertas");
 		return mav;
 	}
 	

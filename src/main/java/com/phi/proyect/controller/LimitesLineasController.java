@@ -43,7 +43,7 @@ public class LimitesLineasController {
 		 * }
 		 */
 		mav.addObject("data", lista);
-		mav.addObject("titulo", "Limites");
+		mav.addObject("titulo", "Limites y Lineas");
 		mav.setViewName("limites");
 		return mav;
 	}

@@ -19,6 +19,13 @@ public class HomeController {
         return mav;
     }
     
+    @RequestMapping("/semaforosalertas")
+    public ModelAndView hello2(){
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("holo", "holo");
+        mav.setViewName("semaforosalertas");
+        return mav;
+    }
     
 
     @RequestMapping("/fault")

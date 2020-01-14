@@ -33,8 +33,8 @@ public class LimitesLineasService {
     	return llr.findAll();
     }
     
-    public Optional<LimitesLineas> findById(Integer id){
-    	return llr.findById(id);
+    public Optional<LimitesLineas> findByContraparte(String contraparte){
+    	return llr.findByContraparte(contraparte);
     }
     
     @Transactional

@@ -67,9 +67,9 @@ public class LimitesLineasController {
 	}
 
 	@PutMapping(consumes = "application/json", value = "/{id}")
-	public ResponseEntity<LimitesLineas> updateLimite(@PathVariable("id") Integer id,
+	public ResponseEntity<LimitesLineas> updateLimite(@PathVariable("id") String contraparte,
 			@RequestBody com.phi.proyect.vo.LimitesLineas limitesLineas) {
-		Optional<LimitesLineas> limitesLineasOptional = lls.findById(id);
+		Optional<LimitesLineas> limitesLineasOptional = lls.findByContraparte(contraparte);
 		if (limitesLineasOptional.isPresent()) {
 			LimitesLineas limitesLineas2 = limitesLineasOptional.get();
 			limitesLineas2.setContraparte(limitesLineas.getContraparte());
@@ -90,10 +90,10 @@ public class LimitesLineasController {
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity delete(@PathVariable("id") Integer id) {
-		Optional<LimitesLineas> limitesLineasOptional = lls.findById(id);
+	public ResponseEntity delete(@PathVariable("id") String contraparte) {
+		Optional<LimitesLineas> limitesLineasOptional = lls.findByContraparte(contraparte);
 		if (limitesLineasOptional.isPresent()) {
-			lls.delete(id);
+			//lls.delete(id);
 			return new ResponseEntity<LimitesLineas>(HttpStatus.OK);
 		}else {
 			return new ResponseEntity<LimitesLineas>(HttpStatus.NOT_FOUND);

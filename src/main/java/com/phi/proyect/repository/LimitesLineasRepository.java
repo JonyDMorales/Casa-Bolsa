@@ -10,7 +10,7 @@ import com.phi.proyect.models.LimitesLineas;
 
 public interface LimitesLineasRepository extends JpaRepository<LimitesLineas, Integer> {
 	
-	public Optional<LimitesLineas> findById(Integer id);
+	public Optional<LimitesLineas> findByContraparte(String contraparte);
 	
 	public List<LimitesLineas> findAll();
 

@@ -12,6 +12,7 @@ public class LimitesLineas implements Serializable{
 	private Float limitOperationExchangeMarket;
 	private String mercado;
 	private String usuario;
+	private Integer estatus;
 	
 	
 	
@@ -71,6 +72,12 @@ public class LimitesLineas implements Serializable{
 	}
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+	public Integer getEstatus() {
+		return estatus;
+	}
+	public void setEstatus(Integer estatus) {
+		this.estatus = estatus;
 	}
 
 	

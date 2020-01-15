@@ -25,17 +25,15 @@ public class ContraparteController {
 	public ModelAndView findAll() {
 		ModelAndView mav = new ModelAndView();
 		
-		List<LimitesLineas> lista = lls.findAll();
-		//for (int i = 0; i < lista.size(); i++) {
-		  //System.out.println(lista.get(i).getId());
-		  //Float suma = lista.get(i).getGlobalLimit() - lista.get(i)
-
-		//}
 		
-		mav.addObject("data", lista);
 		mav.addObject("titulo", "Semaforos y Alertas");
 		mav.setViewName("semaforosalertas");
 		return mav;
 	}
+	@GetMapping(value = "lista")
+	public List<LimitesLineas> lista() {
+		List<LimitesLineas> lista = lls.findAll();
+		return lista;
+	} 
 	
 }

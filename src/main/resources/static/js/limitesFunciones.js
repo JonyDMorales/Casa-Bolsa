@@ -170,8 +170,15 @@ function guardar(row) {
 		var operationLimitMoneyMarket = "";
 		var exchangeMarketLimit = "";
 		var limitOperationExchangeMarket = "";
+		var estatus = "";
 		
-		if( $("#selectDivisas").val() != "MXN	"){
+		if($("#selectTipo").val() == "contraparte"){
+			estatus = 0;
+		}else{
+			estatus = 1;
+		}
+		
+		if( $("#selectDivisas").val() != "MXN"){
 			
 			 //divisaGlobal
 			
@@ -206,7 +213,8 @@ function guardar(row) {
 								exchangeMarketLimit : exchangeMarketLimit,
 								limitOperationExchangeMarket : limitOperationExchangeMarket,
 								mercado : "mexicano",
-								usuario : "Roberto"
+								usuario : "Roberto",
+								estatus:estatus
 							}),
 							processData:false,
 							contentType:"application/json",
@@ -260,7 +268,8 @@ function guardar(row) {
 					exchangeMarketLimit : exchangeMarketLimit,
 					limitOperationExchangeMarket : limitOperationExchangeMarket,
 					mercado : "mexicano",
-					usuario : "Roberto"
+					usuario : "Roberto",
+					estatus:estatus
 				}),
 				processData:false,
 				contentType:"application/json",
@@ -291,7 +300,7 @@ function guardar(row) {
 			});
 		}		
 	}
-	
+	$("#btnAgregar").slideDown( "slow" )
 
 }
 
@@ -526,7 +535,7 @@ function getLista(tipo,divisaValor) {
 	myTable2.MakeCellsEditable({
 		"onUpdate" : myCallbackFunction2,
 		"inputCss" : 'form-control',
-		"columns" : [0,1,2,3,4,5,6],
+		"columns" : [1,2,3,4,5,6],
 		"allowNulls" : {
 			"columns" : [ 3 ],
 			"errorClass" : 'error'

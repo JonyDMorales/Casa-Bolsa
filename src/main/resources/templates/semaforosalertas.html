@@ -22,7 +22,7 @@
 }
 </style>
 </head>
-<body>
+<body onload="getListaSemaforos()">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="#">Spring Boot</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -41,25 +41,7 @@
 <div class="container">
 		<h1 class="text-primary" th:text="${titulo}"></h1>
 		<br>
-		<table class="table table-striped" id="contraparte" >
-			<thead> 
-				<tr>
-					<th>Contraparte</th>
-					<th>Limite Global</th>
-					<th>Límite Utilizado</th>
-					<th>Límite Restante</th>
-				</tr>
-			</thead>
-			<tbody id="tableContraparte">
-				<!--<tr th:each="limite: ${data}"  th:id="${limite.id}">-->
-				<tr th:each="limite: ${data}"  th:id="${limite.contraparte}">
-					<td th:text="${limite.contraparte}"></td>
-					<td th:text="${limite.globalLimit}"></td>
-					<td></td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
+		<div id="conteTableSemaforo"></div>
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

@@ -75,7 +75,7 @@ public class LimitesLineasController {
 		limitesLineas2.setLimitOperationExchangeMarket(limitesLineas.getLimitOperationExchangeMarket());
 		limitesLineas2.setMercado(limitesLineas.getMercado());
 		limitesLineas2.setUsuario(limitesLineas.getUsuario());
-		limitesLineas2.setEstatus(0);
+		limitesLineas2.setEstatus(limitesLineas.getEstatus());
 		limitesLineas2.setFechaModificacion(new Date());
 		return new ResponseEntity<>(this.lls.create(limitesLineas2), HttpStatus.CREATED);
 

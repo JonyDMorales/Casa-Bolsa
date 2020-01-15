@@ -25,7 +25,35 @@ function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
 	
     datos.push(updatedRow.data());
 	console.log(datos);
+	
+	
+	
+	
+	var validacionLimiteGlobal=(parseInt(datos[0][2]))+(parseInt(datos[0][3]))+(parseInt(datos[0][5]));
+	//console.log(validacionLimiteGlobal)
+	var validacionOperacionMercadoMoney=(parseInt(datos[0][2]))+(parseInt(datos[0][3]));
+	//console.log(validacionOperacionMercadoMoney)
+	var validacionOperacionMercadoCambios=(parseInt(datos[0][5]));
+	//console.log(validacionOperacionMercadoCambios)
+	
+	
+	
+	 if(datos[0][1]<validacionLimiteGlobal){
+			alertify.set('notifier', 'position', 'bottom-left');
+			alertify.error('El campo limite global debe ser mayor');
+			  updatedCell.data(oldValue);
+			
+			
+	 }else if (datos[0][4]>validacionOperacionMercadoMoney){
+		  updatedCell.data(oldValue);
 
+			alertify.set('notifier', 'position', 'bottom-left');
+			alertify.error('El campo limite por operación debe ser menor');
+	 }else if(datos[0][6]>validacionOperacionMercadoCambios){
+		 
+		 	alertify.set('notifier', 'position', 'bottom-left');
+			alertify.error('El campo limite por operación mercado de cambios debe ser menor');
+	 }else{
 
 	var id = datos[0]['DT_RowId'];
 	$.ajax({
@@ -56,7 +84,7 @@ function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
 		}
 	});
 	
-	
+	 }
 	
 	
 }
@@ -134,56 +162,132 @@ function guardar(row) {
 		alertify.error('El campo limite por operación mercado de cambios debe ser menor');
 	}else{
 		
+		var globalLimit = "";
+		var directOperationLimit = "";
+		var reportoOperationLimit = "";
+		var operationLimitMoneyMarket = "";
+		var exchangeMarketLimit = "";
+		var limitOperationExchangeMarket = "";
 		
-		$.ajax({
-			async : true,
-			url : '/limiteslineas',
-			type : 'post',// POST,PUT,DELETE,GET,PATCH
-			dataType: 'json',
-			data : JSON.stringify({
-				contraparte : $("#contraparte").val(),
-				globalLimit : $("#globalLimit").val(),
-				directOperationLimit : $("#directOperationLimit").val(),
-				reportoOperationLimit : $("#reportoOperationLimit").val(),
-				operationLimitMoneyMarket : $("#operationLimitMoneyMarket").val(),
-				exchangeMarketLimit : $("#exchangeMarketLimit").val(),
-				limitOperationExchangeMarket : $("#limitOperationExchangeMarket").val(),
-				mercado : "mexicano",
-				usuario : "Roberto"
-			}),
-			processData:false,
-			contentType:"application/json",
-			success : function(response) { // true
-				console.log(response);
-				$("#rowNewInfo").remove();
-				
-				
-				
+		if( $("#selectDivisas").val() != "MXN	"){
 			
-				
-				
-				myTable2.row.add([
-					 response.contraparte,
-					 response.globalLimit,
-					 response.directOperationLimit,
-					 response.reportoOperationLimit,
-					 response.operationLimitMoneyMarket,
-					 response.exchangeMarketLimit,
-					 response.limitOperationExchangeMarket,
-					 "<a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+response.id+"')\">Eliminar</a>"
-			        ]).node().id = response.id;
-				myTable2.row( $(row).parents('tr') ).remove();
-				myTable2.draw();
-				Swal.fire('La contraparte se registro correctamente','','success')	
-				
-				
-			},
-			error : function(d) {
-				console.log(d.statusText);
+			 //divisaGlobal
+			
+			Swal.fire({
+				  title: '¿El valor serà convertido a pesos mexicano?',
+				  text: "",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Aceptar'
+				}).then((result) => {
+				  if (result.value) {
+						globalLimit = ((parseFloat($("#globalLimit").val()))* (1))/parseFloat(divisaGlobal);
+						directOperationLimit = ((parseFloat($("#directOperationLimit").val()))* (1))/parseFloat(divisaGlobal);
+						reportoOperationLimit = ((parseFloat($("#reportoOperationLimit").val()))* (1))/parseFloat(divisaGlobal);
+						operationLimitMoneyMarket = ((parseFloat($("#operationLimitMoneyMarket").val()))* (1))/parseFloat(divisaGlobal);
+						exchangeMarketLimit = ((parseFloat($("#exchangeMarketLimit").val()))* (1))/parseFloat(divisaGlobal);
+						limitOperationExchangeMarket = ((parseFloat($("#limitOperationExchangeMarket").val()))* (1))/parseFloat(divisaGlobal);
+				  
+						$.ajax({
+							async : true,
+							url : '/limiteslineas',
+							type : 'post',// POST,PUT,DELETE,GET,PATCH
+							dataType: 'json',
+							data : JSON.stringify({
+								contraparte : $("#contraparte").val(),
+								globalLimit : globalLimit,
+								directOperationLimit : directOperationLimit,
+								reportoOperationLimit : reportoOperationLimit,
+								operationLimitMoneyMarket : operationLimitMoneyMarket,
+								exchangeMarketLimit : exchangeMarketLimit,
+								limitOperationExchangeMarket : limitOperationExchangeMarket,
+								mercado : "mexicano",
+								usuario : "Roberto"
+							}),
+							processData:false,
+							contentType:"application/json",
+							success : function(response) { // true
+								console.log(response);
+								$("#rowNewInfo").remove();
+								
+								myTable2.row.add([
+									 response.contraparte,
+									 response.globalLimit,
+									 response.directOperationLimit,
+									 response.reportoOperationLimit,
+									 response.operationLimitMoneyMarket,
+									 response.exchangeMarketLimit,
+									 response.limitOperationExchangeMarket,
+									 "<a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+response.contraparte+"')\">Eliminar</a>"
+							        ]).node().id = response.id;
+								myTable2.row( $(row).parents('tr') ).remove();
+								myTable2.draw();
+								Swal.fire('La contraparte se registro correctamente','','success')	
+								
+								
+							},
+							error : function(d) {
+								console.log(d.statusText);
 
-			}
-		});
-		
+							}
+						});
+				  
+				  }
+				})
+		}else{
+			globalLimit = $("#globalLimit").val();
+			directOperationLimit = $("#directOperationLimit").val();
+			reportoOperationLimit = $("#reportoOperationLimit").val();
+			operationLimitMoneyMarket = $("#operationLimitMoneyMarket").val();
+			exchangeMarketLimit = $("#exchangeMarketLimit").val();
+			limitOperationExchangeMarket = $("#limitOperationExchangeMarket").val();
+			
+			$.ajax({
+				async : true,
+				url : '/limiteslineas',
+				type : 'post',// POST,PUT,DELETE,GET,PATCH
+				dataType: 'json',
+				data : JSON.stringify({
+					contraparte : $("#contraparte").val(),
+					globalLimit : globalLimit,
+					directOperationLimit : directOperationLimit,
+					reportoOperationLimit : reportoOperationLimit,
+					operationLimitMoneyMarket : operationLimitMoneyMarket,
+					exchangeMarketLimit : exchangeMarketLimit,
+					limitOperationExchangeMarket : limitOperationExchangeMarket,
+					mercado : "mexicano",
+					usuario : "Roberto"
+				}),
+				processData:false,
+				contentType:"application/json",
+				success : function(response) { // true
+					console.log(response);
+					$("#rowNewInfo").remove();
+					
+					myTable2.row.add([
+						 response.contraparte,
+						 response.globalLimit,
+						 response.directOperationLimit,
+						 response.reportoOperationLimit,
+						 response.operationLimitMoneyMarket,
+						 response.exchangeMarketLimit,
+						 response.limitOperationExchangeMarket,
+						 "<a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+response.contraparte+"',this)\">Eliminar</a>"
+				        ]).node().id = response.id;
+					myTable2.row( $(row).parents('tr') ).remove();
+					myTable2.draw();
+					Swal.fire('La contraparte se registro correctamente','','success')	
+					
+					
+				},
+				error : function(d) {
+					console.log(d.statusText);
+
+				}
+			});
+		}		
 	}
 	
 
@@ -259,7 +363,9 @@ function deleteq(id,data) {
 
 
 
-function getLista(tipo) {
+function getLista(tipo,divisaValor) {
+	
+	
 
 	
 	$.ajax({
@@ -271,6 +377,8 @@ function getLista(tipo) {
 		contentType:"application/json",
 		success : function(da) { // true
 			console.log(da);
+			
+			console.log(divisaValor);
 			
 			$("#conteTable").empty()
 			
@@ -294,15 +402,29 @@ function getLista(tipo) {
 						'</tbody>'+
 					'</table>');
 				for (var i = 0; i < da.length; i++) {
+					
+					var globalLimitConverted=((parseFloat(da[i]['globalLimit']))* (parseFloat(divisaValor)))/1;
+					
+					var directOperationLimit=((parseFloat(da[i]['directOperationLimit']))* (parseFloat(divisaValor)))/1;
+					var reportoOperationLimit=((parseFloat(da[i]['reportoOperationLimit']))* (parseFloat(divisaValor)))/1;
+					var operationLimitMoneyMarket=((parseFloat(da[i]['operationLimitMoneyMarket']))* (parseFloat(divisaValor)))/1;
+					var exchangeMarketLimit=((parseFloat(da[i]['exchangeMarketLimit']))* (parseFloat(divisaValor)))/1;
+					var limitOperationExchangeMarket=((parseFloat(da[i]['limitOperationExchangeMarket']))* (parseFloat(divisaValor)))/1;
+
+					
 					$("#tableLimites").append('<tr  id="'+da[i]['contraparte']+'">'+
 						'<td>'+da[i]['contraparte']+'</td>'+
-						'<td>'+da[i]['globalLimit']+'</td>'+
-						'<td>'+da[i]['directOperationLimit']+'</td>'+
-						'<td>'+da[i]['reportoOperationLimit']+'</td>'+
-						'<td>'+da[i]['operationLimitMoneyMarket']+'</td>'+
-						'<td>'+da[i]['exchangeMarketLimit']+'</td>'+
-						'<td>'+da[i]['limitOperationExchangeMarket']+'</td>'+
-						'<td> <a class="btn btn-danger btn-xs" style="color: white">Eliminar</a></td>'+
+						
+						'<td>'+globalLimitConverted.toFixed(2)+'</td>'+
+						'<td>'+directOperationLimit.toFixed(2)+'</td>'+
+						'<td>'+reportoOperationLimit.toFixed(2)+'</td>'+
+						'<td>'+operationLimitMoneyMarket.toFixed(2)+'</td>'+
+						'<td>'+exchangeMarketLimit.toFixed(2)+'</td>'+
+						'<td>'+limitOperationExchangeMarket.toFixed(2)+'</td>'+
+						
+						
+						 "<td><a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+da[i]['contraparte']+"',this)\">Eliminar</a></td>"+
+
 					'</tr>');
 					
 					
@@ -332,15 +454,23 @@ function getLista(tipo) {
 						'</tbody>'+
 					'</table>');
 				for (var i = 0; i < da.length; i++) {
+					
+					var globalLimitConverted=((parseFloat(da[i]['globalLimit']))* (parseFloat(divisaValor)))/1;
+					var directOperationLimit=((parseFloat(da[i]['directOperationLimit']))* (parseFloat(divisaValor)))/1;
+					var reportoOperationLimit=((parseFloat(da[i]['reportoOperationLimit']))* (parseFloat(divisaValor)))/1;
+					var operationLimitMoneyMarket=((parseFloat(da[i]['operationLimitMoneyMarket']))* (parseFloat(divisaValor)))/1;
+					var exchangeMarketLimit=((parseFloat(da[i]['exchangeMarketLimit']))* (parseFloat(divisaValor)))/1;
+					var limitOperationExchangeMarket=((parseFloat(da[i]['limitOperationExchangeMarket']))* (parseFloat(divisaValor)))/1;
+					
 					$("#tableLimites").append('<tr  id="'+da[i]['contraparte']+'">'+
 						'<td>'+da[i]['usuario']+'</td>'+
-						'<td>'+da[i]['globalLimit']+'</td>'+
-						'<td>'+da[i]['directOperationLimit']+'</td>'+
-						'<td>'+da[i]['reportoOperationLimit']+'</td>'+
-						'<td>'+da[i]['operationLimitMoneyMarket']+'</td>'+
-						'<td>'+da[i]['exchangeMarketLimit']+'</td>'+
-						'<td>'+da[i]['limitOperationExchangeMarket']+'</td>'+
-						'<td> <a class="btn btn-danger btn-xs" style="color: white">Eliminar</a></td>'+
+						'<td>'+globalLimitConverted.toFixed(2)+'</td>'+
+						'<td>'+directOperationLimit.toFixed(2)+'</td>'+
+						'<td>'+reportoOperationLimit.toFixed(2)+'</td>'+
+						'<td>'+operationLimitMoneyMarket.toFixed(2)+'</td>'+
+						'<td>'+exchangeMarketLimit.toFixed(2)+'</td>'+
+						'<td>'+limitOperationExchangeMarket.toFixed(2)+'</td>'+
+						 "<td><a class=\"btn btn-danger btn-xs\" style=\"color: white\" onclick=\"deleteq('"+da[i]['contraparte']+"',this)\">Eliminar</a></td>"+
 					'</tr>');
 					
 					
@@ -415,6 +545,8 @@ function getLista(tipo) {
 		]
 	});
 
+	
+	$("#spinner").fadeOut();
 			
 		},
 		error : function(d) {
@@ -428,20 +560,30 @@ function getLista(tipo) {
 
 
 function cambio() {
+	$("#spinner").fadeIn();
+
+	var tipo = $("#selectTipo").val()	
+	cambioDivisasMethod(tipo)
 	
+
+	
+	
+}
+
+function cambioDivisa() {
+	$("#spinner").fadeIn();
 	var tipo = $("#selectTipo").val()
-	
-	getLista(tipo)
-	
-	console.log($)
+	cambioDivisasMethod(tipo)
 	
 	
 }
 
 
-function cambioDivisas(){
+var divisaGlobal="";
+
+function cambioDivisasMethod(tipo){
 	var tipoDivisas = $("#selectDivisas").val()
-	
+	var divisaValor = "";
 	
 	$.ajax({
 		async : true,
@@ -451,13 +593,25 @@ function cambioDivisas(){
 		processData:false,
 		contentType:"application/json",
 		success : function(da) { // true
-			console.log(da);
+			//console.log(da);
+			
+			if(tipoDivisas=="MXN"){
+				divisaValor="1"
+			}else if(tipoDivisas=="US"){
+				divisaValor="0.053"
+			}
+			
+			divisaGlobal=divisaValor;
+			getLista(tipo,divisaValor)
+			
 		},
 		error : function(d) {
 			console.log(d);
 			
 				}
 	});
+	
+	
 			
 }
 

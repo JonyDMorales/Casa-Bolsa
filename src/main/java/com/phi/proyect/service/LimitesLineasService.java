@@ -33,14 +33,22 @@ public class LimitesLineasService {
     	return llr.findAll();
     }
     
-    public Optional<LimitesLineas> findByContraparte(String contraparte){
+    @Transactional
+    public LimitesLineas findByContraparte(String contraparte){
     	return llr.findByContraparte(contraparte);
     }
     
+    
+    
+
+    
+    
+    
+    
     @Transactional
-    public void delete(LimitesLineas contrparte) {
+    public void delete(LimitesLineas limitesLineasOptional) {
     	//this.llr.deleteById(id);
-    	this.llr.delete(contrparte);
+    	this.llr.delete(limitesLineasOptional);
     }
 
 }

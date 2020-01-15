@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.phi.proyect.models.Divisas;
-import com.phi.proyect.models.LimitesLineas;
 import com.phi.proyect.service.DivisasService;
-import com.phi.proyect.service.LimitesLineasService;
+
 
 
 @RestController
@@ -32,9 +31,10 @@ public class DivisasController {
 	
 	@GetMapping(value = "listadv")
 	public List<Divisas> lista() {
-		List<Divisas> lista = dvs.findByTv("LS");
+		List<Divisas> lista = dvs.findFirstByTvOrderByDateDesc("2U");
+		//List<Divisas> lista = dvs.findAll("LS");
 		return lista;
-	} 
+	}
 
 
 }

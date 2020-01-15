@@ -9,7 +9,8 @@ import com.phi.proyect.models.Divisas;
 
 
 
-public interface DivisasRepository extends JpaRepository<Divisas,Integer> {
+
+public interface DivisasRepository extends JpaRepository<Divisas,String> {
 	
 	
 	/**
@@ -18,10 +19,12 @@ public interface DivisasRepository extends JpaRepository<Divisas,Integer> {
 	 * @param cliente
 	 * @return
 	 */
-	@Query("Select market_surcharge from vector_de_precios_historico v where v.tv =:divisa")
-	public List<Divisas> findByTv(String divisa);
+	//@Query("Select market_surcharge from vector_de_precios_historico v where v.tv =:divisa")
+	//public List<Divisas> findByTv(String divisa);
 	
-
+	
+	public List<Divisas> findFirstByTvOrderByDateDesc(String divisa);
+	
 	
 	
 	

@@ -20,8 +20,8 @@ public class DivisasService {
     
     
     
-	public List<Divisas> findByTv(String divisa) {
-		return this.dr.findByTv(divisa);
+	public List<Divisas> findFirstByTvOrderByDateDesc(String divisa) {
+		return this.dr.findFirstByTvOrderByDateDesc(divisa);
 	}
     
     

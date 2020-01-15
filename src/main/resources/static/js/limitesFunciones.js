@@ -264,7 +264,7 @@ function getLista(tipo) {
 	
 	$.ajax({
 		async : true,
-		url : '/divisas/listadv',
+		url : '/limiteslineas/lista',
 		type : 'get',// POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
 		processData:false,
@@ -436,9 +436,29 @@ function cambio() {
 	console.log($)
 	
 	
+}
+
+
+function cambioDivisas(){
+	var tipoDivisas = $("#selectDivisas").val()
 	
 	
-	
+	$.ajax({
+		async : true,
+		url : '/divisas/listadv/'+tipoDivisas,
+		type : 'get',// POST,PUT,DELETE,GET,PATCH
+		dataType: 'json',
+		processData:false,
+		contentType:"application/json",
+		success : function(da) { // true
+			console.log(da);
+		},
+		error : function(d) {
+			console.log(d);
+			
+				}
+	});
+			
 }
 
 

@@ -3,6 +3,7 @@ package com.phi.proyect.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,9 +30,9 @@ public class DivisasController {
 
 	
 	
-	@GetMapping(value = "listadv")
-	public List<Divisas> lista() {
-		List<Divisas> lista = dvs.findFirstByTvOrderByDateDesc("2U");
+	@GetMapping(value = "listadv/{divisa}")
+	public List<Divisas> lista(@PathVariable("divisa") String divisa) {
+		List<Divisas> lista = dvs.findFirstByTvOrderByDateDesc(divisa);
 		//List<Divisas> lista = dvs.findAll("LS");
 		return lista;
 	}

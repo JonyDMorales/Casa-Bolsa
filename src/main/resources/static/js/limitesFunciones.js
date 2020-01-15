@@ -50,7 +50,8 @@ function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
 			alertify.set('notifier', 'position', 'bottom-left');
 			alertify.error('El campo limite por operación debe ser menor');
 	 }else if(datos[0][6]>validacionOperacionMercadoCambios){
-		 
+		  updatedCell.data(oldValue);
+
 		 	alertify.set('notifier', 'position', 'bottom-left');
 			alertify.error('El campo limite por operación mercado de cambios debe ser menor');
 	 }else{
@@ -80,6 +81,7 @@ function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
 		},
 		error : function(d) {
 			console.log(d);
+			  updatedCell.data(oldValue);
 
 		}
 	});

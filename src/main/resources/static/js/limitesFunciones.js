@@ -5,68 +5,7 @@ $(document)
 		.ready(
 				function() {
 
-					myTable2 = $('#limites')
-							.DataTable(
-									{
-										responsive : true,
-										"ordering" : true,
-										"info" : false,
-										"displayLength" : 50,
-										"lengthMenu" : [ 50, 100, 150, 200,
-												250, 300 ],
-										"order" : [ [ 7, "desc" ] ],
-
-										"language" : {
-											"sProcessing" : "Procesando...",
-											"sLengthMenu" : "Mostrar MENU registros",
-											"sZeroRecords" : "No se encontraron resultados",
-											"sEmptyTable" : "Ningún dato disponible en esta tabla",
-											"sInfo" : "Mostrando registros del START al END de un total de TOTAL registros",
-											"sInfoEmpty" : "Mostrando registros del 0 al 0 de un total de 0 registros",
-											"sInfoFiltered" : "(filtrado de un total de MAX registros)",
-											"sInfoPostFix" : "",
-											"sSearch" : "Buscar:",
-											"sUrl" : "",
-											"sInfoThousands" : ",",
-											"sLoadingRecords" : "Cargando...",
-											"oPaginate" : {
-												"sFirst" : "Primero",
-												"sLast" : "Último",
-												"sNext" : "Siguiente",
-												"sPrevious" : "Anterior"
-
-											},
-											"oAria" : {
-												"sSortAscending" : ": Activar para ordenar la columna de manera ascendente",
-												"sSortDescending" : ": Activar para ordenar la columna de manera descendente"
-											}
-										}
-									});
-
-					myTable2.MakeCellsEditable({
-						"onUpdate" : myCallbackFunction2,
-						"inputCss" : 'form-control',
-						"columns" : [0,1,2,3,4,5,6],
-						"allowNulls" : {
-							"columns" : [ 3 ],
-							"errorClass" : 'error'
-						},
-						"confirmationButton" : { // could also be true
-							"confirmCss" : 'my-confirm-class',
-							"cancelCss" : 'my-cancel-class'
-						},
-						"inputTypes" : [ {
-							"column" : 4,
-							"type" : "number",
-							"options" : null
-						},
-
-						// Nothing specified for column 3 so it will default to
-						// text
-
-						]
-					});
-
+					
 				});
 
 function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
@@ -195,6 +134,7 @@ function guardar(row) {
 		alertify.error('El campo limite por operación mercado de cambios debe ser menor');
 	}else{
 		
+		
 		$.ajax({
 			async : true,
 			url : '/limiteslineas',
@@ -239,7 +179,7 @@ function guardar(row) {
 				
 			},
 			error : function(d) {
-				console.log(d);
+				console.log(d.statusText);
 
 			}
 		});
@@ -315,3 +255,190 @@ function deleteq(id,data) {
 		})
 
 }
+
+
+
+
+function getLista(tipo) {
+
+	
+	$.ajax({
+		async : true,
+		url : '/divisas/listadv',
+		type : 'get',// POST,PUT,DELETE,GET,PATCH
+		dataType: 'json',
+		processData:false,
+		contentType:"application/json",
+		success : function(da) { // true
+			console.log(da);
+			
+			$("#conteTable").empty()
+			
+			if(tipo == "contraparte"){
+				
+				$("#conteTable").append('<table class="table table-striped" id="limites" >'+
+						'<thead>'+ 
+							'<tr>'+
+								'<th>contraparte</th>'+
+								'<th>Limite Global</th>'+
+								'<th>Límite Operaciones Directo</th>'+
+								'<th>Límite Operaciones en Reporto</th>'+
+								'<th>Límite por Operción</th>'+
+								'<th>Límite Mercado de Cambios</th>'+
+								'<th>Límite por Operción Mercado de Cambios</th>'+
+								'<th></th>'+
+							'</tr>'+
+						'</thead>'+
+						'<tbody id="tableLimites">'+
+							
+						'</tbody>'+
+					'</table>');
+				for (var i = 0; i < da.length; i++) {
+					$("#tableLimites").append('<tr  id="'+da[i]['contraparte']+'">'+
+						'<td>'+da[i]['contraparte']+'</td>'+
+						'<td>'+da[i]['globalLimit']+'</td>'+
+						'<td>'+da[i]['directOperationLimit']+'</td>'+
+						'<td>'+da[i]['reportoOperationLimit']+'</td>'+
+						'<td>'+da[i]['operationLimitMoneyMarket']+'</td>'+
+						'<td>'+da[i]['exchangeMarketLimit']+'</td>'+
+						'<td>'+da[i]['limitOperationExchangeMarket']+'</td>'+
+						'<td> <a class="btn btn-danger btn-xs" style="color: white">Eliminar</a></td>'+
+					'</tr>');
+					
+					
+					
+				}
+				
+				
+				
+				
+			}else{
+				
+				$("#conteTable").append('<table class="table table-striped" id="limites" >'+
+						'<thead>'+ 
+							'<tr>'+
+								'<th>Operador</th>'+
+								'<th>Limite Global</th>'+
+								'<th>Límite Operaciones Directo</th>'+
+								'<th>Límite Operaciones en Reporto</th>'+
+								'<th>Límite por Operción</th>'+
+								'<th>Límite Mercado de Cambios</th>'+
+								'<th>Límite por Operción Mercado de Cambios</th>'+
+								'<th></th>'+
+							'</tr>'+
+						'</thead>'+
+						'<tbody id="tableLimites">'+
+							
+						'</tbody>'+
+					'</table>');
+				for (var i = 0; i < da.length; i++) {
+					$("#tableLimites").append('<tr  id="'+da[i]['contraparte']+'">'+
+						'<td>'+da[i]['usuario']+'</td>'+
+						'<td>'+da[i]['globalLimit']+'</td>'+
+						'<td>'+da[i]['directOperationLimit']+'</td>'+
+						'<td>'+da[i]['reportoOperationLimit']+'</td>'+
+						'<td>'+da[i]['operationLimitMoneyMarket']+'</td>'+
+						'<td>'+da[i]['exchangeMarketLimit']+'</td>'+
+						'<td>'+da[i]['limitOperationExchangeMarket']+'</td>'+
+						'<td> <a class="btn btn-danger btn-xs" style="color: white">Eliminar</a></td>'+
+					'</tr>');
+					
+					
+					
+				}
+				
+				
+				
+			}
+			
+			
+			
+			myTable2 = $('#limites')
+			.DataTable(
+					{
+						responsive : true,
+						"ordering" : true,
+						"info" : false,
+						"displayLength" : 50,
+						"lengthMenu" : [ 50, 100, 150, 200,
+								250, 300 ],
+						"order" : [ [ 7, "desc" ] ],
+
+						"language" : {
+							"sProcessing" : "Procesando...",
+							"sLengthMenu" : "Mostrar MENU registros",
+							"sZeroRecords" : "No se encontraron resultados",
+							"sEmptyTable" : "Ningún dato disponible en esta tabla",
+							"sInfo" : "Mostrando registros del START al END de un total de TOTAL registros",
+							"sInfoEmpty" : "Mostrando registros del 0 al 0 de un total de 0 registros",
+							"sInfoFiltered" : "(filtrado de un total de MAX registros)",
+							"sInfoPostFix" : "",
+							"sSearch" : "Buscar:",
+							"sUrl" : "",
+							"sInfoThousands" : ",",
+							"sLoadingRecords" : "Cargando...",
+							"oPaginate" : {
+								"sFirst" : "Primero",
+								"sLast" : "Último",
+								"sNext" : "Siguiente",
+								"sPrevious" : "Anterior"
+
+							},
+							"oAria" : {
+								"sSortAscending" : ": Activar para ordenar la columna de manera ascendente",
+								"sSortDescending" : ": Activar para ordenar la columna de manera descendente"
+							}
+						}
+					});
+
+	myTable2.MakeCellsEditable({
+		"onUpdate" : myCallbackFunction2,
+		"inputCss" : 'form-control',
+		"columns" : [0,1,2,3,4,5,6],
+		"allowNulls" : {
+			"columns" : [ 3 ],
+			"errorClass" : 'error'
+		},
+		"confirmationButton" : { // could also be true
+			"confirmCss" : 'my-confirm-class',
+			"cancelCss" : 'my-cancel-class'
+		},
+		"inputTypes" : [ {
+			"column" : 4,
+			"type" : "number",
+			"options" : null
+		},
+
+		// Nothing specified for column 3 so it will default to
+		// text
+
+		]
+	});
+
+			
+		},
+		error : function(d) {
+			console.log(d);
+			
+				}
+	});
+}
+
+
+
+
+function cambio() {
+	
+	var tipo = $("#selectTipo").val()
+	
+	getLista(tipo)
+	
+	console.log($)
+	
+	
+	
+	
+	
+}
+
+

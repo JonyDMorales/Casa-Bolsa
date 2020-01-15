@@ -42,14 +42,28 @@ public class LimitesLineasController {
 		 * 
 		 * }
 		 */
-		mav.addObject("data", lista);
+		//mav.addObject("data", lista);
 		mav.addObject("titulo", "Limites y Lineas");
 		mav.setViewName("limites");
 		return mav;
 	}
+	
+	@GetMapping(value = "lista")
+	public List<LimitesLineas> lista() {
+		List<LimitesLineas> lista = lls.findAll();
+		return lista;
+	} 
 
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<LimitesLineas> createLimite(@RequestBody com.phi.proyect.vo.LimitesLineas limitesLineas) {
+		Optional<LimitesLineas> limitesLineasOptional = lls.findByContraparte(limitesLineas.getContraparte());
+		if (limitesLineasOptional.isPresent()) {
+			return new ResponseEntity<LimitesLineas>(HttpStatus.FOUND);
+
+			
+		}else {
+		
+		
 		LimitesLineas limitesLineas2 = new LimitesLineas();
 		System.out.println(limitesLineas.getContraparte());
 		limitesLineas2.setContraparte(limitesLineas.getContraparte());
@@ -64,6 +78,8 @@ public class LimitesLineasController {
 		limitesLineas2.setEstatus(0);
 		limitesLineas2.setFechaModificacion(new Date());
 		return new ResponseEntity<>(this.lls.create(limitesLineas2), HttpStatus.CREATED);
+
+	}
 	}
 
 	@PutMapping(consumes = "application/json", value = "/{id}")

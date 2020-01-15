@@ -22,7 +22,7 @@
 }
 </style>
 </head>
-<body>
+<body onload="getLista('contraparte')">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="#">Spring Boot</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -38,38 +38,28 @@
 			</ul>
 		</div>
 	</nav>
+	
+	
+			
+	<select onchange="cambio()" class="form-control" id="selectTipo">
+	      <option value="contraparte">Contraparte</option>
+	      <option value="operador">Operador</option>
+
+    </select>
+    
+    		
+	<select class="form-control" id="exampleFormControlSelect1">
+	      <option ></option>
+	      <option></option>
+
+    </select>
+	
 <div class="container">
 		<h1 class="text-primary" th:text="${titulo}"></h1>
 		<br>
 		<a class="btn btn-primary btn-xs" onclick="addRow()" id="btnAgregar" style="color: white">Agregar</a>
-		<table class="table table-striped" id="limites" >
-			<thead> 
-				<tr>
-					<th>contraparte</th>
-					<th>Limite Global</th>
-					<th>Límite Operaciones Directo</th>
-					<th>Límite Operaciones en Reporto</th>
-					<th>Límite por Operción</th>
-					<th>Límite Mercado de Cambios</th>
-					<th>Límite por Operción Mercado de Cambios</th>
-					<th></th>
-				</tr>
-			</thead>
-			<tbody id="tableLimites">
-				<!--<tr th:each="limite: ${data}"  th:id="${limite.id}">-->
-				<tr th:each="limite: ${data}"  th:id="${limite.contraparte}">
-					<td th:text="${limite.contraparte}"></td>
-					<td th:text="${limite.globalLimit}"></td>
-					<td th:text="${limite.directOperationLimit}"></td>
-					<td th:text="${limite.reportoOperationLimit}"></td>
-					<td th:text="${limite.operationLimitMoneyMarket}"></td>
-					<td th:text="${limite.exchangeMarketLimit}"></td>
-					<td th:text="${limite.limitOperationExchangeMarket}"></td>
-					<!--<td> <a class="btn btn-danger btn-xs" style="color: white" th:onclick="|deleteq('${limite.id}',this)|">Eliminar</a></td>-->
-					<td> <a class="btn btn-danger btn-xs" style="color: white">Eliminar</a></td>
-				</tr>
-			</tbody>
-		</table>
+		<div id="conteTable"></div>
+		
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

@@ -38,8 +38,9 @@ public class LimitesLineasService {
     }
     
     @Transactional
-    public void delete(Integer id) {
-    	this.llr.deleteById(id);
+    public void delete(LimitesLineas contrparte) {
+    	//this.llr.deleteById(id);
+    	this.llr.delete(contrparte);
     }
 
 }

@@ -9,12 +9,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name="limites_lineas")
 public class LimitesLineas implements Serializable{
 
 	@Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+   // @GeneratedValue(strategy= GenerationType.IDENTITY)
+	//@GeneratedValue(generator="system-uuid")
+	//@GenericGenerator(name="system-uuid", strategy="uuid2")
 	private String contraparte;
    // private Integer id;
 	

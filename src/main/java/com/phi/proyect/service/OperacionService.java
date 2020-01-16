@@ -5,6 +5,8 @@ import com.phi.proyect.models.Operacion;
 import com.phi.proyect.models.OperacionesMd;
 import com.phi.proyect.repository.OperacionRepository;
 
+
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,4 +25,12 @@ public class OperacionService {
     public List<OperacionesMd> findAll(){
     	return operacionRepository.findAll();
     }
+    
+	public List<OperacionesMd> find(String contraparte){
+		return this.operacionRepository.find(contraparte);
+	}
+	
+	public List<OperacionesMd> find2(String contraparte){
+		return this.operacionRepository.find2(contraparte);
+	}
 }

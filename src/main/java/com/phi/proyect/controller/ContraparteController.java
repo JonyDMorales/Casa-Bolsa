@@ -44,11 +44,30 @@ public class ContraparteController {
 	
 	
 	@GetMapping(value = "limiteUtilizado/{contraparte}")
-	public List<OperacionesMd> limiteUtilizado(@PathVariable("contraparte") String contraparte) {
+	public Float limiteUtilizado(@PathVariable("contraparte") String contraparte) {
 		
+		List<OperacionesMd> lista = ops.find(contraparte);
+		Float sumaMultiplicacion=(float) 0.0;
+		for(int i =0; i<lista.size(); i++){
+			System.out.println("...------....");
+			System.out.println(lista.get(i).getIdOperacionesDirecto());
+			System.out.println(lista.get(i).getNumeroDeTitulos()*lista.get(i).getPrecio());
+			Float multiplicacionRow=(lista.get(i).getNumeroDeTitulos()) * (lista.get(i).getPrecio());
+			sumaMultiplicacion = sumaMultiplicacion + (float) multiplicacionRow;
+		}
+		System.out.println("-----final------");
+		System.out.println(sumaMultiplicacion);
 		
-		List<OperacionesMd> lista = ops.findAll();
+		List<OperacionesMd> lista2 = ops.find2(contraparte);
+		
+		if(lista2.size()>0) {
+			return sumaMultiplicacion;
+			
+		}else{
+			return sumaMultiplicacion;
+		}
+		
 
-		return lista;
+		
 	} 
 }

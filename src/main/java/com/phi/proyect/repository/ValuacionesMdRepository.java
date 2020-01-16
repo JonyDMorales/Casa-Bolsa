@@ -13,9 +13,8 @@ import com.phi.proyect.models.ValuacionesMd;
 public interface ValuacionesMdRepository extends JpaRepository<ValuacionesMd, Integer>  {
 	
 	
-	@Query(value="Select v.val_mer from valuacion_md v where v.id_contabilidad =:idOperacion", nativeQuery =  true)
-	public List<ValuacionesMd> findValMer(@Param("idOperacion") Integer idOperacion);
+	@Query(value="Select * from valuacion_md v where v.id_contabilidad =:idOperacion", nativeQuery =  true)
+	public List<ValuacionesMd> findValMer(@Param("idOperacion") int idOperacion);
 	
-
 
 }

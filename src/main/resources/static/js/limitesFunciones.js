@@ -163,7 +163,8 @@ function guardar(row) {
 		alertify.set('notifier', 'position', 'bottom-left');
 		alertify.error('El campo limite por operación mercado de cambios debe ser menor');
 	}else{
-		
+		var contraparte = $("#contraparte").val();
+		contraparte = contraparte.toUpperCase();
 		var globalLimit = "";
 		var directOperationLimit = "";
 		var reportoOperationLimit = "";
@@ -205,7 +206,7 @@ function guardar(row) {
 							type : 'post',// POST,PUT,DELETE,GET,PATCH
 							dataType: 'json',
 							data : JSON.stringify({
-								contraparte : $("#contraparte").val(),
+								contraparte : contraparte,
 								globalLimit : globalLimit,
 								directOperationLimit : directOperationLimit,
 								reportoOperationLimit : reportoOperationLimit,
@@ -260,7 +261,7 @@ function guardar(row) {
 				type : 'post',// POST,PUT,DELETE,GET,PATCH
 				dataType: 'json',
 				data : JSON.stringify({
-					contraparte : $("#contraparte").val(),
+					contraparte : contraparte,
 					globalLimit : globalLimit,
 					directOperationLimit : directOperationLimit,
 					reportoOperationLimit : reportoOperationLimit,

@@ -19,8 +19,8 @@ public class ValuacionesMdService {
 	private ValuacionesMdRepository vmr;
 
 	
-	public List<ValuacionesMd>findValMer(int idOperacion) {
-		return this.vmr.findValMer(idOperacion);
+	public List<ValuacionesMd>findValMer(int idOperacion,String fecha) {
+		return this.vmr.findValMer(idOperacion,fecha);
 	}
 	
 

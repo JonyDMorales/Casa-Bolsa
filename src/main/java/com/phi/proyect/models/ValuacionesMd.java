@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 
 @Entity
@@ -19,6 +21,7 @@ public class ValuacionesMd implements Serializable{
 @GeneratedValue(strategy= GenerationType.IDENTITY)
 private Integer idContabilidad;
 
+@Temporal(TemporalType.DATE)
 private Date fechaValuacion;
 private String valMer;
 

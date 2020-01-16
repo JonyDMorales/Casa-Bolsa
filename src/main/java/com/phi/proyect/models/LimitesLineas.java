@@ -36,7 +36,6 @@ public class LimitesLineas implements Serializable{
 	private String usuario;
 	
 	
-	
 	public LimitesLineas() {
 		super();
 	}

@@ -3,6 +3,7 @@ package com.phi.proyect.vo;
 import java.io.Serializable;
 
 public class LimitesLineas implements Serializable{
+	
 	private String contraparte;
 	private Float globalLimit;
 	private Float directOperationLimit;
@@ -13,8 +14,32 @@ public class LimitesLineas implements Serializable{
 	private String mercado;
 	private String usuario;
 	private Integer estatus;
+	private Float suma;
 	
-	
+	public LimitesLineas(String contraparte, Float suma, Float globalLimit,String usuario) {
+		super();
+		this.contraparte = contraparte;
+		this.suma = suma;
+		this.globalLimit = globalLimit;
+		this.usuario = usuario;
+	}
+
+	public LimitesLineas(String contraparte, Float globalLimit, Float directOperationLimit, Float reportoOperationLimit,
+			Float operationLimitMoneyMarket, Float exchangeMarketLimit, Float limitOperationExchangeMarket,
+			String mercado, String usuario, Integer estatus, Float suma) {
+		super();
+		this.contraparte = contraparte;
+		this.globalLimit = globalLimit;
+		this.directOperationLimit = directOperationLimit;
+		this.reportoOperationLimit = reportoOperationLimit;
+		this.operationLimitMoneyMarket = operationLimitMoneyMarket;
+		this.exchangeMarketLimit = exchangeMarketLimit;
+		this.limitOperationExchangeMarket = limitOperationExchangeMarket;
+		this.mercado = mercado;
+		this.usuario = usuario;
+		this.estatus = estatus;
+		this.suma = suma;
+	}
 	
 	public LimitesLineas() {
 		super();
@@ -78,6 +103,12 @@ public class LimitesLineas implements Serializable{
 	}
 	public void setEstatus(Integer estatus) {
 		this.estatus = estatus;
+	}
+	public Float getSuma() {
+		return suma;
+	}
+	public void setSuma(Float suma) {
+		this.suma = suma;
 	}
 
 	

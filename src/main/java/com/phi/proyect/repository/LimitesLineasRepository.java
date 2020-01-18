@@ -14,6 +14,7 @@ public interface LimitesLineasRepository extends JpaRepository<LimitesLineas, In
 	
 	public List<LimitesLineas> findAll();
 
+	public List<LimitesLineas> findByEstatus(Integer status);
 	
 	
 //	public void delete(String contraparte);

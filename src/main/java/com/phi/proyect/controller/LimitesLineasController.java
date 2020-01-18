@@ -48,9 +48,9 @@ public class LimitesLineasController {
 		return mav;
 	}
 	
-	@GetMapping(value = "lista")
-	public List<LimitesLineas> lista() {
-		List<LimitesLineas> lista = lls.findAll();
+	@GetMapping(consumes = "application/json", value = "lista/{tipoEnvio}")
+	public List<LimitesLineas> lista(@PathVariable("tipoEnvio") Integer tipoEnvio) {
+		List<LimitesLineas> lista = lls.findByEstatus(tipoEnvio);
 		return lista;
 	} 
 
@@ -58,7 +58,19 @@ public class LimitesLineasController {
 	public ResponseEntity<LimitesLineas> createLimite(@RequestBody com.phi.proyect.vo.LimitesLineas limitesLineas) {
 		LimitesLineas limitesLineasOptional = lls.findByContraparte(limitesLineas.getContraparte());
 		if (limitesLineasOptional != null) {
-			return new ResponseEntity<LimitesLineas>(HttpStatus.FOUND);
+			//return new ResponseEntity<LimitesLineas>(HttpStatus.FOUND);
+			
+			limitesLineasOptional.setContraparte(limitesLineas.getContraparte());
+			limitesLineasOptional.setGlobalLimit(limitesLineas.getGlobalLimit());
+			limitesLineasOptional.setDirectOperationLimit(limitesLineas.getDirectOperationLimit());
+			limitesLineasOptional.setReportoOperationLimit(limitesLineas.getReportoOperationLimit());
+			limitesLineasOptional.setOperationLimitMoneyMarket(limitesLineas.getOperationLimitMoneyMarket());
+			limitesLineasOptional.setExchangeMarketLimit(limitesLineas.getExchangeMarketLimit());
+			limitesLineasOptional.setLimitOperationExchangeMarket(limitesLineas.getLimitOperationExchangeMarket());
+			limitesLineasOptional.setMercado(limitesLineas.getMercado());
+			//limitesLineasOptional.setUsuario(limitesLineas.getUsuario());
+			limitesLineasOptional.setFechaModificacion(new Date());
+			return new ResponseEntity<LimitesLineas>(this.lls.update(limitesLineasOptional), HttpStatus.OK);
 
 			
 		}else {
@@ -74,7 +86,7 @@ public class LimitesLineasController {
 		limitesLineas2.setExchangeMarketLimit(limitesLineas.getExchangeMarketLimit());
 		limitesLineas2.setLimitOperationExchangeMarket(limitesLineas.getLimitOperationExchangeMarket());
 		limitesLineas2.setMercado(limitesLineas.getMercado());
-		limitesLineas2.setUsuario(limitesLineas.getUsuario());
+		//limitesLineas2.setUsuario(limitesLineas.getUsuario());
 		limitesLineas2.setEstatus(limitesLineas.getEstatus());
 		limitesLineas2.setFechaModificacion(new Date());
 		return new ResponseEntity<>(this.lls.create(limitesLineas2), HttpStatus.CREATED);
@@ -96,7 +108,7 @@ public class LimitesLineasController {
 			limitesLineasOptional.setExchangeMarketLimit(limitesLineas.getExchangeMarketLimit());
 			limitesLineasOptional.setLimitOperationExchangeMarket(limitesLineas.getLimitOperationExchangeMarket());
 			limitesLineasOptional.setMercado(limitesLineas.getMercado());
-			limitesLineasOptional.setUsuario(limitesLineas.getUsuario());
+			//limitesLineasOptional.setUsuario(limitesLineas.getUsuario());
 			limitesLineasOptional.setFechaModificacion(new Date());
 			return new ResponseEntity<LimitesLineas>(this.lls.update(limitesLineasOptional), HttpStatus.OK);
 		} else {

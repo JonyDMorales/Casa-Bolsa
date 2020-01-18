@@ -54,18 +54,19 @@ public class ContraparteController {
 		mav.setViewName("semaforosalertas");
 		return mav;
 	}
-	@GetMapping(value = "lista")
-	public List<com.phi.proyect.vo.LimitesLineas> lista() {
+	
+	@GetMapping(consumes = "application/json",value = "lista/{tipoEnvio}")
+	public List<com.phi.proyect.vo.LimitesLineas> lista(@PathVariable("tipoEnvio") Integer tipoEnvio) {
 		
 		com.phi.proyect.vo.LimitesLineas limite = new com.phi.proyect.vo.LimitesLineas();
 		List<com.phi.proyect.vo.LimitesLineas> listReturn = new ArrayList<com.phi.proyect.vo.LimitesLineas>();
 
-		List<LimitesLineas> lista = lls.findAll();
+		List<LimitesLineas> lista = lls.findByEstatus(tipoEnvio);
 		for (int i = 0; i < lista.size(); i++) {
 			
 			float sumaLimite  = limiteUtilizado(lista.get(i).getContraparte());
 
-			listReturn.add(new com.phi.proyect.vo.LimitesLineas(lista.get(i).getContraparte(), sumaLimite,lista.get(i).getGlobalLimit(),lista.get(i).getUsuario()));
+			listReturn.add(new com.phi.proyect.vo.LimitesLineas(lista.get(i).getContraparte(), sumaLimite,lista.get(i).getGlobalLimit()));
 		}
 		return listReturn;
 	} 

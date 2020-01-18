@@ -12,16 +12,16 @@ public class LimitesLineas implements Serializable{
 	private Float exchangeMarketLimit;
 	private Float limitOperationExchangeMarket;
 	private String mercado;
-	private String usuario;
+	//private String usuario;
 	private Integer estatus;
 	private Float suma;
 	
-	public LimitesLineas(String contraparte, Float suma, Float globalLimit,String usuario) {
+	public LimitesLineas(String contraparte, Float suma, Float globalLimit) {
 		super();
 		this.contraparte = contraparte;
 		this.suma = suma;
 		this.globalLimit = globalLimit;
-		this.usuario = usuario;
+		//this.usuario = usuario;
 	}
 
 	public LimitesLineas(String contraparte, Float globalLimit, Float directOperationLimit, Float reportoOperationLimit,
@@ -36,7 +36,7 @@ public class LimitesLineas implements Serializable{
 		this.exchangeMarketLimit = exchangeMarketLimit;
 		this.limitOperationExchangeMarket = limitOperationExchangeMarket;
 		this.mercado = mercado;
-		this.usuario = usuario;
+		//this.usuario = usuario;
 		this.estatus = estatus;
 		this.suma = suma;
 	}
@@ -92,12 +92,12 @@ public class LimitesLineas implements Serializable{
 	public void setMercado(String mercado) {
 		this.mercado = mercado;
 	}
-	public String getUsuario() {
+	/*public String getUsuario() {
 		return usuario;
 	}
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
-	}
+	}*/
 	public Integer getEstatus() {
 		return estatus;
 	}

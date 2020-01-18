@@ -33,24 +33,12 @@ public class LimitesLineas implements Serializable{
 	private Date fechaAlta;
 	private Date fechaModificacion;
 	private String mercado;
-	private String usuario;
 	
 	
 	public LimitesLineas() {
 		super();
 	}
 
-
-
-	/*public Integer getId() {
-		return id;
-	}
-
-
-
-	public void setId(Integer id) {
-		this.id = id;
-	}*/
 
 
 
@@ -185,16 +173,6 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
-	public String getUsuario() {
-		return usuario;
-	}
-
-
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
 
 
 

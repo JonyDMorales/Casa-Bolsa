@@ -24,6 +24,7 @@ function getListaSemaforos() {
 		contentType:"application/json",
 		success : function(da) { // true
 			console.log(da);
+			var arrayContraparte = [], arrayLimiteGlobal = [], arrayLimiteUtilizado = [], arrayLimiteRestante = [];//Pariente
 			for (var i = 0; i < da.length; i++) {
 				console.log("....");
 				var resta = (parseFloat(da[i]['globalLimit']) - parseFloat(da[i]['suma']));
@@ -35,17 +36,19 @@ function getListaSemaforos() {
 					clase = "alert alert-warning";
 				}else{
 					clase = "alert alert-danger";
-				}
+				}				
 				$("#tableSemaforo").append('<tr>'+
 						'<td>'+da[i]['contraparte']+'</td>'+
 						'<td>'+da[i]['globalLimit']+'</td>'+
 						'<td>'+da[i]['suma']+'</td>'+
 						'<td class="'+clase+'">'+resta+'</td>'+
-					'</tr>');	
-				
-
+					'</tr>');
+				arrayContraparte.push(da[i]['contraparte']);//Pariente
+				arrayLimiteGlobal.push(da[i]['globalLimit']);//Pariente
+				arrayLimiteUtilizado.push(da[i]['suma']);//Pariente
+				arrayLimiteRestante.push(resta);//Pariente
 			}
-			
+			showGraficas(arrayContraparte, 'graficaSemaforo', arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante);//Pariente
 			//$("#spinner").fadeOut();
 			getListaSemaforosOperador();
 		},
@@ -80,6 +83,7 @@ function getListaSemaforosOperador(){
 		contentType:"application/json",
 		success : function(da) { // true
 			console.log(da);
+			var arrayContraparte = [], arrayLimiteGlobal = [], arrayLimiteUtilizado = [], arrayLimiteRestante = [];//Pariente
 			for (var i = 0; i < da.length; i++) {
 				console.log("....");
 				var resta = (parseFloat(da[i]['globalLimit']) - parseFloat(da[i]['suma']));
@@ -92,7 +96,6 @@ function getListaSemaforosOperador(){
 				}else{
 					clase = "alert alert-danger";
 				}
-	
 				
 				$("#tableSemaforoUsuario").append('<tr>'+
 						'<td>'+da[i]['contraparte']+'</td>'+
@@ -100,14 +103,76 @@ function getListaSemaforosOperador(){
 						'<td>'+da[i]['suma']+'</td>'+
 						'<td class="'+clase+'">'+resta+'</td>'+
 					'</tr>');	
+				arrayContraparte.push(da[i]['contraparte']);//Pariente
+				arrayLimiteGlobal.push(da[i]['globalLimit']);//Pariente
+				arrayLimiteUtilizado.push(da[i]['suma']);//Pariente
+				arrayLimiteRestante.push(resta);//Pariente
 			}
 			
 			$("#spinner").fadeOut();
+			showGraficas(arrayContraparte, 'graficaSemaforoUsuario', arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante);//Pariente
 		},
 		error : function(d) {
 			console.log(d);
 		}
 	});
+	
+}
+
+function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante) {
+	console.log("idGrafica "+arrayLimiteGlobal);
+	console.log("idGrafica "+arrayLimiteUtilizado);
+	console.log("idGrafica "+arrayLimiteRestante);
+	var densityCanvas = document.getElementById(idGrafica);
+	Chart.defaults.global.defaultFontFamily = "Lato";
+	Chart.defaults.global.defaultFontSize = 18;
+	
+	var dataLimiteGlobal = {
+			  label: 'Limite Global',
+			  data: arrayLimiteGlobal,
+			  backgroundColor: 'rgba(0, 99, 132, 0.6)',
+			  borderWidth: 0,
+			  yAxisID: "y-axis-gobal"
+			};
+
+			var dataLimiteUtilizado = {
+			  label: 'Límite Utilizado',
+			  data: arrayLimiteUtilizado,
+			  backgroundColor: 'rgba(99, 132, 0, 0.6)',
+			  borderWidth: 0,
+			  yAxisID: "y-axis-gobal"
+			};
+			
+			var dataLimiteRestante = {
+					  label: 'Límite Restante',
+					  data: arrayLimiteRestante,
+					  backgroundColor: 'rgba(99, 0, 0, 0.6)',
+					  borderWidth: 0,
+					  yAxisID: "y-axis-gobal"
+					};
+			
+			var dataGrafica = {
+					  labels: arrayContraparte,
+					  datasets: [dataLimiteGlobal, dataLimiteUtilizado, dataLimiteRestante]
+					};
+
+					var chartOptions = {
+					  scales: {
+					    xAxes: [{
+					      barPercentage: 1,
+					      categoryPercentage: 0.6
+					    }],
+					    yAxes: [{
+					      id: "y-axis-gobal"
+					    }]
+					  }
+					};
+
+					var barChart = new Chart(densityCanvas, {
+					  type: 'bar',
+					  data: dataGrafica,
+					  options: chartOptions
+					});
 	
 }
 

@@ -109,14 +109,34 @@ function getListaSemaforosOperador(){
 				arrayLimiteRestante.push(resta);//Pariente
 			}
 			
-			$("#spinner").fadeOut();
+			//$("#spinner").fadeOut();
 			showGraficas(arrayContraparte, 'graficaSemaforoUsuario', arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante);//Pariente
+			getListaSemaforosOperaciones();
 		},
 		error : function(d) {
 			console.log(d);
 		}
 	});
 	
+}
+
+function getListaSemaforosOperaciones(){
+	$("#conteTableSemaforoOperaciones").append('<table class="table table-striped" id="semaforoOperacion" >'+
+			'<thead>'+
+				'<tr>'+
+					'<th>Mercado</th>'+
+					'<th>ID Operación</th>'+
+					'<th>Contraparte</th>'+
+					'<th>Operador</th>'+
+					'<th>Reporto/Directo</th>'+
+					'<th>Límite x Operación</th>'+
+					'<th>Monto de la Operación</th>'+
+				'</tr>'+
+			'</thead>'+
+			'<tbody id="tableSemaforoUsuario">'+
+			'</tbody>'+
+		'</table>');
+	$("#spinner").fadeOut();
 }
 
 function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante) {

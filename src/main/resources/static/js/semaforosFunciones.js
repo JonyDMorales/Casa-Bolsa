@@ -137,6 +137,26 @@ function getListaSemaforosOperaciones(){
 			'</tbody>'+
 		'</table>');
 	$("#spinner").fadeOut();
+	
+	
+	$.ajax({
+		async : true,
+		url : '/semaforosalertas/listaSegundaTabla',
+		type : 'get',// POST,PUT,DELETE,GET,PATCH
+		dataType: 'json',
+		processData:false,
+		contentType:"application/json",
+		success : function(da) { // true
+			console.log(da);
+
+		},
+		error : function(d) {
+			console.log(d);
+		}
+	});
+	
+	
+	
 }
 
 function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante) {
@@ -195,6 +215,16 @@ function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimit
 					});
 	
 }
+
+
+
+
+
+
+
+
+
+
 
 /*
 function limiteUtilizado(contraparte){

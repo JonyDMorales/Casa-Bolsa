@@ -22,6 +22,9 @@ public class OperacionesMd implements Serializable{
 	private String contraparte;
 	
 	
+
+	
+	
 	
 	public OperacionesMd() {
 		super();

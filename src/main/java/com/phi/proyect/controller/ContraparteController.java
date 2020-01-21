@@ -95,7 +95,9 @@ public class ContraparteController {
 			if(listaValuaciones.size() > 0) {
 				
 				sumaMultiplicacion += Float.parseFloat(listaValuaciones.get(0).getValMer());
+				//System.out.println(listaValuaciones.get(0).getValMer());
 
+				
 			}
 			
 			return (sumaMultiplicacion);
@@ -107,4 +109,53 @@ public class ContraparteController {
 
 		
 	} 
+	
+	
+	
+	
+	
+	@GetMapping(consumes = "application/json",value = "listaSegundaTabla")
+	public List<com.phi.proyect.vo.OperacionesMd> listaOperacionesMD() {
+		
+		
+		List<LimitesLineas> lista = lls.findAll();
+		
+		List<com.phi.proyect.vo.OperacionesMd> listReturn = new ArrayList<com.phi.proyect.vo.OperacionesMd>();
+
+		
+		for (int i = 0; i < lista.size(); i++) {
+			
+			
+			List<OperacionesMd> lista2 = ops.find(lista.get(i).getContraparte());
+			
+			
+			for (int j = 0; j < lista2.size(); j++) {
+				
+				Integer titulos = lista2.get(j).getNumeroDeTitulos();
+				
+				Float precio = lista2.get(j).getPrecio();
+				
+				
+				Float multi = titulos * precio;
+				
+				
+				listReturn.add(new com.phi.proyect.vo.OperacionesMd(lista2.get(j).getIdOperacionesDirecto(), lista2.get(j).getContraparte(),multi,lista.get(i).getReportoOperationLimit()));
+
+				
+				
+				
+				
+				
+			}
+			
+			
+			
+		}
+
+
+		return listReturn;
+	} 
+	
+	
+	
 }

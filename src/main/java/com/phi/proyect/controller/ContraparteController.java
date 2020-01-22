@@ -1,6 +1,5 @@
 package com.phi.proyect.controller;
 
-
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -36,126 +35,116 @@ public class ContraparteController {
 	private final OperacionService ops;
 	private final ParametrosService ps;
 	private final ValuacionesMdService vs;
-	
-	public ContraparteController(LimitesLineasService lls,OperacionService ops, ParametrosService ps, ValuacionesMdService vs) {
+
+	public ContraparteController(LimitesLineasService lls, OperacionService ops, ParametrosService ps,
+			ValuacionesMdService vs) {
 		super();
 		this.lls = lls;
 		this.ops = ops;
 		this.ps = ps;
 		this.vs = vs;
 	}
-	
+
 	@GetMapping
 	public ModelAndView findAll() {
 		ModelAndView mav = new ModelAndView();
-		
-		
+
 		mav.addObject("titulo", "Semaforos y Alertas");
 		mav.setViewName("semaforosalertas");
 		return mav;
 	}
-	
-	@GetMapping(consumes = "application/json",value = "lista/{tipoEnvio}")
+
+	@GetMapping(consumes = "application/json", value = "lista/{tipoEnvio}")
 	public List<com.phi.proyect.vo.LimitesLineas> lista(@PathVariable("tipoEnvio") Integer tipoEnvio) {
-		
+
 		com.phi.proyect.vo.LimitesLineas limite = new com.phi.proyect.vo.LimitesLineas();
 		List<com.phi.proyect.vo.LimitesLineas> listReturn = new ArrayList<com.phi.proyect.vo.LimitesLineas>();
 
 		List<LimitesLineas> lista = lls.findByEstatus(tipoEnvio);
 		for (int i = 0; i < lista.size(); i++) {
-			
-			float sumaLimite  = limiteUtilizado(lista.get(i).getContraparte());
 
-			listReturn.add(new com.phi.proyect.vo.LimitesLineas(lista.get(i).getContraparte(), sumaLimite,lista.get(i).getGlobalLimit()));
+			float sumaLimite = limiteUtilizado(lista.get(i).getContraparte());
+
+			listReturn.add(new com.phi.proyect.vo.LimitesLineas(lista.get(i).getContraparte(), sumaLimite,
+					lista.get(i).getGlobalLimit()));
 		}
 		return listReturn;
-	} 
-	
-	
-	//@GetMapping(value = "limiteUtilizado/{contraparte}")
+	}
+
+	// @GetMapping(value = "limiteUtilizado/{contraparte}")
 	public Float limiteUtilizado(String contraparte) {
-		
+
 		List<OperacionesMd> lista = ops.find(contraparte);
-		Float sumaMultiplicacion=(float) 0.0;
-		for(int i =0; i<lista.size(); i++){
-			Float multiplicacionRow=(lista.get(i).getNumeroDeTitulos()) * (lista.get(i).getPrecio());
+		Float sumaMultiplicacion = (float) 0.0;
+		for (int i = 0; i < lista.size(); i++) {
+			Float multiplicacionRow = (lista.get(i).getNumeroDeTitulos()) * (lista.get(i).getPrecio());
 			sumaMultiplicacion = sumaMultiplicacion + (float) multiplicacionRow;
 		}
-		
+
 		List<OperacionesMd> lista2 = ops.find2(contraparte);
-		if(lista2.size()>0) {
+
+		if (lista2.size() > 0) {
 			Integer idOperacion = lista2.get(0).getIdOperacionesDirecto();
+
 			List<Parametros> listaParametros = ps.findParametro("fecha_menos_uno");
 			String valorFechaMenos = listaParametros.get(0).getValorDelParametro();
 
-		
-			List<ValuacionesMd> listaValuaciones = vs.findValMer(idOperacion,valorFechaMenos);
+			List<ValuacionesMd> listaValuaciones = vs.findValMer(idOperacion, valorFechaMenos);
 
-			
-			if(listaValuaciones.size() > 0) {
-				
+			if (listaValuaciones.size() > 0) {
 				sumaMultiplicacion += Float.parseFloat(listaValuaciones.get(0).getValMer());
-				//System.out.println(listaValuaciones.get(0).getValMer());
-
-				
 			}
-			
+
 			return (sumaMultiplicacion);
-			
-		}else{
+
+		} else {
 			return sumaMultiplicacion;
 		}
-		
 
-		
-	} 
-	
-	
-	
-	
-	
-	@GetMapping(consumes = "application/json",value = "listaSegundaTabla")
+	}
+
+	@GetMapping(consumes = "application/json", value = "listaSegundaTabla")
 	public List<com.phi.proyect.vo.OperacionesMd> listaOperacionesMD() {
-		
-		
+
 		List<LimitesLineas> lista = lls.findAll();
-		
+
 		List<com.phi.proyect.vo.OperacionesMd> listReturn = new ArrayList<com.phi.proyect.vo.OperacionesMd>();
 
-		
 		for (int i = 0; i < lista.size(); i++) {
-			
-			
-			List<OperacionesMd> lista2 = ops.find(lista.get(i).getContraparte());
-			
-			
-			for (int j = 0; j < lista2.size(); j++) {
-				
-				Integer titulos = lista2.get(j).getNumeroDeTitulos();
-				
-				Float precio = lista2.get(j).getPrecio();
-				
-				
-				Float multi = titulos * precio;
-				
-				
-				listReturn.add(new com.phi.proyect.vo.OperacionesMd(lista2.get(j).getIdOperacionesDirecto(), lista2.get(j).getContraparte(),multi,lista.get(i).getReportoOperationLimit()));
 
-				
-				
-				
-				
-				
+			List<OperacionesMd> lista2 = ops.find(lista.get(i).getContraparte());
+
+			for (int j = 0; j < lista2.size(); j++) {
+
+				Integer titulos = lista2.get(j).getNumeroDeTitulos();
+
+				Float precio = lista2.get(j).getPrecio();
+
+				Float multi = titulos * precio;
+				if (lista2.size() > 0) {
+					Integer idOperacion = lista2.get(0).getIdOperacionesDirecto();
+
+					List<Parametros> listaParametros = ps.findParametro("fecha_menos_uno");
+					String valorFechaMenos = listaParametros.get(0).getValorDelParametro();
+
+					List<ValuacionesMd> listaValuaciones = vs.findValMer(idOperacion, valorFechaMenos);
+
+					if (listaValuaciones.size() > 0) {
+						listReturn.add(new com.phi.proyect.vo.OperacionesMd(lista2.get(j).getIdOperacionesDirecto(),
+								lista2.get(j).getContraparte(), Float.parseFloat(listaValuaciones.get(0).getValMer()),
+								lista.get(i).getReportoOperationLimit()));
+
+					}
+
+				}
+				listReturn.add(new com.phi.proyect.vo.OperacionesMd(lista2.get(j).getIdOperacionesDirecto(),
+						lista2.get(j).getContraparte(), multi, lista.get(i).getReportoOperationLimit()));
+
 			}
-			
-			
-			
+
 		}
 
-
 		return listReturn;
-	} 
-	
-	
-	
+	}
+
 }

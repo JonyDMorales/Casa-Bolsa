@@ -23,10 +23,9 @@ function getListaSemaforos() {
 		processData:false,
 		contentType:"application/json",
 		success : function(da) { // true
-			console.log(da);
+			//console.log(da);
 			var arrayContraparte = [], arrayLimiteGlobal = [], arrayLimiteUtilizado = [], arrayLimiteRestante = [];//Pariente
 			for (var i = 0; i < da.length; i++) {
-				console.log("....");
 				var resta = (parseFloat(da[i]['globalLimit']) - parseFloat(da[i]['suma']));
 				var porcentaje = ((resta*100) / parseFloat(da[i]['globalLimit']));
 				var clase = "";
@@ -49,8 +48,9 @@ function getListaSemaforos() {
 				arrayLimiteRestante.push(resta);//Pariente
 			}
 			showGraficas(arrayContraparte, 'graficaSemaforo', arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante);//Pariente
-			//$("#spinner").fadeOut();
+			
 			getListaSemaforosOperador();
+			$("#spinner").fadeOut();
 		},
 		error : function(d) {
 			console.log(d);
@@ -82,10 +82,10 @@ function getListaSemaforosOperador(){
 		processData:false,
 		contentType:"application/json",
 		success : function(da) { // true
-			console.log(da);
+			//console.log(da);
 			var arrayContraparte = [], arrayLimiteGlobal = [], arrayLimiteUtilizado = [], arrayLimiteRestante = [];//Pariente
 			for (var i = 0; i < da.length; i++) {
-				console.log("....");
+				//console.log("....");
 				var resta = (parseFloat(da[i]['globalLimit']) - parseFloat(da[i]['suma']));
 				var porcentaje = ((resta*100) / parseFloat(da[i]['globalLimit']));
 				var clase = "";
@@ -131,12 +131,13 @@ function getListaSemaforosOperaciones(){
 					'<th>Reporto/Directo</th>'+
 					'<th>Límite x Operación</th>'+
 					'<th>Monto de la Operación</th>'+
+					'<th>Límite Restante</th>'+
 				'</tr>'+
 			'</thead>'+
-			'<tbody id="tableSemaforoUsuario">'+
+			'<tbody id="tableSemaforoOperacion">'+
 			'</tbody>'+
 		'</table>');
-	$("#spinner").fadeOut();
+	
 	
 	
 	$.ajax({
@@ -148,6 +149,30 @@ function getListaSemaforosOperaciones(){
 		contentType:"application/json",
 		success : function(da) { // true
 			console.log(da);
+			for (var i = 0; i < da.length; i++) {
+				var resta = (parseFloat(da[i]['reportoDirecto']) - parseFloat(da[i]['multiplicacion']));
+				/*	var porcentaje = ((resta*100) / parseFloat(da[i]['globalLimit']));
+				var clase = "";
+				if(porcentaje > 50 ){
+					clase = "alert alert-success";
+				}else if(porcentaje > 25 && porcentaje < 50){
+					clase = "alert alert-warning";
+				}else{
+					clase = "alert alert-danger";
+				}*/
+				
+				$("#tableSemaforoOperacion").append('<tr>'+
+						'<td>M Dinero</td>'+
+						'<td>'+da[i]['idOperacionesDirecto']+'</td>'+
+						'<td>'+da[i]['contraparte']+'</td>'+
+						'<td>Operador</td>'+
+						'<td>Reporto</td>'+
+						'<td>'+da[i]['reportoDirecto']+'</td>'+
+						'<td>'+da[i]['multiplicacion']+'</td>'+
+						'<td>'+resta+'</td>'+
+					'</tr>');	
+			}
+		//	$("#spinner").fadeOut();
 
 		},
 		error : function(d) {
@@ -160,9 +185,9 @@ function getListaSemaforosOperaciones(){
 }
 
 function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante) {
-	console.log("idGrafica "+arrayLimiteGlobal);
-	console.log("idGrafica "+arrayLimiteUtilizado);
-	console.log("idGrafica "+arrayLimiteRestante);
+//	console.log("idGrafica "+arrayLimiteGlobal);
+	//console.log("idGrafica "+arrayLimiteUtilizado);
+	//console.log("idGrafica "+arrayLimiteRestante);
 	var densityCanvas = document.getElementById(idGrafica);
 	Chart.defaults.global.defaultFontFamily = "Lato";
 	Chart.defaults.global.defaultFontSize = 18;
@@ -215,32 +240,3 @@ function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimit
 					});
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-/*
-function limiteUtilizado(contraparte){
-	$.ajax({
-		async : true,
-		url : '/semaforosalertas//'+contraparte,
-		type : 'get',// POST,PUT,DELETE,GET,PATCH
-		dataType: 'json',
-		processData:false,
-		contentType:"application/json",
-		success : function(da) { // true
-			console.log(da);
-
-		},
-		error : function(d) {
-			console.log(d);
-		}
-	});
-}*/

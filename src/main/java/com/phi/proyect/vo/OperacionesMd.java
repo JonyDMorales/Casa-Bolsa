@@ -9,17 +9,21 @@ public class OperacionesMd implements Serializable {
 	private String contraparte;
 	private Float multiplicacion;
 	private Float reportoDirecto;
-	
-	
+	private String directoReporto;
+	private String nombre;
+	private String apellido;
 
 	
 	public OperacionesMd(Integer idOperacionesDirecto, String contraparte, Float multiplicacion,
-			Float reportoDirecto) {
+			Float reportoDirecto,String directoReporto,String nombre,String apellido) {
 		super();
 		this.idOperacionesDirecto = idOperacionesDirecto;
 		this.contraparte = contraparte;
 		this.multiplicacion = multiplicacion;
 		this.reportoDirecto = reportoDirecto;
+		this.directoReporto = directoReporto;
+		this.nombre = nombre;
+		this.apellido = apellido;
 	}
 	
 
@@ -46,16 +50,36 @@ public class OperacionesMd implements Serializable {
 	}
 	public void setReportoDirecto(Float reportoDirecto) {
 		this.reportoDirecto = reportoDirecto;
+	}
+
+
+	public String getDirectoReporto() {
+		return directoReporto;
+	}
+
+
+	public void setDirectoReporto(String directoReporto) {
+		this.directoReporto = directoReporto;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public String getApellido() {
+		return apellido;
+	}
+
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	} 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

@@ -165,8 +165,8 @@ function getListaSemaforosOperaciones(){
 						'<td>M Dinero</td>'+
 						'<td>'+da[i]['idOperacionesDirecto']+'</td>'+
 						'<td>'+da[i]['contraparte']+'</td>'+
-						'<td>Operador</td>'+
-						'<td>Reporto</td>'+
+						'<td>'+da[i]['nombre']+' '+da[i]['apellido']+'</td>'+
+						'<td>'+da[i]['directoReporto']+'</td>'+
 						'<td>'+da[i]['reportoDirecto']+'</td>'+
 						'<td>'+da[i]['multiplicacion']+'</td>'+
 						'<td>'+resta+'</td>'+

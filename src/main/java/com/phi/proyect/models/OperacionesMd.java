@@ -20,6 +20,9 @@ public class OperacionesMd implements Serializable{
 	private Integer numeroDeTitulos;
 	private Float precio;
 	private String contraparte;
+	private String directoReporto;
+	private String nombre;
+	private String apellido;
 	
 	
 
@@ -64,6 +67,36 @@ public class OperacionesMd implements Serializable{
 	}
 	public void setContraparte(String contraparte) {
 		this.contraparte = contraparte;
+	}
+
+
+	public String getDirectoReporto() {
+		return directoReporto;
+	}
+
+
+	public void setDirectoReporto(String directoReporto) {
+		this.directoReporto = directoReporto;
+	}
+
+
+	public String getNombre() {
+		return nombre;
+	}
+
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public String getApellido() {
+		return apellido;
+	}
+
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
 	}
 	
 	

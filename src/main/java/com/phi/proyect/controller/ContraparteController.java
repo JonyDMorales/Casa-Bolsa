@@ -111,16 +111,22 @@ public class ContraparteController {
 		List<com.phi.proyect.vo.OperacionesMd> listReturn = new ArrayList<com.phi.proyect.vo.OperacionesMd>();
 
 		for (int i = 0; i < lista.size(); i++) {
-
+			
 			List<OperacionesMd> lista2 = ops.find(lista.get(i).getContraparte());
 
 			for (int j = 0; j < lista2.size(); j++) {
-
 				Integer titulos = lista2.get(j).getNumeroDeTitulos();
 
 				Float precio = lista2.get(j).getPrecio();
 
 				Float multi = titulos * precio;
+				Float tiporeporto = (float) 0.0;
+				if(lista2.get(j).getDirectoReporto().equals("directo")) {
+					tiporeporto = lista.get(i).getDirectOperationLimit();
+				}else if(lista2.get(j).getDirectoReporto().equals("reporto")) {
+					tiporeporto = lista.get(i).getReportoOperationLimit();
+				}
+				
 				if (lista2.size() > 0) {
 					Integer idOperacion = lista2.get(0).getIdOperacionesDirecto();
 
@@ -132,13 +138,13 @@ public class ContraparteController {
 					if (listaValuaciones.size() > 0) {
 						listReturn.add(new com.phi.proyect.vo.OperacionesMd(lista2.get(j).getIdOperacionesDirecto(),
 								lista2.get(j).getContraparte(), Float.parseFloat(listaValuaciones.get(0).getValMer()),
-								lista.get(i).getReportoOperationLimit()));
+								tiporeporto,lista2.get(j).getDirectoReporto(),lista2.get(j).getNombre(),lista2.get(j).getApellido()));
 
 					}
 
 				}
 				listReturn.add(new com.phi.proyect.vo.OperacionesMd(lista2.get(j).getIdOperacionesDirecto(),
-						lista2.get(j).getContraparte(), multi, lista.get(i).getReportoOperationLimit()));
+						lista2.get(j).getContraparte(), multi, tiporeporto,lista2.get(j).getDirectoReporto(),lista2.get(j).getNombre(),lista2.get(j).getApellido()));
 
 			}
 

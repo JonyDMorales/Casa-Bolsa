@@ -47,10 +47,10 @@ function getListaSemaforos() {
 				arrayLimiteUtilizado.push(da[i]['suma']);//Pariente
 				arrayLimiteRestante.push(resta);//Pariente
 			}
-			showGraficas(arrayContraparte, 'graficaSemaforo', arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante);//Pariente
-			
+			$("#btnShowGraficaSemaforo").slideDown();
+			showGraficas(arrayContraparte, 'graficaSemaforo', arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante);//Pariente		
 			getListaSemaforosOperador();
-			$("#spinner").fadeOut();
+			//$("#spinner").fadeOut();
 		},
 		error : function(d) {
 			console.log(d);
@@ -108,7 +108,8 @@ function getListaSemaforosOperador(){
 				arrayLimiteUtilizado.push(da[i]['suma']);//Pariente
 				arrayLimiteRestante.push(resta);//Pariente
 			}
-			
+			$("#btnShowGraficaSemaforoUsuario").slideDown();
+			//document.getElementById("btnShowGraficaSemaforoUsuario").style.display = "block";
 			//$("#spinner").fadeOut();
 			showGraficas(arrayContraparte, 'graficaSemaforoUsuario', arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante);//Pariente
 			getListaSemaforosOperaciones();
@@ -149,6 +150,7 @@ function getListaSemaforosOperaciones(){
 		contentType:"application/json",
 		success : function(da) { // true
 			console.log(da);
+			var arrayContraparte = [], arrayLimiteGlobal = [], arrayLimiteUtilizado = [], arrayLimiteRestante = [];//Pariente
 			for (var i = 0; i < da.length; i++) {
 				var resta = (parseFloat(da[i]['reportoDirecto']) - parseFloat(da[i]['multiplicacion']));
 				/*	var porcentaje = ((resta*100) / parseFloat(da[i]['globalLimit']));
@@ -171,8 +173,15 @@ function getListaSemaforosOperaciones(){
 						'<td>'+da[i]['multiplicacion']+'</td>'+
 						'<td>'+resta+'</td>'+
 					'</tr>');	
+				arrayContraparte.push(da[i]['contraparte']);//Pariente
+				arrayLimiteGlobal.push(da[i]['reportoDirecto']);//Pariente
+				arrayLimiteUtilizado.push(da[i]['multiplicacion']);//Pariente
+				arrayLimiteRestante.push(resta);//Pariente
 			}
-		//	$("#spinner").fadeOut();
+			$("#btnShowGraficaSemaforoOperaciones").slideDown();
+			//document.getElementById("btnShowGraficaSemaforoOperaciones").style.display = "block";
+			showGraficas(arrayContraparte, 'graficaSemaforoOperaciones', arrayLimiteGlobal, arrayLimiteUtilizado, arrayLimiteRestante);//Pariente
+			$("#spinner").fadeOut();
 
 		},
 		error : function(d) {
@@ -191,9 +200,19 @@ function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimit
 	var densityCanvas = document.getElementById(idGrafica);
 	Chart.defaults.global.defaultFontFamily = "Lato";
 	Chart.defaults.global.defaultFontSize = 18;
+	var label1 = "Limite Global";
+	var label2 = "Límite Utilizado";
+	var label3 = "Límite Restante";
+	
+	if(idGrafica == "graficaSemaforoOperaciones"){
+		label1 = "Límite x Operación";
+		label2 = "Monto de la Operación";
+		label3 = "Límite Restante";
+	}
+	
 	
 	var dataLimiteGlobal = {
-			  label: 'Limite Global',
+			  label: label1,
 			  data: arrayLimiteGlobal,
 			  backgroundColor: 'rgba(0, 99, 132, 0.6)',
 			  borderWidth: 0,
@@ -201,7 +220,7 @@ function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimit
 			};
 
 			var dataLimiteUtilizado = {
-			  label: 'Límite Utilizado',
+			  label: label2,
 			  data: arrayLimiteUtilizado,
 			  backgroundColor: 'rgba(99, 132, 0, 0.6)',
 			  borderWidth: 0,
@@ -209,7 +228,7 @@ function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimit
 			};
 			
 			var dataLimiteRestante = {
-					  label: 'Límite Restante',
+					  label: label3,
 					  data: arrayLimiteRestante,
 					  backgroundColor: 'rgba(99, 0, 0, 0.6)',
 					  borderWidth: 0,
@@ -238,5 +257,16 @@ function showGraficas(arrayContraparte, idGrafica, arrayLimiteGlobal, arrayLimit
 					  data: dataGrafica,
 					  options: chartOptions
 					});
+	
+}
+
+function showGrafica(idGrafica, idButton){
+	if (document.getElementById(idGrafica).style.display == "none"){
+		document.getElementById(idGrafica).style.display = "block";
+		document.getElementById(idButton).text = "Ocultar Grafica";
+	}else{
+		document.getElementById(idGrafica).style.display = "none";
+		document.getElementById(idButton).text = "Mostrar Grafica";
+	}
 	
 }

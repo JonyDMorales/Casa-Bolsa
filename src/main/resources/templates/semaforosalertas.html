@@ -120,22 +120,34 @@
 <div class="container">
 		<h1 class="text-primary" th:text="${titulo}"></h1>
 		<br>
+		<a class="btn btn-primary btn-xs" onclick="showGrafica('graficaSemaforo', 'btnShowGraficaSemaforo')"
+			id="btnShowGraficaSemaforo" style="color: white; display: none;">Mostrar Grafica</a>
+		<br>
+		<br>
 		<div id="conteTableSemaforo"></div>
 		<br>
 		<br>
-		<canvas id="graficaSemaforo" width="600" height="400"></canvas>
+		<canvas id="graficaSemaforo" width="600" height="400" style="display: none;"></canvas>
+		<br>
+		<br>
+		<a class="btn btn-primary btn-xs" onclick="showGrafica('graficaSemaforoUsuario', 'btnShowGraficaSemaforoUsuario')"
+			id="btnShowGraficaSemaforoUsuario" style="color: white; display: none;">Mostrar Grafica</a>
 		<br>
 		<br>
 		<div id="conteTableSemaforoUsuario"></div>
 		<br>
 		<br>
-		<canvas id="graficaSemaforoUsuario" width="600" height="400"></canvas>
+		<canvas id="graficaSemaforoUsuario" width="600" height="400" style="display: none;"></canvas>
+		<br>
+		<br>
+		<a class="btn btn-primary btn-xs" onclick="showGrafica('graficaSemaforoOperaciones', 'btnShowGraficaSemaforoOperaciones')"
+			id="btnShowGraficaSemaforoOperaciones" style="color: white; display: none;">Mostrar Grafica</a>
 		<br>
 		<br>
 		<div id="conteTableSemaforoOperaciones"></div>
 		<br>
 		<br>
-		<canvas id="graficaSemaforoOperaciones" width="600" height="400"></canvas>
+		<canvas id="graficaSemaforoOperaciones" width="600" height="400" style="display: none;"></canvas>
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

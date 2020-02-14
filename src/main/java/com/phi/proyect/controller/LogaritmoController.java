@@ -45,16 +45,22 @@ public class LogaritmoController {
 	@GetMapping(consumes = "application/json", value = "getParametros/{logaritmo}")
 	public List<com.phi.proyect.vo.Logaritmo> lista(@PathVariable("logaritmo") String descripcion) {
 		List<Logaritmo> lista = log.findByDescripcion(descripcion);
-		List<Vector> lista2 = vecSer.findIssue(lista.get(0).getDescripcion(),Integer.parseInt(lista.get(0).getValorDelParametro()));
 		List<com.phi.proyect.vo.Logaritmo> listReturn = new ArrayList<com.phi.proyect.vo.Logaritmo>();
-		int cont =1;
-		for (int i = 0; i < lista2.size()-1; i++) {
-				Float logaritmo = (float) 0.0;
-				logaritmo = (float) Math.log(lista2.get(i).getMarketSurcharge()/lista2.get(cont).getMarketSurcharge());
-				listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo));
-				cont++;
-		}
-		
+		if (!lista.isEmpty()) {
+			String[] desc = lista.get(0).getValorDelParametro().split("\\|");
+			if(desc[1].equals("market_surcharge")) {
+				List<Vector> lista2 = vecSer.findIssue(lista.get(0).getDescripcion(),Integer.parseInt(desc[0]));
+				int cont =1;
+				for (int i = 0; i < lista2.size()-1; i++) {
+						Float logaritmo = (float) 0.0;
+						logaritmo = (float) Math.log(lista2.get(i).getMarketSurcharge()/lista2.get(cont).getMarketSurcharge());
+						listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo));
+						cont++;
+				}
+				return listReturn;
+			}
+			return listReturn;
+		}	
 		return listReturn;
 	} 
 	

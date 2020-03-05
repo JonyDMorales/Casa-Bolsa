@@ -7,12 +7,15 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.ranges.Range;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.phi.proyect.models.LimitesLineas;
 import com.phi.proyect.models.Logaritmo;
 import com.phi.proyect.models.Vector;
@@ -29,7 +32,7 @@ public class LogaritmoController {
 	private final VectorService vecSer;
 	private final VectorPreciosDiaService vecpds;
 
-	public LogaritmoController(LogaritmoService log, VectorService vecSer,VectorPreciosDiaService vecpds) {
+	public LogaritmoController(LogaritmoService log, VectorService vecSer, VectorPreciosDiaService vecpds) {
 		super();
 		this.log = log;
 		this.vecSer = vecSer;
@@ -41,12 +44,17 @@ public class LogaritmoController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("titulo", "Logaritmo");
 		mav.setViewName("logaritmo");
+		System.out.println("holo perro");
 		// lista("IM_BPAG28_191121");
 		return mav;
 	}
 
-	@RequestMapping(path = "getParametros/",method = RequestMethod.GET,consumes = "application/json")
-	public List<com.phi.proyect.vo.Logaritmo> lista(@PathVariable("logaritmo") String descripcion,@PathVariable("fecha") Date fecha) {
+	@RequestMapping(value = "/log", method = RequestMethod.POST)
+	@ResponseBody
+	public List<com.phi.proyect.vo.Logaritmo> lista(@RequestBody ObjectNode obj) {
+		String descripcion = obj.get("descripcion").asText();
+		String fecha = obj.get("fecha").asText();
+		Double tasa = obj.get("tasa").asDouble();
 		List<Logaritmo> lista = log.findByDescripcion(descripcion);
 		List<com.phi.proyect.vo.Logaritmo> listReturn = new ArrayList<com.phi.proyect.vo.Logaritmo>();
 		if (!lista.isEmpty()) {
@@ -96,7 +104,8 @@ public class LogaritmoController {
 		Double lnNuValCupon = 0.0;
 
 		switch (lsTV) {
-		case "M", "S":
+		// case "M", "S":
+		case "M":
 			lnDCupon = 182;
 			Integer lnDanterior = (int) ((ldFinCupon.getTime() - ldIniCupon.getTime()) / 86400000);
 			if (lnDanterior - lnDCupon > 0) {
@@ -149,8 +158,7 @@ public class LogaritmoController {
 
 	public Object buscarEnBaseDeDatos(String producto, String columna) {
 		List<VectorPreciosDia> lista = vecpds.findVectorPrecioDia(columna, producto);
-		
-		
+
 		return lista;
 	}
 

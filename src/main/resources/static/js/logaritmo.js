@@ -6,8 +6,9 @@ function logaritmo() {
 	}
 	$.ajax({
 				async : true,
-				url : '/logaritmo/getParametros/' + $("#producto").val(),
+				url : '/logaritmo/getParametros/' + $("#producto").val()+'/'+ $("#fecha").val(),
 				type : 'get',// POST,PUT,DELETE,GET,PATCH
+				data: 
 				dataType : 'json',
 				processData : false,
 				contentType : "application/json",

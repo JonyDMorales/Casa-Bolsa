@@ -17,8 +17,8 @@ public class VectorPreciosDiaService {
 	private VectorPreciosDiaRepository vpd;
 
 	
-	public List<VectorPreciosDia>findVectorPrecioDia(String columna,String producto) {
-		return this.vpd.findVectorPrecioDia(columna, producto);
+	public List<VectorPreciosDia>findVectorPrecioDia(String producto) {
+		return this.vpd.findVectorPrecioDia(producto);
 	}
 	
 }

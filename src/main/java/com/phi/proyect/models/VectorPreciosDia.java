@@ -11,9 +11,9 @@ import javax.persistence.Table;
 @Table(name = "vector_de_precios_dia")
 public class VectorPreciosDia implements Serializable {
 	@Id
-	private Integer idalmerPriceVector;
+	private Integer idValmerPriceVector;
 	private String tv;
-	private Double cuponRate;
+	private Double couponRate;
 	private Date couponStart;
 	private Date couponEnd;
 	private Date expirationDate;
@@ -26,12 +26,12 @@ public class VectorPreciosDia implements Serializable {
 		super();
 	}
 
-	public Integer getIdalmerPriceVector() {
-		return idalmerPriceVector;
+	public Integer getIdValmerPriceVector() {
+		return idValmerPriceVector;
 	}
 
-	public void setIdalmerPriceVector(Integer idalmerPriceVector) {
-		this.idalmerPriceVector = idalmerPriceVector;
+	public void setIdValmerPriceVector(Integer idValmerPriceVector) {
+		this.idValmerPriceVector = idValmerPriceVector;
 	}
 
 	public String getTv() {
@@ -42,12 +42,12 @@ public class VectorPreciosDia implements Serializable {
 		this.tv = tv;
 	}
 
-	public Double getCuponRate() {
-		return cuponRate;
+	public Double getCouponRate() {
+		return couponRate;
 	}
 
-	public void setCuponRate(Double cuponRate) {
-		this.cuponRate = cuponRate;
+	public void setCouponRate(Double couponRate) {
+		this.couponRate = couponRate;
 	}
 
 	public Date getCouponStart() {
@@ -106,4 +106,6 @@ public class VectorPreciosDia implements Serializable {
 		this.updatedNominalValue = updatedNominalValue;
 	}
 
+	
+	
 }

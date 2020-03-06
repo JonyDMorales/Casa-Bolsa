@@ -12,6 +12,7 @@ import com.phi.proyect.models.VectorPreciosDia;
 public interface VectorPreciosDiaRepository extends JpaRepository<VectorPreciosDia, Integer>{
 
 	
-	@Query(value="Select :columna from vector_de_precios_dia  v where v.issue =:producto", nativeQuery =  true)
-	public List<VectorPreciosDia> findVectorPrecioDia(@Param("columna") String columna,@Param("producto") String producto);
+	@Query(value="Select * from vector_de_precios_dia  v where v.issue =:producto", nativeQuery =  true)
+	public List<VectorPreciosDia> findVectorPrecioDia(@Param("producto") String producto);
+	
 }

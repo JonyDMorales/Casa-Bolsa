@@ -1,5 +1,7 @@
 package com.phi.proyect.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,6 +68,19 @@ public class LogaritmoController {
 					Float logaritmo = (float) 0.0;
 					logaritmo = (float) Math
 							.log(lista2.get(i).getMarketSurcharge() / lista2.get(cont).getMarketSurcharge());
+					
+					if (i == 0) {
+						Date date1;
+						try {
+							date1 = new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
+							System.out.println(CalculaPrecio(descripcion, date1, logaritmo + tasa));
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}  
+						
+					}
+					
 					listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo));
 					cont++;
 				}
@@ -157,9 +172,29 @@ public class LogaritmoController {
 	}
 
 	public Object buscarEnBaseDeDatos(String producto, String columna) {
-		List<VectorPreciosDia> lista = vecpds.findVectorPrecioDia(columna, producto);
-
-		return lista;
+		List<VectorPreciosDia> lista = vecpds.findVectorPrecioDia(producto);
+		if (columna.equals("tv")) {
+			System.out.println(lista.get(0).getTv());
+			return lista.get(0).getTv();
+		}else if(columna.equals("cupon_rate")) {
+			return lista.get(0).getCouponRate();
+		}else if(columna.equals("cupon_start")) {
+			return lista.get(0).getCouponStart();
+		}else if(columna.equals("cupon_end")) {
+			return lista.get(0).getCouponEnd();
+		}else if(columna.equals("expiration_date")) {
+			return lista.get(0).getExpirationDate();
+		}else if(columna.equals("discount_curve")) {
+			return lista.get(0).getDiscountCurve();
+		}else if(columna.equals("yield")) {
+			return lista.get(0).getYield();
+		}else if(columna.equals("market_surcharge")) {
+			return lista.get(0).getMarketSurcharge();
+		}else if(columna.equals("updated_nominal_value")) {
+			return lista.get(0).getUpdatedNominalValue();
+		}
+			
+		return lista.get(0).getTv();
 	}
 
 	public int buscarTablaDiasInhabiles(Date h, String j) {

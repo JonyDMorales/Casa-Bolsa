@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.w3c.dom.ranges.Range;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.phi.proyect.models.LimitesLineas;
+import com.phi.proyect.models.DiasInhabiles;
 import com.phi.proyect.models.Logaritmo;
 import com.phi.proyect.models.Vector;
 import com.phi.proyect.models.VectorPreciosDia;
+import com.phi.proyect.service.DiasInhabilesService;
 import com.phi.proyect.service.LogaritmoService;
 import com.phi.proyect.service.VectorPreciosDiaService;
 import com.phi.proyect.service.VectorService;
@@ -33,12 +33,15 @@ public class LogaritmoController {
 	private final LogaritmoService log;
 	private final VectorService vecSer;
 	private final VectorPreciosDiaService vecpds;
+	private final DiasInhabilesService dis;
 
-	public LogaritmoController(LogaritmoService log, VectorService vecSer, VectorPreciosDiaService vecpds) {
+	public LogaritmoController(LogaritmoService log, VectorService vecSer, VectorPreciosDiaService vecpds,
+			DiasInhabilesService dis) {
 		super();
 		this.log = log;
 		this.vecSer = vecSer;
 		this.vecpds = vecpds;
+		this.dis = dis;
 	}
 
 	@GetMapping
@@ -46,7 +49,6 @@ public class LogaritmoController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("titulo", "Logaritmo");
 		mav.setViewName("logaritmo");
-		System.out.println("holo perro");
 		// lista("IM_BPAG28_191121");
 		return mav;
 	}
@@ -68,7 +70,7 @@ public class LogaritmoController {
 					Float logaritmo = (float) 0.0;
 					logaritmo = (float) Math
 							.log(lista2.get(i).getMarketSurcharge() / lista2.get(cont).getMarketSurcharge());
-					
+
 					if (i == 0) {
 						Date date1;
 						try {
@@ -77,10 +79,10 @@ public class LogaritmoController {
 						} catch (ParseException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
-						}  
-						
+						}
+
 					}
-					
+
 					listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo));
 					cont++;
 				}
@@ -121,25 +123,24 @@ public class LogaritmoController {
 		switch (lsTV) {
 		// case "M", "S":
 		case "M":
+
+			System.out.println(lsTV);
 			lnDCupon = 182;
 			Integer lnDanterior = (int) ((ldFinCupon.getTime() - ldIniCupon.getTime()) / 86400000);
 			if (lnDanterior - lnDCupon > 0) {
 				lnArrastre = lnDanterior - lnDCupon;
 			}
 
-			do {
-				// ldFinCupon = ldIniCupon + lnDCupon + lnArrastre;//no sabemos que onda quedo
-				// como constante
-				// ldFinCupon = '2020-01-03';
-				Integer lnNuDays = CalculaDays(ldIniCupon, ldFinCupon, lnArrastre);
-				if (ldFinCupon == ldFhFin) {
-					lnNuValCupon = lnVNominal;
-				} else {
-					lnNuValCupon = 0.0;
-				}
-//	                calculaPrecio = (lnNuDays * lnTCupon / 360 + lnNuValCupon) / ((1 + pnTasa * lnDCupon / 36000) ^ ((ldFinCupon.getTime() - pdFecha.getTime()) / lnDCupon)) + calculaPrecio;
-				ldIniCupon = ldFinCupon;
-			} while (ldIniCupon.getTime() < ldFhFin.getTime());
+			/*
+			 * do { System.out.println("que pedo rito"); // ldFinCupon = ldIniCupon +
+			 * lnDCupon + lnArrastre;//no sabemos que onda quedo // como constante //
+			 * ldFinCupon = '2020-01-03'; Integer lnNuDays = CalculaDays(ldIniCupon,
+			 * ldFinCupon, lnArrastre); if (ldFinCupon == ldFhFin) { lnNuValCupon =
+			 * lnVNominal; } else { lnNuValCupon = 0.0; } // calculaPrecio = (lnNuDays *
+			 * lnTCupon / 360 + lnNuValCupon) / ((1 + pnTasa * lnDCupon / 36000) ^
+			 * ((ldFinCupon.getTime() - pdFecha.getTime()) / lnDCupon)) + calculaPrecio;
+			 * ldIniCupon = ldFinCupon; } while (ldIniCupon.getTime() < ldFhFin.getTime());
+			 */
 
 			ldFinCupon = (Date) buscarEnBaseDeDatos(psEmision, "cupon_end");// col('cupon_end') vector_de_precios_dia
 			if (ldFinCupon == pdFecha) {
@@ -174,31 +175,31 @@ public class LogaritmoController {
 	public Object buscarEnBaseDeDatos(String producto, String columna) {
 		List<VectorPreciosDia> lista = vecpds.findVectorPrecioDia(producto);
 		if (columna.equals("tv")) {
-			System.out.println(lista.get(0).getTv());
 			return lista.get(0).getTv();
-		}else if(columna.equals("cupon_rate")) {
+		} else if (columna.equals("cupon_rate")) {
 			return lista.get(0).getCouponRate();
-		}else if(columna.equals("cupon_start")) {
+		} else if (columna.equals("cupon_start")) {
 			return lista.get(0).getCouponStart();
-		}else if(columna.equals("cupon_end")) {
+		} else if (columna.equals("cupon_end")) {
 			return lista.get(0).getCouponEnd();
-		}else if(columna.equals("expiration_date")) {
+		} else if (columna.equals("expiration_date")) {
 			return lista.get(0).getExpirationDate();
-		}else if(columna.equals("discount_curve")) {
+		} else if (columna.equals("discount_curve")) {
 			return lista.get(0).getDiscountCurve();
-		}else if(columna.equals("yield")) {
+		} else if (columna.equals("yield")) {
 			return lista.get(0).getYield();
-		}else if(columna.equals("market_surcharge")) {
+		} else if (columna.equals("market_surcharge")) {
 			return lista.get(0).getMarketSurcharge();
-		}else if(columna.equals("updated_nominal_value")) {
+		} else if (columna.equals("updated_nominal_value")) {
 			return lista.get(0).getUpdatedNominalValue();
 		}
-			
+
 		return lista.get(0).getTv();
 	}
 
-	public int buscarTablaDiasInhabiles(Date h, String j) {
-		return 1;
+	public int buscarTablaDiasInhabiles(Date fecha, String j) {
+		List<DiasInhabiles> lista = dis.findByFecha(fecha);
+		return lista.get(0).getHabil();
 	}
 
 }

@@ -57,11 +57,13 @@ function myCallbackFunction2(updatedCell, updatedRow, oldValue) {
 	 }else{
 
 	var id = datos[0]['DT_RowId'];
+	var token='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJQaGlJbnZlc3RtZW50Q2FwaXRhbCIsImlhdCI6MTU4NDIxNTcxMCwiZXhwIjoxNTg0MjMwNDAwLCJuYmYiOjE1ODQyMTU3MTAsImp0aSI6IjVlNmQzNjllYzI2OWQiLCJzdWIiOjEsInVzciI6eyJpZF91c3VhcmlvcyI6MSwiaWRfem9uYXNfaG9yYXJpYXMiOjQ5LCJub21icmUiOiJNYW5saW8iLCJhcGVsbGlkbyI6IlRlcmFuIiwiY29ycmVvIjoibWFubGlvZWxudW0xQGhvdG1haWwuY29tIiwiY2FyZ28iOiJNYW5hZ2VyIiwidGVsZWZvbm9fZmlqbyI6IjU2NzEzMTc0NSIsImNlbHVsYXIiOiI1NTEwODAwMjkxIiwiY3JlYXRlZF9hdCI6IjIwMTktMTAtMTYgMjA6NDg6MzAiLCJ1cGRhdGVkX2F0IjoiMjAxOS0xMC0xMSAwODozODozOSIsImRuaV9udW0iOiIyMzQzMjQzMjQiLCJzZWd1cm9fc29jaWFsIjoiMzQ1NDM1NDM1IiwiZm90b19iYXNlNjQiOiIiLCJwYXNzIjoiOGU5NmJkMDJmYmNiMDU0Y2NhMTFjZjhkZWIwMzE1NjJiOWFhZWRkODNmODNmZjdhYmY3YzNmYTc4N2FkOWJiZCJ9LCJwZXJtaXNvcyI6WzFdfQ.GvjIfzjf46cxoju8CCux73ERDNBJa1qCLdwkTzBN4E0';
 	$.ajax({
 		async : true,
 		url : '/limiteslineas/'+ id,
 		type : 'put',// POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
+		headers: {'Autorization':token},
 		data : JSON.stringify({
 			contraparte : datos[0][0],
 			globalLimit : datos[0][1],
@@ -222,6 +224,7 @@ function guardar(row) {
 										url : '/limiteslineas',
 										type : 'post',// POST,PUT,DELETE,GET,PATCH
 										dataType: 'json',
+										header:token,
 										data : JSON.stringify({
 											contraparte : contraparte,
 											globalLimit : globalLimit,
@@ -277,6 +280,7 @@ function guardar(row) {
 							url : '/limiteslineas',
 							type : 'post',// POST,PUT,DELETE,GET,PATCH
 							dataType: 'json',
+							header:token,
 							data : JSON.stringify({
 								contraparte : contraparte,
 								globalLimit : globalLimit,
@@ -351,6 +355,7 @@ function guardar(row) {
 										url : '/limiteslineas',
 										type : 'post',// POST,PUT,DELETE,GET,PATCH
 										dataType: 'json',
+										header:token,
 										data : JSON.stringify({
 											contraparte : contraparte,
 											globalLimit : globalLimit,
@@ -406,6 +411,7 @@ function guardar(row) {
 							url : '/limiteslineas',
 							type : 'post',// POST,PUT,DELETE,GET,PATCH
 							dataType: 'json',
+							header:token,
 							data : JSON.stringify({
 								contraparte : contraparte,
 								globalLimit : globalLimit,
@@ -469,6 +475,7 @@ function update() {
 		url : '/limiteslineas/2',
 		type : 'put',// POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
+		header:token,
 		data : JSON.stringify({
 			contraparte : "Bancomer2",
 			globalLimit : 20001,
@@ -511,6 +518,7 @@ function deleteq(id,data) {
 					url : '/limiteslineas/'+id,
 					type : 'delete',// POST,PUT,DELETE,GET,PATCH
 					dataType: 'json',
+					header:token,
 					processData:false,
 					contentType:"application/json",
 					success : function(da) { // true
@@ -547,6 +555,7 @@ function getLista(tipo,divisaValor) {
 		url : '/limiteslineas/lista/'+tipoEnvio,
 		type : 'get',// POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
+		header:token,
 		processData:false,
 		contentType:"application/json",
 		success : function(da) { // true
@@ -765,16 +774,18 @@ var divisaGlobal="";
 function cambioDivisasMethod(tipo){
 	var tipoDivisas = $("#selectDivisas").val()
 	var divisaValor = "";
-	
+	console.log("metodo onload")
+
 	$.ajax({
 		async : true,
 		url : '/divisas/listadv/'+tipoDivisas,
 		type : 'get',// POST,PUT,DELETE,GET,PATCH
 		dataType: 'json',
+		headers: {'Autorization':token},
 		processData:false,
 		contentType:"application/json",
 		success : function(da) { // true
-			//console.log(da);
+			console.log(da);
 			
 			if(tipoDivisas=="MXN"){
 				divisaValor="1"

@@ -10,11 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.phi.proyect.models.Divisas;
@@ -28,6 +24,7 @@ import com.phi.proyect.service.ParametrosService;
 import com.phi.proyect.service.ValuacionesMdService;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/semaforosalertas")
 public class ContraparteController {
 
@@ -43,15 +40,6 @@ public class ContraparteController {
 		this.ops = ops;
 		this.ps = ps;
 		this.vs = vs;
-	}
-
-	@GetMapping
-	public ModelAndView findAll() {
-		ModelAndView mav = new ModelAndView();
-
-		mav.addObject("titulo", "Semaforos y Alertas");
-		mav.setViewName("semaforosalertas");
-		return mav;
 	}
 
 	@GetMapping(consumes = "application/json", value = "lista/{tipoEnvio}")

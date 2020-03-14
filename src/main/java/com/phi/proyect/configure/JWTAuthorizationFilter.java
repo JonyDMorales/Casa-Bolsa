@@ -38,10 +38,13 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     private Claims validateToken(HttpServletRequest request) {
         String jwtToken = request.getHeader(HEADER);
+
         Claims claims = null;
         try{
             claims = Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(jwtToken).getBody();
+            System.out.println(claims);
         }catch(Exception e ){
+            e.printStackTrace();
             return claims;
         }
         return claims;

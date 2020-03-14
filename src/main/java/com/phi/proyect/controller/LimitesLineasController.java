@@ -1,25 +1,20 @@
 package com.phi.proyect.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.phi.proyect.models.LimitesLineas;
 import com.phi.proyect.service.LimitesLineasService;
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/limiteslineas")
 public class LimitesLineasController {
 
@@ -48,8 +43,9 @@ public class LimitesLineasController {
 		return mav;
 	}
 	
-	@GetMapping(consumes = "application/json", value = "lista/{tipoEnvio}")
+	@GetMapping(value= "lista/{tipoEnvio}")
 	public List<LimitesLineas> lista(@PathVariable("tipoEnvio") Integer tipoEnvio) {
+		System.out.println(tipoEnvio);
 		List<LimitesLineas> lista = lls.findByEstatus(tipoEnvio);
 		return lista;
 	} 

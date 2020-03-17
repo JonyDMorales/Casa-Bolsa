@@ -111,7 +111,7 @@ public class LogaritmoController {
 	
 	
 	@GetMapping(value= "mesaDinero/")
-	public List<MesadeDinero> mesaDinero(@PathVariable("tipoEnvio") Integer tipoEnvio){
+	public List<MesadeDinero> mesaDinero(){
 		List<com.phi.proyect.vo.MesadeDinero> listReturn = new ArrayList<com.phi.proyect.vo.MesadeDinero>();
 		List<VectorPreciosDia> lista = vecpds.findAll();
 		for(int i = 0; i < lista.size(); i++) {

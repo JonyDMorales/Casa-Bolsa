@@ -9,35 +9,40 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="var_limite_MD")
-public class VarLimite implements Serializable{
+@Table(name = "var_limite_md")
+public class VarLimite implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Integer idVarLimiteMD;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer idVarLimiteMd;
+
 	private String producto;
 	private int limite;
-	
-	
+
 	public VarLimite() {
 		super();
 	}
-	public Integer getIdVarLimiteMD() {
-		return idVarLimiteMD;
+
+	public Integer getIdVarLimiteMd() {
+		return idVarLimiteMd;
 	}
-	public void setIdVarLimiteMD(Integer idVarLimiteMD) {
-		this.idVarLimiteMD = idVarLimiteMD;
+
+	public void setIdVarLimiteMd(Integer idVarLimiteMd) {
+		this.idVarLimiteMd = idVarLimiteMd;
 	}
+
 	public String getProducto() {
 		return producto;
 	}
+
 	public void setProducto(String producto) {
 		this.producto = producto;
 	}
+
 	public int getLimite() {
 		return limite;
 	}
+
 	public void setLimite(int limite) {
 		this.limite = limite;
 	}

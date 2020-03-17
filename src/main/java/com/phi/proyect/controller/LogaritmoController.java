@@ -16,12 +16,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.phi.proyect.models.DiasInhabiles;
 import com.phi.proyect.models.Logaritmo;
+import com.phi.proyect.models.VarLimite;
 import com.phi.proyect.models.Vector;
 import com.phi.proyect.models.VectorPreciosDia;
 import com.phi.proyect.service.DiasInhabilesService;
 import com.phi.proyect.service.LogaritmoService;
+import com.phi.proyect.service.VarLimiteService;
 import com.phi.proyect.service.VectorPreciosDiaService;
 import com.phi.proyect.service.VectorService;
+import com.phi.proyect.vo.MesadeDinero;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -32,14 +35,16 @@ public class LogaritmoController {
 	private final VectorService vecSer;
 	private final VectorPreciosDiaService vecpds;
 	private final DiasInhabilesService dis;
+	private final VarLimiteService varlimSer;
 
 	public LogaritmoController(LogaritmoService log, VectorService vecSer, VectorPreciosDiaService vecpds,
-			DiasInhabilesService dis) {
+			DiasInhabilesService dis,VarLimiteService varlimSer) {
 		super();
 		this.log = log;
 		this.vecSer = vecSer;
 		this.vecpds = vecpds;
 		this.dis = dis;
+		this.varlimSer = varlimSer;
 	}
 
 	@GetMapping
@@ -47,7 +52,6 @@ public class LogaritmoController {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("titulo", "Logaritmo");
 		mav.setViewName("logaritmo");
-		// lista("IM_BPAG28_191121");
 		return mav;
 	}
 
@@ -103,6 +107,20 @@ public class LogaritmoController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return algoritmos.CalculaPrecio(lista.get(0),sdf.parse(fecha, new ParsePosition(0)),tasa);
 
+	}
+	
+	
+	@GetMapping(value= "mesaDinero/")
+	public List<MesadeDinero> mesaDinero(@PathVariable("tipoEnvio") Integer tipoEnvio){
+		List<com.phi.proyect.vo.MesadeDinero> listReturn = new ArrayList<com.phi.proyect.vo.MesadeDinero>();
+		List<VectorPreciosDia> lista = vecpds.findAll();
+		for(int i = 0; i < lista.size(); i++) {
+			List<VarLimite> lista2 = varlimSer.findAll(lista.get(i).getIssue());
+			if (lista2.size() > 0) {
+				listReturn.add(new com.phi.proyect.vo.MesadeDinero(lista.get(i).getIdValmerPriceVector(),lista.get(i).getIssue(),lista2.get(0).getLimite()));
+			}
+		}
+		return listReturn;
 	}
 
 }

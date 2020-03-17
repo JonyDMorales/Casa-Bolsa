@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.phi.proyect.models.LimitesLineas;
 import com.phi.proyect.models.VectorPreciosDia;
 import com.phi.proyect.repository.VectorPreciosDiaRepository;
 
@@ -16,9 +17,12 @@ public class VectorPreciosDiaService {
 	@Autowired
 	private VectorPreciosDiaRepository vpd;
 
-	
-	public List<VectorPreciosDia>findVectorPrecioDia(String producto) {
+	public List<VectorPreciosDia> findVectorPrecioDia(String producto) {
 		return this.vpd.findVectorPrecioDia(producto);
 	}
-	
+
+	public List<VectorPreciosDia> findAll() {
+		return vpd.findAll();
+	}
+
 }

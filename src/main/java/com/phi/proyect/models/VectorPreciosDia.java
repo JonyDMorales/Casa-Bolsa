@@ -13,6 +13,7 @@ public class VectorPreciosDia implements Serializable {
 	@Id
 	private Integer idValmerPriceVector;
 	private String tv;
+	private String issue;
 	private Double couponRate;
 	private Date couponStart;
 	private Date couponEnd;
@@ -106,6 +107,28 @@ public class VectorPreciosDia implements Serializable {
 		this.updatedNominalValue = updatedNominalValue;
 	}
 
-	
-	
+	public String getIssue() {
+		return issue;
+	}
+
+	public void setIssue(String issue) {
+		this.issue = issue;
+	}
+
+	@Override
+	public String toString() {
+		return "VectorPreciosDia{" +
+				"idValmerPriceVector=" + idValmerPriceVector +
+				", tv='" + tv + '\'' +
+				", issue='" + issue + '\'' +
+				", couponRate=" + couponRate +
+				", couponStart=" + couponStart +
+				", couponEnd=" + couponEnd +
+				", expirationDate=" + expirationDate +
+				", discountCurve='" + discountCurve + '\'' +
+				", yield=" + yield +
+				", marketSurcharge=" + marketSurcharge +
+				", updatedNominalValue=" + updatedNominalValue +
+				'}';
+	}
 }

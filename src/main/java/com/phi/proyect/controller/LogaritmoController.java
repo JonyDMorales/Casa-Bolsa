@@ -55,7 +55,7 @@ public class LogaritmoController {
 		return mav;
 	}
 
-	@RequestMapping(value = "/log", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/log", method = RequestMethod.POST)
 	@ResponseBody
 	public List<com.phi.proyect.vo.Logaritmo> lista(@RequestBody ObjectNode obj) {
 		String descripcion = obj.get("descripcion").asText();
@@ -93,7 +93,7 @@ public class LogaritmoController {
 			return listReturn;
 		}
 		return listReturn;
-	}
+	}*/
 
 
 	@PostMapping ("/calcular/precio")
@@ -110,7 +110,7 @@ public class LogaritmoController {
 	}
 	
 	
-	@GetMapping(value= "mesaDinero/")
+	@GetMapping(value= "/mesaDinero")
 	public List<MesadeDinero> mesaDinero(){
 		List<com.phi.proyect.vo.MesadeDinero> listReturn = new ArrayList<com.phi.proyect.vo.MesadeDinero>();
 		List<VectorPreciosDia> lista = vecpds.findAll();

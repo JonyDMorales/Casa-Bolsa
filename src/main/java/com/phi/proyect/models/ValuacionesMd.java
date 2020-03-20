@@ -25,7 +25,7 @@ private Integer idContabilidad;
 private Date fechaValuacion;
 private String valMer;
 private Double valorEnLibros;
-
+private String titulos;
 
 
 public ValuacionesMd() {
@@ -57,6 +57,14 @@ public Double getValorEnLibros() {
 
 public void setValorEnLibros(Double valorEnLibros) {
 	this.valorEnLibros = valorEnLibros;
+}
+
+public String getTitulos() {
+	return titulos;
+}
+
+public void setTitulos(String titulos) {
+	this.titulos = titulos;
 }
 
 

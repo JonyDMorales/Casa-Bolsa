@@ -110,11 +110,14 @@ public class LogaritmoController {
 			List<ValuacionesMd> lista3 = vs.findValorLibros(lista.get(i).getIssue());
 			if (lista2.size() > 0) {
 				Double valor = 0.0;
+				Double multi = 0.0;
 				if (lista3.size() > 0) {
 				valor = lista3.get(0).getValorEnLibros();
+				multi = valor * Double.parseDouble(lista3.get(0).getTitulos());
 				}
+				multi = valor  * Double.parseDouble(lista3.get(0).getTitulos());
 				listReturn.add(new com.phi.proyect.vo.MesadeDinero(lista.get(i).getIdValmerPriceVector(),
-						lista.get(i).getIssue(), lista2.get(0).getLimite(), valor));
+						lista.get(i).getIssue(), lista2.get(0).getLimite(), valor,multi));
 			}
 		}
 		return listReturn;

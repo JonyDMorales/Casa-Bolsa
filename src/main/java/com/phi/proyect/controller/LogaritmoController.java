@@ -113,7 +113,6 @@ public class LogaritmoController {
 				Double multi = 0.0;
 				if (lista3.size() > 0) {
 				valor = lista3.get(0).getValorEnLibros();
-				multi = valor * Double.parseDouble(lista3.get(0).getTitulos());
 				}
 				multi = valor  * Double.parseDouble(lista3.get(0).getTitulos());
 				listReturn.add(new com.phi.proyect.vo.MesadeDinero(lista.get(i).getIdValmerPriceVector(),

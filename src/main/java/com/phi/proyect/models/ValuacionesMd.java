@@ -24,7 +24,7 @@ private Integer idContabilidad;
 @Temporal(TemporalType.DATE)
 private Date fechaValuacion;
 private String valMer;
-
+private Double valorEnLibros;
 
 
 
@@ -49,6 +49,14 @@ public String getValMer() {
 }
 public void setValMer(String valMer) {
 	this.valMer = valMer;
+}
+
+public Double getValorEnLibros() {
+	return valorEnLibros;
+}
+
+public void setValorEnLibros(Double valorEnLibros) {
+	this.valorEnLibros = valorEnLibros;
 }
 
 

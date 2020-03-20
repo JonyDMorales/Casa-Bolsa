@@ -6,14 +6,16 @@ public class MesadeDinero implements Serializable {
 	private int idValmerPriceVector;
 	private String issue;
 	private int limite;
+	private Double valorLibros;
 
-	
-	
-	public MesadeDinero(int idValmerPriceVector, String issue, int limite) {
+
+
+	public MesadeDinero(int idValmerPriceVector, String issue, int limite, Double valorLibros) {
 		super();
 		this.idValmerPriceVector = idValmerPriceVector;
 		this.issue = issue;
 		this.limite = limite;
+		this.valorLibros = valorLibros;
 	}
 
 	public MesadeDinero() {
@@ -43,5 +45,15 @@ public class MesadeDinero implements Serializable {
 	public void setLimite(int limite) {
 		this.limite = limite;
 	}
+
+	public Double getValorLibros() {
+		return valorLibros;
+	}
+
+	public void setValorLibros(Double valorLibros) {
+		this.valorLibros = valorLibros;
+	}
+	
+	
 
 }

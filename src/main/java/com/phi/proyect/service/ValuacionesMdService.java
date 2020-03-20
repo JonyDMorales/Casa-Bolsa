@@ -23,5 +23,8 @@ public class ValuacionesMdService {
 		return this.vmr.findValMer(idOperacion,fecha);
 	}
 	
-
+	public List<ValuacionesMd>findValorLibros(String instrumento) {
+		return this.vmr.findValorLibros(instrumento);
+	}
+	
 }

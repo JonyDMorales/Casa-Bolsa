@@ -42,7 +42,7 @@ public class ContraparteController {
 		this.vs = vs;
 	}
 
-	@GetMapping(consumes = "application/json", value = "lista/{tipoEnvio}")
+	@GetMapping( value = "lista/{tipoEnvio}")
 	public List<com.phi.proyect.vo.LimitesLineas> lista(@PathVariable("tipoEnvio") Integer tipoEnvio) {
 
 		com.phi.proyect.vo.LimitesLineas limite = new com.phi.proyect.vo.LimitesLineas();
@@ -91,7 +91,7 @@ public class ContraparteController {
 
 	}
 
-	@GetMapping(consumes = "application/json", value = "listaSegundaTabla")
+	@GetMapping(value = "listaSegundaTabla")
 	public List<com.phi.proyect.vo.OperacionesMd> listaOperacionesMD() {
 
 		List<LimitesLineas> lista = lls.findAll();

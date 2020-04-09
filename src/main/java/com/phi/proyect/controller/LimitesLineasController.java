@@ -90,7 +90,8 @@ public class LimitesLineasController {
 	}
 	}
 
-	@PutMapping(consumes = "application/json", value = "/{id}")
+	//@PutMapping(consumes = "application/json", value = "/{id}")
+	@PutMapping(value = "/{id}")
 	public ResponseEntity<LimitesLineas> updateLimite(@PathVariable("id") String contraparte,
 			@RequestBody com.phi.proyect.vo.LimitesLineas limitesLineas) {
 		LimitesLineas limitesLineasOptional = lls.findByContraparte(contraparte);

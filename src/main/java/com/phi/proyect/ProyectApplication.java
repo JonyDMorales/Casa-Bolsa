@@ -19,7 +19,7 @@ public class ProyectApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProyectApplication.class, args);
     }
-
+    /*
     @EnableWebSecurity
     @Configuration
     class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -35,4 +35,6 @@ public class ProyectApplication {
                     .anyRequest().authenticated();
         }
     }
+    
+     */
 }

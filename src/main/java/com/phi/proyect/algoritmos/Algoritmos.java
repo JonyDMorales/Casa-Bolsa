@@ -1,41 +1,55 @@
 package com.phi.proyect.algoritmos;
 
-import com.phi.proyect.models.DiasInhabiles;
 import com.phi.proyect.models.VectorPreciosDia;
 import com.phi.proyect.service.DiasInhabilesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class Algoritmos {
 
     @Autowired
-    DiasInhabilesService diasInhabilesService;
+    DiasInhabilesService dis;
 
     public Double CalculaPrecio(VectorPreciosDia vector, Date pdFecha, Double pnTasa) {
 
-        Double calculaPrecio = 10.0;
+        Double calculaPrecio = 0.0;
+
+        Calendar cpdFecha = Calendar.getInstance();
+        cpdFecha.setTime(pdFecha);
+
         String lsTV = vector.getTv();
         Double lnTCupon = vector.getCouponRate();
+
         Date ldIniCupon = vector.getCouponStart();
+        Calendar cldIniCupon = Calendar.getInstance();
+        cldIniCupon.setTime(ldIniCupon);
+
         Date ldFinCupon = vector.getCouponEnd();
+        Calendar cldFinCupon = Calendar.getInstance();
+        cldFinCupon.setTime(ldFinCupon);
+
         Date ldFhFin = vector.getExpirationDate();
+        Calendar cldFhFin = Calendar.getInstance();
+        cldFhFin.setTime(ldFhFin);
+
         String lsDCupon = vector.getDiscountCurve();
         Double lnYiel = vector.getYield();
         Double lnSTasa = vector.getMarketSurcharge();
         Double lnVNominal = vector.getUpdatedNominalValue();
         Integer lnDCupon = 0;
         Integer lnDtrans = 0;
-        Double lnIntereses = lnDtrans * lnTCupon * lnVNominal / 36000;
+
         Double lntdcto = lnYiel;
-
-
-        System.out.println("Vector: " + vector);
-        System.out.println("Fecha pd: " + pdFecha);
-        System.out.println("Tasa: " + pnTasa);
 
         Integer lnArrastre = 0;
         Double lnNuValCupon = 0.0;
@@ -45,65 +59,95 @@ public class Algoritmos {
             case "M":
 
                 lnDCupon = 182;
-                Integer lnDanterior = (int) ((ldFinCupon.getTime() - ldIniCupon.getTime()) / 86400000);
-                System.out.println("Anterior: " + lnDanterior);
-                System.out.println("Current: " + lnDCupon);
+                Integer lnDanterior = daysBetween(cldFinCupon, cldIniCupon);
+                Double lnIntereses = lnDanterior * lnTCupon * lnVNominal / 36000;
                 if (lnDanterior - lnDCupon > 0) {
                     lnArrastre = lnDanterior - lnDCupon;
                 }
-                System.out.println("Arrastre: " + lnArrastre);
-                /*
+
                 do{
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(ldIniCupon);
-                    calendar.add(Calendar.DAY_OF_YEAR,lnDCupon + lnArrastre);
-                    ldFinCupon = calendar.getTime();
-                    Integer lnNuDays = CalculaDays(ldIniCupon, ldFinCupon, lnArrastre);
+                    cldFinCupon = Calendar.getInstance();
+                    cldFinCupon.setTime(ldIniCupon);
+                    cldFinCupon.add(Calendar.DAY_OF_YEAR,lnDCupon + lnArrastre);
+                    ldFinCupon = cldFinCupon.getTime();
+
+                    Map<String, Object> calulate = CalculaDays(cldIniCupon, cldFinCupon, lnArrastre);
+                    Integer lnNuDays = (int) calulate.get("days");
+                    lnArrastre = (int) calulate.get("arrastre");
+                    cldFinCupon = (Calendar) calulate.get("pdFhFin");
+
                     if( ldFinCupon.equals(ldFhFin) ){
                         lnNuValCupon = lnVNominal;
                     } else {
                         lnNuValCupon = 0.0;
                     }
-                    Long mili= ldFinCupon.getTime() - pdFecha.getTime();
-                    Long days = TimeUnit.DAYS.convert(mili, TimeUnit.MILLISECONDS);
-                    calculaPrecio = (lnNuDays * lnTCupon / 360 + lnNuValCupon) / (((long)(1 + pnTasa * lnDCupon / 36000)) ^ ((long)((days) / lnDCupon))) + calculaPrecio;
-                    ldIniCupon = ldFinCupon;
+                    double days = (double) daysBetween(cldFinCupon, cpdFecha);
+                    Double stepOne = lnNuDays * lnTCupon / 360 + lnNuValCupon;
+                    Double stepTwo = 1 + pnTasa * lnDCupon / 36000;
+                    Double div = ( days / lnDCupon );
+                    Double stepThree = Math.pow(stepTwo, div);
+                    calculaPrecio = stepOne / stepThree + calculaPrecio;
+                    System.out.println(calculaPrecio);
+                    ldIniCupon = cldFinCupon.getTime();
+                    cldIniCupon.setTime(ldIniCupon);
                 } while(ldIniCupon.before(ldFhFin));
-                */
-
 
                 ldFinCupon = vector.getCouponEnd();
-                if (ldFinCupon == pdFecha) {
+                if ( ldFinCupon.equals(pdFecha) ) {
                     calculaPrecio = calculaPrecio - lnIntereses;
                 }
-
+                //calculaPrecio *= tipodecambioUDI(pdFecha); para S
                 break;
 
         }
         return calculaPrecio;
     }
 
-    private Integer CalculaDays(Date pdFhIni, Date pdFhFin, Integer pnArrastre) {
+    private Map<String,Object> CalculaDays(Calendar pdFhIni, Calendar pdFhFin, Integer pnArrastre) {
+        Map<String, Object> calculate = new HashMap<>(3);
+        Calendar fh_Original = pdFhFin;
 
-        Date fh_Original = pdFhFin;
-        // String nb_Fecha = pdFhFin;
-        if (buscarTablaDiasInhabiles(pdFhFin, "habil") == 1) { // col('habil') dias_inhabiles
-            pdFhFin = restarDiasFecha(pdFhFin, -1);
-            pnArrastre = (int) ((fh_Original.getTime() - pdFhFin.getTime()) / 86400000);
+        if (buscarTablaDiasInhabiles(pdFhFin.getTime()) == 1) {
+            pdFhFin.add(Calendar.DAY_OF_MONTH, -1);
         }
 
-        return (int) ((pdFhFin.getTime() - pdFhIni.getTime()) / 86400000);
+        pnArrastre =  daysBetween(fh_Original, pdFhFin);
+        int numberDays = daysBetween(pdFhFin,pdFhIni);
+
+        calculate.put("days", numberDays);
+        calculate.put("arrastre", pnArrastre);
+        calculate.put("pdFhFin", pdFhFin);
+
+        return calculate;
     }
 
-    public Date restarDiasFecha(Date fecha, int dias) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(fecha); // Configuramos la fecha que se recibe
-        calendar.add(Calendar.DAY_OF_YEAR, dias); // numero de días a añadir, o restar en caso de días<0
-        return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
+    public static int daysBetween(Calendar day1, Calendar day2){
+        Calendar dayOne = (Calendar) day1.clone(),
+                dayTwo = (Calendar) day2.clone();
+
+        if (dayOne.get(Calendar.YEAR) == dayTwo.get(Calendar.YEAR)) {
+            return Math.abs(dayOne.get(Calendar.DAY_OF_YEAR) - dayTwo.get(Calendar.DAY_OF_YEAR));
+        } else {
+            if (dayTwo.get(Calendar.YEAR) > dayOne.get(Calendar.YEAR)) {
+                Calendar temp = dayOne;
+                dayOne = dayTwo;
+                dayTwo = temp;
+            }
+            int extraDays = 0;
+
+            int dayOneOriginalYearDays = dayOne.get(Calendar.DAY_OF_YEAR);
+
+            while (dayOne.get(Calendar.YEAR) > dayTwo.get(Calendar.YEAR)) {
+                dayOne.add(Calendar.YEAR, -1);
+                extraDays += dayOne.getActualMaximum(Calendar.DAY_OF_YEAR);
+            }
+
+            return extraDays - dayTwo.get(Calendar.DAY_OF_YEAR) + dayOneOriginalYearDays ;
+        }
     }
 
-    public int buscarTablaDiasInhabiles(Date fecha, String j) {
-        List<DiasInhabiles> lista = diasInhabilesService.findByFecha(fecha);
-        return lista.get(0).getHabil();
+
+    public int buscarTablaDiasInhabiles(Date fecha) {
+        return dis.findByFecha(fecha);
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.phi.proyect.algoritmos.Algoritmos;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,6 +40,9 @@ public class LogaritmoController {
 	private final DiasInhabilesService dis;
 	private final VarLimiteService varlimSer;
 	private final ValuacionesMdService vs;
+
+	@Autowired
+	Algoritmos algoritmos;
 
 	public LogaritmoController(LogaritmoService log, VectorService vecSer, VectorPreciosDiaService vecpds,
 			DiasInhabilesService dis, VarLimiteService varlimSer, ValuacionesMdService vs) {
@@ -102,7 +106,6 @@ public class LogaritmoController {
 
 	@PostMapping("/calcular/precio")
 	public double calcular(@RequestBody ObjectNode obj) {
-		Algoritmos algoritmos = new Algoritmos();
 		String descripcion = obj.get("descripcion").asText();
 		String fecha = obj.get("fecha").asText();
 		Double tasa = obj.get("tasa").asDouble();

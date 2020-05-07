@@ -4,20 +4,31 @@ import java.io.Serializable;
 
 public class Logaritmo implements Serializable{
 
-	private Float logaritmo;
+	private Double logaritmo;
+	private Double cambioPrecio;
 
-	public Logaritmo(Float logaritmo) {
+	public Logaritmo(Double logaritmo, Double cambioPrecio) {
 		super();
 		this.logaritmo = logaritmo;
+		this.cambioPrecio = cambioPrecio;
 	}
 
-	public Float getLogaritmo() {
+	public Double getLogaritmo() {
 		return logaritmo;
 	}
 
-	public void setLogaritmo(Float logaritmo) {
+	public void setLogaritmo(Double logaritmo) {
 		this.logaritmo = logaritmo;
 	}
+
+	public Double getCambioPrecio() {
+		return cambioPrecio;
+	}
+
+	public void setCambioPrecio(Double cambioPrecio) {
+		this.cambioPrecio = cambioPrecio;
+	}
+	
 	
 	
 }

@@ -70,31 +70,38 @@ public class LogaritmoController {
 
 		String fecha = obj.get("fecha").asText();
 		Double tasa = obj.get("tasa").asDouble();
+		
 		List<Logaritmo> lista = log.findByDescripcion(descripcion);
 		List<com.phi.proyect.vo.Logaritmo> listReturn = new ArrayList<com.phi.proyect.vo.Logaritmo>();
 		if (!lista.isEmpty()) {
 			String[] desc = lista.get(0).getValorDelParametro().split("\\|");
+			
 			if (desc[1].equals("market_surcharge")) {
 				List<Vector> lista2 = vecSer.findIssue(lista.get(0).getDescripcion(), Integer.parseInt(desc[0]));
 				int cont = 1;
 				for (int i = 0; i < lista2.size() - 1; i++) {
-					Float logaritmo = (float) 0.0;
-					logaritmo = (float) Math
-							.log(lista2.get(i).getMarketSurcharge() / lista2.get(cont).getMarketSurcharge());
+					Double logaritmo = 0.0;
+					logaritmo = Math.log(lista2.get(i).getMarketSurcharge() / lista2.get(cont).getMarketSurcharge());
 
-					if (i == 0) {
-						Date date1;
-						try {
-							date1 = new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
-
-							// System.out.println(CalculaPrecio(descripcion, date1, logaritmo + tasa));
-						} catch (ParseException e) { // TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
+					if (Double.isNaN(logaritmo)) {
+					    logaritmo = 1.0; // lo puse porque en ocaciones viene con NaN
 					}
+					
+					
+					List<VectorPreciosDia> listaVector = vecpds.findVectorPrecioDia(descripcion);
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					
+					Double calculaPrecio = algoritmos.CalculaPrecio(listaVector.get(0), sdf.parse(fecha, new ParsePosition(0)), logaritmo + tasa);
+					
+					System.out.println("algoritmo - " + calculaPrecio);
+					/*if (i == 0) {
+						List<VectorPreciosDia> listaVector = vecpds.findVectorPrecioDia(descripcion);
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						System.out.println("algoritmo - " + algoritmos.CalculaPrecio(listaVector.get(0), sdf.parse(fecha, new ParsePosition(0)), logaritmo + tasa));
 
-					listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo));
+					}*/ //asi era antes 
+
+					listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo,calculaPrecio));
 					cont++;
 				}
 				return listReturn;
@@ -112,6 +119,10 @@ public class LogaritmoController {
 
 		List<VectorPreciosDia> lista = vecpds.findVectorPrecioDia(descripcion);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		System.out.println("position 1" + lista.get(0));
+		System.out.println("position 2" + sdf.parse(fecha, new ParsePosition(0)));
+		System.out.println("position 3" + tasa);
 		return algoritmos.CalculaPrecio(lista.get(0), sdf.parse(fecha, new ParsePosition(0)), tasa);
 
 	}

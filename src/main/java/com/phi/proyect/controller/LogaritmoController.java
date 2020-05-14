@@ -71,43 +71,42 @@ public class LogaritmoController {
 		String fecha = obj.get("fecha").asText();
 		Double tasa = obj.get("tasa").asDouble();
 		
-		List<Logaritmo> lista = log.findByDescripcion(descripcion);
+		List<Logaritmo> parametro = log.findByDescripcion(descripcion);
+		List<VectorPreciosDia> listaVectorDia = vecpds.findVectorPrecioDia(descripcion);
 		List<com.phi.proyect.vo.Logaritmo> listReturn = new ArrayList<com.phi.proyect.vo.Logaritmo>();
-		if (!lista.isEmpty()) {
-			String[] desc = lista.get(0).getValorDelParametro().split("\\|");
+		List<Double> logaritmos = new ArrayList<>();
+		if (!parametro.isEmpty() && !listaVectorDia.isEmpty()) {
+			String[] desc = parametro.get(0).getValorDelParametro().split("\\|");
 			
 			if (desc[1].equals("market_surcharge")) {
-				List<Vector> lista2 = vecSer.findIssue(lista.get(0).getDescripcion(), Integer.parseInt(desc[0]));
+				List<Vector> listaValores = vecSer.findIssue(parametro.get(0).getDescripcion(), Integer.parseInt(desc[0]));
 				int cont = 1;
-				for (int i = 0; i < lista2.size() - 1; i++) {
-					Double logaritmo = 0.0;
-					logaritmo = Math.log(lista2.get(i).getMarketSurcharge() / lista2.get(cont).getMarketSurcharge());
+				for (int i = 0; i < listaValores.size() - 1; i++) {
+					//System.out.println(listaValores.get(i).getMarketSurcharge() + " / " + listaValores.get(cont).getMarketSurcharge());
+					float division = (listaValores.get(i).getMarketSurcharge() / listaValores.get(cont).getMarketSurcharge());
+					Double logaritmo = Math.log(division);
+					//System.out.println("LOG: " + logaritmo);
 
 					if (Double.isNaN(logaritmo)) {
 					    logaritmo = 1.0; // lo puse porque en ocaciones viene con NaN
 					}
-					
-					
-					List<VectorPreciosDia> listaVector = vecpds.findVectorPrecioDia(descripcion);
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-					
-					Double calculaPrecio = algoritmos.CalculaPrecio(listaVector.get(0), sdf.parse(fecha, new ParsePosition(0)), logaritmo + tasa);
-					
-					System.out.println("algoritmo - " + calculaPrecio);
-					/*if (i == 0) {
-						List<VectorPreciosDia> listaVector = vecpds.findVectorPrecioDia(descripcion);
-						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-						System.out.println("algoritmo - " + algoritmos.CalculaPrecio(listaVector.get(0), sdf.parse(fecha, new ParsePosition(0)), logaritmo + tasa));
 
-					}*/ //asi era antes 
-
-					listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo,calculaPrecio));
+					logaritmos.add(logaritmo);
 					cont++;
 				}
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date fechaRegistro = sdf.parse(fecha, new ParsePosition(0));
+				for(Double logaritmo : logaritmos){
+					Double calculaPrecio = algoritmos.CalculaPrecio(listaVectorDia.get(0), fechaRegistro, logaritmo + tasa);
+					listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo,calculaPrecio));
+					System.out.println("algoritmo - " + calculaPrecio);
+				}
+
 				return listReturn;
 			}
 			return listReturn;
 		}
+
 		return listReturn;
 	}
 

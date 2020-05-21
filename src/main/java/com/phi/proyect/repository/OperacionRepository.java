@@ -28,4 +28,7 @@ public interface OperacionRepository extends JpaRepository<OperacionesMd, Intege
 	@Query(value="Select * from operaciones_md o where o.contraparte =:contraparte and id_status=4", nativeQuery =  true)
 	public List<OperacionesMd> find2(@Param("contraparte") String contraparte);
 	
+	
+	@Query(value="Select * from operaciones_md o where id_status=3", nativeQuery =  true)
+	public List<OperacionesMd> findStatus();
 }

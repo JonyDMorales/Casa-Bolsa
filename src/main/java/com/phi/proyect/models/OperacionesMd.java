@@ -23,6 +23,7 @@ public class OperacionesMd implements Serializable{
 	private String directoReporto;
 	private String nombre;
 	private String apellido;
+	private String instrumento;
 	
 	
 
@@ -97,6 +98,16 @@ public class OperacionesMd implements Serializable{
 
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
+	}
+
+
+	public String getInstrumento() {
+		return instrumento;
+	}
+
+
+	public void setInstrumento(String instrumento) {
+		this.instrumento = instrumento;
 	}
 	
 	

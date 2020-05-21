@@ -33,4 +33,8 @@ public class OperacionService {
 	public List<OperacionesMd> find2(String contraparte){
 		return this.operacionRepository.find2(contraparte);
 	}
+	
+	public List<OperacionesMd> findStatus(){
+		return this.operacionRepository.findStatus();
+	}
 }

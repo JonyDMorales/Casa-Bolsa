@@ -1,5 +1,6 @@
 package com.phi.proyect.controller;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -11,20 +12,27 @@ import java.util.concurrent.TimeUnit;
 
 import com.phi.proyect.algoritmos.Algoritmos;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.phi.proyect.models.DiasInhabiles;
+import com.phi.proyect.models.LimitesLineas;
 import com.phi.proyect.models.Logaritmo;
+import com.phi.proyect.models.OperacionesMd;
 import com.phi.proyect.models.ValuacionesMd;
 import com.phi.proyect.models.VarLimite;
+import com.phi.proyect.models.VarOperacionesMd;
 import com.phi.proyect.models.Vector;
 import com.phi.proyect.models.VectorPreciosDia;
 import com.phi.proyect.service.DiasInhabilesService;
 import com.phi.proyect.service.LogaritmoService;
+import com.phi.proyect.service.OperacionService;
 import com.phi.proyect.service.ValuacionesMdService;
 import com.phi.proyect.service.VarLimiteService;
+import com.phi.proyect.service.VarOperacionesMdService;
 import com.phi.proyect.service.VectorPreciosDiaService;
 import com.phi.proyect.service.VectorService;
 import com.phi.proyect.vo.MesadeDinero;
@@ -40,12 +48,14 @@ public class LogaritmoController {
 	private final DiasInhabilesService dis;
 	private final VarLimiteService varlimSer;
 	private final ValuacionesMdService vs;
-
+	private final OperacionService ops;
+	private final VarOperacionesMdService vaOpMdSer;
+	
 	@Autowired
 	Algoritmos algoritmos;
 
 	public LogaritmoController(LogaritmoService log, VectorService vecSer, VectorPreciosDiaService vecpds,
-			DiasInhabilesService dis, VarLimiteService varlimSer, ValuacionesMdService vs) {
+			DiasInhabilesService dis, VarLimiteService varlimSer, ValuacionesMdService vs,OperacionService ops,VarOperacionesMdService vaOpMdSer) {
 		super();
 		this.log = log;
 		this.vecSer = vecSer;
@@ -53,6 +63,8 @@ public class LogaritmoController {
 		this.dis = dis;
 		this.varlimSer = varlimSer;
 		this.vs = vs;
+		this.ops = ops;
+		this.vaOpMdSer = vaOpMdSer;
 	}
 
 	@GetMapping
@@ -67,7 +79,6 @@ public class LogaritmoController {
 	@ResponseBody
 	public List<com.phi.proyect.vo.Logaritmo> lista(@RequestBody ObjectNode obj) {
 		String descripcion = obj.get("descripcion").asText();
-
 		String fecha = obj.get("fecha").asText();
 		Double tasa = obj.get("tasa").asDouble();
 		
@@ -110,6 +121,74 @@ public class LogaritmoController {
 		return listReturn;
 	}
 
+	@RequestMapping(value = "/log2", method = RequestMethod.POST)
+	public List<VarOperacionesMd> lista2() {
+		List<com.phi.proyect.vo.Logaritmo> listReturn = new ArrayList<com.phi.proyect.vo.Logaritmo>();
+		List<OperacionesMd> lista = ops.findStatus();
+		List<Double> logaritmos = new ArrayList<>();
+		List<VarOperacionesMd> list = new ArrayList<>();
+		
+		for (int i = 0; i < lista.size(); i++) {
+			List<Vector> listaValores = vecSer.findIssue(lista.get(i).getInstrumento(), 251);
+			List<VectorPreciosDia> listaVectorDia = vecpds.findVectorPrecioDia(lista.get(i).getInstrumento());
+			int cont = 1;
+			for (int j = 0; j < listaValores.size() - 1; j++) {
+				float division = (listaValores.get(j).getMarketSurcharge() / listaValores.get(cont).getMarketSurcharge());
+				Double logaritmo = Math.log(division);
+
+				if (Double.isNaN(logaritmo)) {
+				    logaritmo = 1.0; // lo puse porque en ocaciones viene con NaN
+				}
+
+				logaritmos.add(logaritmo);
+				cont++;
+			}
+			
+			Date date = new Date();
+			Double param1 = 0.0;
+			Double param2 = 0.0;
+			Double param3 = 0.0;
+			for(Double logaritmo : logaritmos){
+				Double calculaPrecio = algoritmos.CalculaPrecio(listaVectorDia.get(0), date, logaritmo);
+				listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo,calculaPrecio));
+				if(calculaPrecio > param1) {
+					param1 = calculaPrecio;
+				}else if(calculaPrecio > param2) {
+					param2 = calculaPrecio;
+				}else if(calculaPrecio > param3) {
+					param3 = calculaPrecio;
+				}
+			}
+				
+			
+			if(listaValores.size() > 0) {
+				Date date2 = Calendar.getInstance().getTime();  
+				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+				String fecha = dateFormat.format(date2);
+				createVarOperacionMd(lista.get(i).getInstrumento(), fecha, param1, param2, param3);
+				list.add(new VarOperacionesMd(lista.get(i).getInstrumento(), fecha, param1, param2, param3));
+				System.out.println("instrumento - " + lista.get(i).getInstrumento());
+				System.out.println("fecha - " + fecha);
+				System.out.println("param1 - " + param1);
+				System.out.println("param2 - " + param2);
+				System.out.println("param3 - " + param3);
+			}
+			
+		}
+		return list;
+	}
+	
+	
+	public ResponseEntity<VarOperacionesMd> createVarOperacionMd(String instrumento,String fecha,Double param1,Double param2,Double param3) {
+		VarOperacionesMd  varOperacionesMd = new VarOperacionesMd();
+		 varOperacionesMd.setInstrumento(instrumento);
+		 varOperacionesMd.setFecha(fecha);
+		 varOperacionesMd.setParam1(param1);
+		 varOperacionesMd.setParam2(param2);
+		 varOperacionesMd.setParam3(param3);
+		return new ResponseEntity<>(this.vaOpMdSer.create(varOperacionesMd), HttpStatus.CREATED);
+	}
+	
 	@PostMapping("/calcular/precio")
 	public double calcular(@RequestBody ObjectNode obj) {
 		String descripcion = obj.get("descripcion").asText();

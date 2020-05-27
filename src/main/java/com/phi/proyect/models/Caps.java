@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -12,21 +14,19 @@ import javax.persistence.Table;
 @Table(name="de_capsfloor")
 public class Caps implements Serializable {
 	
-	@Id 
-
-	
-	private String cdTransaccion;
+	@Id
+	private String CdTransaccion;
 	
 	
-	private Integer cdInstrumento;
-	private Date fhInicio;
-	private Date fhFin;
-	private Integer nuCurvaDescuento;
-	private Integer nuCurvaVolatilidad;
-	private Float nuStrike;
-	private Float tc;
-	private Integer nuNominal;
-	private Integer nuConvencion;
+	private Integer CdInstrumento;
+	private String FhInicio;
+	private String FhFin;
+	private Integer NuCurvaDescuento;
+	private Integer NuCurvaVolatilidad;
+	private Double NuStrike;
+	private Double Tc;
+	private Integer NuNominal;
+	private Integer NuConvencion;
 	
 	
 	public Caps() {
@@ -35,108 +35,104 @@ public class Caps implements Serializable {
 
 
 	public String getCdTransaccion() {
-		return cdTransaccion;
+		return CdTransaccion;
 	}
 
 
 	public void setCdTransaccion(String cdTransaccion) {
-		this.cdTransaccion = cdTransaccion;
+		CdTransaccion = cdTransaccion;
 	}
 
 
 	public Integer getCdInstrumento() {
-		return cdInstrumento;
+		return CdInstrumento;
 	}
 
 
 	public void setCdInstrumento(Integer cdInstrumento) {
-		this.cdInstrumento = cdInstrumento;
+		CdInstrumento = cdInstrumento;
 	}
 
 
-	public Date getFhInicio() {
-		return fhInicio;
+	public String getFhInicio() {
+		return FhInicio;
 	}
 
 
-	public void setFhInicio(Date fhInicio) {
-		this.fhInicio = fhInicio;
+	public void setFhInicio(String fhInicio) {
+		FhInicio = fhInicio;
 	}
 
 
-	public Date getFhFin() {
-		return fhFin;
+	public String getFhFin() {
+		return FhFin;
 	}
 
 
-	public void setFhFin(Date fhFin) {
-		this.fhFin = fhFin;
+	public void setFhFin(String fhFin) {
+		FhFin = fhFin;
 	}
 
 
 	public Integer getNuCurvaDescuento() {
-		return nuCurvaDescuento;
+		return NuCurvaDescuento;
 	}
 
 
 	public void setNuCurvaDescuento(Integer nuCurvaDescuento) {
-		this.nuCurvaDescuento = nuCurvaDescuento;
+		NuCurvaDescuento = nuCurvaDescuento;
 	}
 
 
 	public Integer getNuCurvaVolatilidad() {
-		return nuCurvaVolatilidad;
+		return NuCurvaVolatilidad;
 	}
 
 
 	public void setNuCurvaVolatilidad(Integer nuCurvaVolatilidad) {
-		this.nuCurvaVolatilidad = nuCurvaVolatilidad;
+		NuCurvaVolatilidad = nuCurvaVolatilidad;
 	}
 
 
-	public Float getNuStrike() {
-		return nuStrike;
+	public Double getNuStrike() {
+		return NuStrike;
 	}
 
 
-	public void setNuStrike(Float nuStrike) {
-		this.nuStrike = nuStrike;
+	public void setNuStrike(Double nuStrike) {
+		NuStrike = nuStrike;
 	}
 
 
-	public Float getTc() {
-		return tc;
+	public Double getTc() {
+		return Tc;
 	}
 
 
-	public void setTc(Float tc) {
-		this.tc = tc;
+	public void setTc(Double tc) {
+		Tc = tc;
 	}
 
 
 	public Integer getNuNominal() {
-		return nuNominal;
+		return NuNominal;
 	}
 
 
 	public void setNuNominal(Integer nuNominal) {
-		this.nuNominal = nuNominal;
+		NuNominal = nuNominal;
 	}
 
 
 	public Integer getNuConvencion() {
-		return nuConvencion;
+		return NuConvencion;
 	}
 
 
 	public void setNuConvencion(Integer nuConvencion) {
-		this.nuConvencion = nuConvencion;
+		NuConvencion = nuConvencion;
 	}
 
 
-
-
-
-
-
+	
 }

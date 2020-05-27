@@ -1,10 +1,15 @@
 package com.phi.proyect.service;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.phi.proyect.models.DiasInhabiles;
 import com.phi.proyect.models.LimitesLineas;
+import com.phi.proyect.models.VarLimite;
 import com.phi.proyect.models.VarOperacionesMd;
 import com.phi.proyect.repository.LimitesLineasRepository;
 import com.phi.proyect.repository.VarOperacionesMdRepository;
@@ -21,5 +26,10 @@ public class VarOperacionesMdService {
     	return this.vaOpMd.save(varOperacionesMd);
     	
     }
+	
+	@Transactional
+	public List<VarOperacionesMd> findByFecha(String fecha) {
+		return this.vaOpMd.findByFecha(fecha);
+	}
 	
 }

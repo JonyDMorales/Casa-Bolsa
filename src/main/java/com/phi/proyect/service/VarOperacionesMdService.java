@@ -32,4 +32,9 @@ public class VarOperacionesMdService {
 		return this.vaOpMd.findByFecha(fecha);
 	}
 	
+	@Transactional
+	public List<VarOperacionesMd> findByFechaAndProducto(String fecha,String producto) {
+		return this.vaOpMd.findByFechaAndProducto(fecha,producto);
+	}
+	
 }

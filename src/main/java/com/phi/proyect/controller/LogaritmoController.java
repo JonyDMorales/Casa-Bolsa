@@ -219,23 +219,20 @@ public class LogaritmoController {
 		for (int i = 0; i < lista.size(); i++) {
 			List<VarLimite> lista2 = varlimSer.findAll(lista.get(i).getIssue());
 			List<ValuacionesMd> lista3 = vs.findValorLibros(lista.get(i).getIssue());
-			List<VarOperacionesMd> lista4 = vaOpMdSer.findByFechaAndProducto(fechaEnvio,lista.get(i).getIssue()); 
+			List<VarOperacionesMd> lista4 = vaOpMdSer.findByFechaAndProducto(fechaEnvio,lista.get(i).getIssue());
 			if (lista2.size() > 0) {
+				
 				Double valor = 0.0;
 				Double multi = 0.0;
 				
-				Double valor1 = 0.0;
-				Double valor2 = 0.0;
-				Double valor3 = 0.0;
+				Double valor1 = null;
+				Double valor2 = null;
+				Double valor3 = null;
 				if (lista3.size() > 0) {
 					valor = lista3.get(0).getValorEnLibros();
 				}
 				
 				if(lista4.size() > 0) {
-					System.out.println(lista.get(i).getIssue()); 
-					System.out.println(lista4.get(0).getParam1()); 
-					System.out.println(lista4.get(0).getParam2()); 
-					System.out.println(lista4.get(0).getParam3()); 
 					valor1=lista4.get(0).getParam1();
 					valor2=lista4.get(0).getParam2();
 					valor3=lista4.get(0).getParam3();

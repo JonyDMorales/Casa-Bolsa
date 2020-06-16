@@ -46,7 +46,7 @@ public class LimitesLineasController {
 	@GetMapping(value= "lista/{tipoEnvio}")
 	public List<LimitesLineas> lista(@PathVariable("tipoEnvio") Integer tipoEnvio) {
 		System.out.println(tipoEnvio);
-		List<LimitesLineas> lista = lls.findByEstatus(tipoEnvio);
+		List<LimitesLineas> lista = lls.findByStatus(tipoEnvio);
 		return lista;
 	} 
 
@@ -65,7 +65,7 @@ public class LimitesLineasController {
 			limitesLineasOptional.setLimitOperationExchangeMarket(limitesLineas.getLimitOperationExchangeMarket());
 			limitesLineasOptional.setMercado(limitesLineas.getMercado());
 			//limitesLineasOptional.setUsuario(limitesLineas.getUsuario());
-			limitesLineasOptional.setFechaModificacion(new Date());
+			limitesLineasOptional.setModificationDate(new Date());
 			return new ResponseEntity<LimitesLineas>(this.lls.update(limitesLineasOptional), HttpStatus.OK);
 
 			
@@ -83,8 +83,8 @@ public class LimitesLineasController {
 		limitesLineas2.setLimitOperationExchangeMarket(limitesLineas.getLimitOperationExchangeMarket());
 		limitesLineas2.setMercado(limitesLineas.getMercado());
 		//limitesLineas2.setUsuario(limitesLineas.getUsuario());
-		limitesLineas2.setEstatus(limitesLineas.getEstatus());
-		limitesLineas2.setFechaModificacion(new Date());
+		limitesLineas2.setStatus(limitesLineas.getEstatus());
+		limitesLineas2.setModificationDate(new Date());
 		return new ResponseEntity<>(this.lls.create(limitesLineas2), HttpStatus.CREATED);
 
 	}
@@ -106,7 +106,7 @@ public class LimitesLineasController {
 			limitesLineasOptional.setLimitOperationExchangeMarket(limitesLineas.getLimitOperationExchangeMarket());
 			limitesLineasOptional.setMercado(limitesLineas.getMercado());
 			//limitesLineasOptional.setUsuario(limitesLineas.getUsuario());
-			limitesLineasOptional.setFechaModificacion(new Date());
+			limitesLineasOptional.setModificationDate(new Date());
 			return new ResponseEntity<LimitesLineas>(this.lls.update(limitesLineasOptional), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<LimitesLineas>(HttpStatus.NOT_FOUND);

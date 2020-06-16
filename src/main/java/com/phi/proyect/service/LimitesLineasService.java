@@ -41,8 +41,8 @@ public class LimitesLineasService {
     
     
     @Transactional
-    public List<LimitesLineas> findByEstatus(Integer tipostatus) {
-    	return llr.findByEstatus(tipostatus);
+    public List<LimitesLineas> findByStatus(Integer tipostatus) {
+    	return llr.findByStatus(tipostatus);
     }
     
     

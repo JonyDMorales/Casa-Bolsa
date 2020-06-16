@@ -29,9 +29,9 @@ public class LimitesLineas implements Serializable{
 	private Float operationLimitMoneyMarket;
 	private Float exchangeMarketLimit;
 	private Float limitOperationExchangeMarket;
-	private Integer estatus;
-	private Date fechaAlta;
-	private Date fechaModificacion;
+	private Integer status;
+	private Date registrationDate;
+	private Date modificationDate;
 	private String mercado;
 	
 	
@@ -40,12 +40,9 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
-
 	public String getContraparte() {
 		return contraparte;
 	}
-
 
 
 	public void setContraparte(String contraparte) {
@@ -53,11 +50,9 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
 	public Float getGlobalLimit() {
 		return globalLimit;
 	}
-
 
 
 	public void setGlobalLimit(Float globalLimit) {
@@ -65,11 +60,9 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
 	public Float getDirectOperationLimit() {
 		return directOperationLimit;
 	}
-
 
 
 	public void setDirectOperationLimit(Float directOperationLimit) {
@@ -77,11 +70,9 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
 	public Float getReportoOperationLimit() {
 		return reportoOperationLimit;
 	}
-
 
 
 	public void setReportoOperationLimit(Float reportoOperationLimit) {
@@ -89,11 +80,9 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
 	public Float getOperationLimitMoneyMarket() {
 		return operationLimitMoneyMarket;
 	}
-
 
 
 	public void setOperationLimitMoneyMarket(Float operationLimitMoneyMarket) {
@@ -101,11 +90,9 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
 	public Float getExchangeMarketLimit() {
 		return exchangeMarketLimit;
 	}
-
 
 
 	public void setExchangeMarketLimit(Float exchangeMarketLimit) {
@@ -113,11 +100,9 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
 	public Float getLimitOperationExchangeMarket() {
 		return limitOperationExchangeMarket;
 	}
-
 
 
 	public void setLimitOperationExchangeMarket(Float limitOperationExchangeMarket) {
@@ -125,41 +110,34 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
-	public Integer getEstatus() {
-		return estatus;
+	public Integer getStatus() {
+		return status;
 	}
 
 
-
-	public void setEstatus(Integer estatus) {
-		this.estatus = estatus;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 
-
-	public Date getFechaAlta() {
-		return fechaAlta;
+	public Date getRegistrationDate() {
+		return registrationDate;
 	}
 
 
-
-	public void setFechaAlta(Date fechaAlta) {
-		this.fechaAlta = fechaAlta;
+	public void setRegistrationDate(Date registrationDate) {
+		this.registrationDate = registrationDate;
 	}
 
 
-
-	public Date getFechaModificacion() {
-		return fechaModificacion;
+	public Date getModificationDate() {
+		return modificationDate;
 	}
 
 
-
-	public void setFechaModificacion(Date fechaModificacion) {
-		this.fechaModificacion = fechaModificacion;
+	public void setModificationDate(Date modificationDate) {
+		this.modificationDate = modificationDate;
 	}
-
 
 
 	public String getMercado() {
@@ -167,17 +145,8 @@ public class LimitesLineas implements Serializable{
 	}
 
 
-
 	public void setMercado(String mercado) {
 		this.mercado = mercado;
 	}
-
-
-
-
-
-
-
-	
 	
 }

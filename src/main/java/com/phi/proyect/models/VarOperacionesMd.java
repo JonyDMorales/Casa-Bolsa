@@ -18,19 +18,22 @@ public class VarOperacionesMd implements Serializable{
 
 	private String instrumento;
 	private String fecha;
-	private Double param1;
-	private Double param2;
-	private Double param3;
+	private Double varNoventaNueve;
+	private Double varNoventaSiete;
+	private Double varNoventaCinco;
 	
 	
 	
-	public VarOperacionesMd(String instrumento, String fecha, Double param1, Double param2, Double param3) {
+
+
+	public VarOperacionesMd(String instrumento, String fecha, Double varNoventaNueve,
+			Double varNoventaSiete, Double varNoventaCinco) {
 		super();
 		this.instrumento = instrumento;
 		this.fecha = fecha;
-		this.param1 = param1;
-		this.param2 = param2;
-		this.param3 = param3;
+		this.varNoventaNueve = varNoventaNueve;
+		this.varNoventaSiete = varNoventaSiete;
+		this.varNoventaCinco = varNoventaCinco;
 	}
 
 	public VarOperacionesMd() {
@@ -61,29 +64,29 @@ public class VarOperacionesMd implements Serializable{
 		this.fecha = fecha;
 	}
 
-	public Double getParam1() {
-		return param1;
+	public Double getVarNoventaNueve() {
+		return varNoventaNueve;
 	}
 
-	public void setParam1(Double param1) {
-		this.param1 = param1;
+	public void setVarNoventaNueve(Double varNoventaNueve) {
+		this.varNoventaNueve = varNoventaNueve;
 	}
 
-	public Double getParam2() {
-		return param2;
+	public Double getVarNoventaSiete() {
+		return varNoventaSiete;
 	}
 
-	public void setParam2(Double param2) {
-		this.param2 = param2;
+	public void setVarNoventaSiete(Double varNoventaSiete) {
+		this.varNoventaSiete = varNoventaSiete;
 	}
 
-	public Double getParam3() {
-		return param3;
+	public Double getVarNoventaCinco() {
+		return varNoventaCinco;
 	}
 
-	public void setParam3(Double param3) {
-		this.param3 = param3;
+	public void setVarNoventaCinco(Double varNoventaCinco) {
+		this.varNoventaCinco = varNoventaCinco;
 	}
+
 	
-
 }

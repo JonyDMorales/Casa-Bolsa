@@ -183,9 +183,9 @@ public class LogaritmoController {
 		VarOperacionesMd  varOperacionesMd = new VarOperacionesMd();
 		 varOperacionesMd.setInstrumento(instrumento);
 		 varOperacionesMd.setFecha(fecha);
-		 varOperacionesMd.setParam1(param1);
-		 varOperacionesMd.setParam2(param2);
-		 varOperacionesMd.setParam3(param3);
+		 varOperacionesMd.setVarNoventaNueve(param1);
+		 varOperacionesMd.setVarNoventaSiete(param2);
+		 varOperacionesMd.setVarNoventaCinco(param3);
 		return new ResponseEntity<>(this.vaOpMdSer.create(varOperacionesMd), HttpStatus.CREATED);
 	}
 	
@@ -233,9 +233,9 @@ public class LogaritmoController {
 				}
 				
 				if(lista4.size() > 0) {
-					valor1=lista4.get(0).getParam1();
-					valor2=lista4.get(0).getParam2();
-					valor3=lista4.get(0).getParam3();
+					valor1=lista4.get(0).getVarNoventaNueve();
+					valor2=lista4.get(0).getVarNoventaSiete();
+					valor3=lista4.get(0).getVarNoventaCinco();
 				}
 				multi = valor * Double.parseDouble(lista3.get(0).getTitulos());
 				listReturn.add(new com.phi.proyect.vo.MesadeDinero(lista.get(i).getIdValmerPriceVector(),

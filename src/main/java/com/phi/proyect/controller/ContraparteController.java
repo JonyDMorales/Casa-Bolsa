@@ -48,7 +48,7 @@ public class ContraparteController {
 		com.phi.proyect.vo.LimitesLineas limite = new com.phi.proyect.vo.LimitesLineas();
 		List<com.phi.proyect.vo.LimitesLineas> listReturn = new ArrayList<com.phi.proyect.vo.LimitesLineas>();
 
-		List<LimitesLineas> lista = lls.findByEstatus(tipoEnvio);
+		List<LimitesLineas> lista = lls.findByStatus(tipoEnvio);
 		for (int i = 0; i < lista.size(); i++) {
 
 			float sumaLimite = limiteUtilizado(lista.get(i).getContraparte());

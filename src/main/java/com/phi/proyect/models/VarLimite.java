@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "var_limite_md")
+@Table(name = "limites_var_md")
 public class VarLimite implements Serializable {
 
 	@Id

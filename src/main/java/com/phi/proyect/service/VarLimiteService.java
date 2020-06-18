@@ -21,5 +21,8 @@ public class VarLimiteService {
 		
 	}
 		
+	public List<VarLimite> findAllVar() {
+		return varlir.findAll();
 		
+	}	
 }

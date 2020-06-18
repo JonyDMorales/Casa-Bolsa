@@ -1,8 +1,13 @@
 package com.phi.proyect.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.phi.proyect.models.LimitesLineas;
+import com.phi.proyect.models.LimitesMercado;
 import com.phi.proyect.repository.LimitesMercadoRepository;
 
 @Service
@@ -11,4 +16,8 @@ public class LimiteMercado {
 
 	@Autowired
 	private LimitesMercadoRepository lmr ;
+	
+	public List<LimitesMercado> findAll(){
+    	return lmr.findAll();
+    }
 }

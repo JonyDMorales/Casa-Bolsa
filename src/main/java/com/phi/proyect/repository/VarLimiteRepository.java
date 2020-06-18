@@ -9,4 +9,6 @@ import com.phi.proyect.models.VarLimite;
 public interface VarLimiteRepository extends JpaRepository<VarLimite, Integer>{
 
 	public List<VarLimite> findByProducto(String producto);
+	
+	public List<VarLimite> findAll();
 }

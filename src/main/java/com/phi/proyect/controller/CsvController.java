@@ -2,11 +2,13 @@ package com.phi.proyect.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.phi.proyect.models.Caps;
 import com.phi.proyect.models.Curvas;
+import com.phi.proyect.models.LimitesMercado;
 import com.phi.proyect.service.CsvService;
 import com.phi.proyect.service.VarOperacionesMdService;
 
@@ -93,6 +96,11 @@ public class CsvController {
 		return new ResponseEntity<>(this.csvService.createCurvas(curvas), HttpStatus.CREATED);
 	}
 	
+	@GetMapping(value= "/findAll")
+	public List<Curvas> lista() {
+		List<Curvas> lista = csvService.findAll();
+		return lista;
+	}
 }
 
 

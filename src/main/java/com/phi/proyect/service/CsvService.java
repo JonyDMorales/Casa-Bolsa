@@ -1,11 +1,14 @@
 package com.phi.proyect.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.phi.proyect.models.Caps;
 import com.phi.proyect.models.Curvas;
+import com.phi.proyect.models.LimitesMercado;
 import com.phi.proyect.repository.CsvRepository;
 import com.phi.proyect.repository.CurvasRepositiry;
 
@@ -30,5 +33,9 @@ public class CsvService {
     public Curvas createCurvas(Curvas curvas) {
     	return this.curRepo.save(curvas);
     	
+    }
+	
+	public List<Curvas> findAll(){
+    	return curRepo.findAll();
     }
 }

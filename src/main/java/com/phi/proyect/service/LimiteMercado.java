@@ -23,6 +23,11 @@ public class LimiteMercado {
 	}
 
 	@Transactional
+	public LimitesMercado findByMercado(String mercado) {
+		return lmr.findByMercado(mercado);
+	}
+	
+	@Transactional
 	public LimitesMercado create(LimitesMercado limitesMercado) {
 		return this.lmr.save(limitesMercado);
 
@@ -33,10 +38,7 @@ public class LimiteMercado {
 		return this.lmr.save(limitesMercado);
 	}
 
-	@Transactional
-	public LimitesMercado findByMercado(String mercado) {
-		return lmr.findByMercado(mercado);
-	}
+	
 
 	@Transactional
 	public void delete(LimitesMercado limitesMercado) {

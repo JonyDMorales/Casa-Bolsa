@@ -1,8 +1,12 @@
 package com.phi.proyect.models;
 
 import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -11,6 +15,7 @@ import javax.persistence.Table;
 public class Curvas implements Serializable{
 
 	@Id
+	@JoinColumn(name="Cd_Curva")
 	private Integer CdCurva;
 	
 	private String FhDate;
@@ -285,6 +290,18 @@ public class Curvas implements Serializable{
 
 	public void setN28(Double n28) {
 		N28 = n28;
+	}
+
+	@Override
+	public String toString() {
+		return "Curvas [CdCurva=" + CdCurva + ", FhDate=" + FhDate + ", N1=" + N1 + ", N2=" + N2 + ", N3=" + N3
+				+ ", N4=" + N4 + ", N5=" + N5 + ", N6=" + N6 + ", N7=" + N7 + ", N8=" + N8 + ", N9=" + N9 + ", N10="
+				+ N10 + ", N11=" + N11 + ", N12=" + N12 + ", N13=" + N13 + ", N14=" + N14 + ", N15=" + N15 + ", N16="
+				+ N16 + ", N17=" + N17 + ", N18=" + N18 + ", N19=" + N19 + ", N20=" + N20 + ", N21=" + N21 + ", N22="
+				+ N22 + ", N23=" + N23 + ", N24=" + N24 + ", N25=" + N25 + ", N26=" + N26 + ", N27=" + N27 + ", N28="
+				+ N28 + "]";
 	}	
+	
+	
 	
 }

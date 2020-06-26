@@ -23,9 +23,7 @@ public class LimitesMercado implements Serializable{
 	private Double exchangeMarketLimit;
 	private Double limitOperationExchangeMarket;
 	private int status;
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
 	private Date registrationDate;	
-	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
 	private Date modificationDate;
 	
 	public LimitesMercado() {

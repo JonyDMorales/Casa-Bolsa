@@ -60,7 +60,7 @@ public class CsvController {
 	
 	@RequestMapping(value = "/curvas", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Curvas> uploadCurvas(@RequestBody ObjectNode obj) {
+	public ResponseEntity<Object> uploadCurvas(@RequestBody ObjectNode obj) {
 		Curvas curvas = new Curvas();
 		curvas.setCdCurva(obj.get("0").asInt());
 		curvas.setFhDate(obj.get("1").asText());
@@ -92,8 +92,8 @@ public class CsvController {
 		curvas.setN26(obj.get("27").asDouble());
 		curvas.setN27(obj.get("28").asDouble());
 		curvas.setN28(obj.get("29").asDouble());
-		
-		return new ResponseEntity<>(this.csvService.createCurvas(curvas), HttpStatus.CREATED);
+		System.out.println(curvas);
+		return new ResponseEntity<Object>(this.csvService.createCurvas(curvas), HttpStatus.CREATED);
 	}
 	
 	@GetMapping(value= "/findAll")

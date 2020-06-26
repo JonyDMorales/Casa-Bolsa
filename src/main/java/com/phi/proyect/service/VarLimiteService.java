@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.phi.proyect.models.LimitesLineas;
+import com.phi.proyect.models.LimitesMercado;
 import com.phi.proyect.models.VarLimite;
 import com.phi.proyect.repository.VarLimiteRepository;
 
@@ -25,5 +26,28 @@ public class VarLimiteService {
 	public List<VarLimite> findAllVar() {
 		return varlir.findAll();
 	}	
+	
+	@Transactional
+	public VarLimite findByIdVarLimiteMd(int idVarLimite) {
+		return varlir.findByIdVarLimiteMd(idVarLimite);
+	}
 
+	@Transactional
+	public VarLimite create(VarLimite limite) {
+		return this.varlir.save(limite);
+
+	}
+
+	@Transactional
+	public VarLimite update(VarLimite limite) {
+		return this.varlir.save(limite);
+	}
+
+	
+
+	@Transactional
+	public void delete(VarLimite limite) {
+		this.varlir.delete(limite);
+	}
+	
 }

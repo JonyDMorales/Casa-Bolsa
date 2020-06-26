@@ -27,12 +27,10 @@ import com.phi.proyect.service.VarLimiteService;
 public class LimitesMercadoController {
 
 	private final LimiteMercado lm;
-	private final VarLimiteService vls;
 
-	public LimitesMercadoController(LimiteMercado lm, VarLimiteService vls) {
+	public LimitesMercadoController(LimiteMercado lm) {
 		super();
 		this.lm = lm;
-		this.vls = vls;
 	}
 
 	@GetMapping(value = "/findAll")
@@ -41,11 +39,7 @@ public class LimitesMercadoController {
 		return lista;
 	}
 
-	@GetMapping(value = "/findAllVar")
-	public List<VarLimite> listaVar() {
-		List<VarLimite> lista = vls.findAllVar();
-		return lista;
-	}
+	
 
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<LimitesMercado> createLimite(@RequestBody com.phi.proyect.vo.LimitesMercado limitesMercado) {
@@ -60,8 +54,8 @@ public class LimitesMercadoController {
 			limitesMercado2.setExchangeMarketLimit(limitesMercado.getExchangeMarketLimit());
 			limitesMercado2.setLimitOperationExchangeMarket(limitesMercado.getLimitOperationExchangeMarket());
 			limitesMercado2.setStatus(limitesMercado.getStatus());
-			limitesMercado2.setRegistrationDate(limitesMercado.getRegistrationDate());
-			limitesMercado2.setModificationDate(limitesMercado.getModificationDate());
+			limitesMercado2.setRegistrationDate(new Date());
+			limitesMercado2.setModificationDate(new Date());
 			return new ResponseEntity<LimitesMercado>(this.lm.update(limitesMercado2), HttpStatus.OK);
 
 		} else {
@@ -75,17 +69,17 @@ public class LimitesMercadoController {
 			limitesMercadoCreate.setExchangeMarketLimit(limitesMercado.getExchangeMarketLimit());
 			limitesMercadoCreate.setLimitOperationExchangeMarket(limitesMercado.getLimitOperationExchangeMarket());
 			limitesMercadoCreate.setStatus(limitesMercado.getStatus());
-			limitesMercadoCreate.setRegistrationDate(limitesMercado.getRegistrationDate());
-			limitesMercadoCreate.setModificationDate(limitesMercado.getModificationDate());
+			limitesMercadoCreate.setRegistrationDate(new Date());
+			limitesMercadoCreate.setModificationDate(new Date());
 			return new ResponseEntity<>(this.lm.create(limitesMercadoCreate), HttpStatus.CREATED);
 
 		}
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<LimitesMercado> updateLimite(@PathVariable("id") String contraparte,
+	public ResponseEntity<LimitesMercado> updateLimite(@PathVariable("id") String mercado,
 			@RequestBody com.phi.proyect.vo.LimitesMercado limitesMercado) {
-		LimitesMercado limitesMercado2 = lm.findByMercado(limitesMercado.getMercado());
+		LimitesMercado limitesMercado2 = lm.findByMercado(mercado);
 		if (limitesMercado2 != null) {
 
 			limitesMercado2.setMercado(limitesMercado.getMercado());
@@ -96,8 +90,8 @@ public class LimitesMercadoController {
 			limitesMercado2.setExchangeMarketLimit(limitesMercado.getExchangeMarketLimit());
 			limitesMercado2.setLimitOperationExchangeMarket(limitesMercado.getLimitOperationExchangeMarket());
 			limitesMercado2.setStatus(limitesMercado.getStatus());
-			limitesMercado2.setRegistrationDate(limitesMercado.getRegistrationDate());
-			limitesMercado2.setModificationDate(limitesMercado.getModificationDate());
+			limitesMercado2.setRegistrationDate(new Date());
+			limitesMercado2.setModificationDate(new Date());
 			return new ResponseEntity<LimitesMercado>(this.lm.update(limitesMercado2), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<LimitesMercado>(HttpStatus.NOT_FOUND);

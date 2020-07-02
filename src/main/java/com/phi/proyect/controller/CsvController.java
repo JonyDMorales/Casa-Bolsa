@@ -20,7 +20,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.phi.proyect.models.Caps;
+import com.phi.proyect.models.CdCurvas;
 import com.phi.proyect.models.Curvas;
+import com.phi.proyect.models.HCurvas;
 import com.phi.proyect.models.LimitesMercado;
 import com.phi.proyect.service.CsvService;
 import com.phi.proyect.service.VarOperacionesMdService;
@@ -58,10 +60,14 @@ public class CsvController {
 	}
 	
 	
-	@RequestMapping(value = "/curvas", method = RequestMethod.POST)
+	@RequestMapping(value = "/hcurvas", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Object> uploadCurvas(@RequestBody ObjectNode obj) {
-		Curvas curvas = new Curvas();
+	public ResponseEntity<Object> uploadHCurvas(@RequestBody ObjectNode obj) {
+		
+		List<Curvas> lista = csvService.findByFkCdCurva(obj.get("0").asInt());
+		
+		if(lista.size() > 0) {		
+		HCurvas curvas = new HCurvas();
 		curvas.setCdCurva(obj.get("0").asInt());
 		curvas.setFhDate(obj.get("1").asText());
 		curvas.setN1(obj.get("2").asDouble());
@@ -92,15 +98,32 @@ public class CsvController {
 		curvas.setN26(obj.get("27").asDouble());
 		curvas.setN27(obj.get("28").asDouble());
 		curvas.setN28(obj.get("29").asDouble());
-		System.out.println(curvas);
 		return new ResponseEntity<Object>(this.csvService.createCurvas(curvas), HttpStatus.CREATED);
+		}else {
+			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en curvas", HttpStatus.NOT_FOUND);
+		}
 	}
 	
-	@GetMapping(value= "/findAll")
-	public List<Curvas> lista() {
-		List<Curvas> lista = csvService.findAll();
-		return lista;
+	
+	@RequestMapping(value = "/curvas", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Object> uploadCurvas(@RequestBody ObjectNode obj) {
+		List<CdCurvas> lista = csvService.findByCdCurva(obj.get("0").asInt());
+		if(lista.size() > 0) {
+			
+		
+		Curvas curvas = new Curvas();
+		curvas.setFkCdCurva(obj.get("0").asInt());
+		curvas.setFhDate(obj.get("1").asText());
+		curvas.setNuNodo(obj.get("2").asInt());
+		curvas.setValor(obj.get("3").asDouble(0));
+		
+		return new ResponseEntity<>(this.csvService.saveCurvas(curvas), HttpStatus.CREATED);
+		}else {
+			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en cd_curvas", HttpStatus.NOT_FOUND);
+		}
 	}
+	
 }
 
 

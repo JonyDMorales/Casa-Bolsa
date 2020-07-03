@@ -21,7 +21,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.phi.proyect.models.Caps;
 import com.phi.proyect.models.CdCurvas;
+import com.phi.proyect.models.CdInstrumento;
 import com.phi.proyect.models.Curvas;
+import com.phi.proyect.models.DeCapsfloor;
+import com.phi.proyect.models.FlujosCapsfloor;
 import com.phi.proyect.models.HCurvas;
 import com.phi.proyect.models.LimitesMercado;
 import com.phi.proyect.service.CsvService;
@@ -121,6 +124,71 @@ public class CsvController {
 		return new ResponseEntity<>(this.csvService.saveCurvas(curvas), HttpStatus.CREATED);
 		}else {
 			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en cd_curvas", HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
+	@RequestMapping(value = "/decapsfloor", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Object> uploadDeCapsFloor(@RequestBody ObjectNode obj) {
+		
+		
+		List<CdInstrumento> lista = csvService.findByIdIntrumento(obj.get("1").asInt());
+		if(lista.size() > 0) {
+			List<CdCurvas> lista2 = csvService.findByCdCurva(obj.get("4").asInt());
+			if(lista2.size() > 0) {
+				List<CdCurvas> lista3 = csvService.findByCdCurva(obj.get("5").asInt());
+				if(lista3.size() > 0 ) {
+					
+					List<DeCapsfloor> lista4 = csvService.findByCdTransaccion(obj.get("0").asText());
+					
+					if(lista4.size() > 0) {
+						return new ResponseEntity<Object>("El valor " +obj.get("0").asInt()+ " ya se encuentra registrado", HttpStatus.NOT_ACCEPTABLE);
+					}else {
+						DeCapsfloor deCapsfloor = new DeCapsfloor();
+						deCapsfloor.setCdTransaccion(obj.get("0").asText());
+						deCapsfloor.setCdInstrumento(obj.get("1").asInt());
+						deCapsfloor.setFhInicio(obj.get("2").asText());
+						deCapsfloor.setFhFin(obj.get("3").asText());
+						deCapsfloor.setNuCurvaDescuento(obj.get("4").asInt());
+						deCapsfloor.setNuCurvaVolatilidad(obj.get("5").asInt());
+						deCapsfloor.setNuStrike(obj.get("6").asDouble());
+						deCapsfloor.setTc(obj.get("7").asDouble());
+						deCapsfloor.setNuNominal(obj.get("8").asInt());
+						deCapsfloor.setNuConvencion(obj.get("9").asInt());
+						
+						return new ResponseEntity<>(this.csvService.saveDeCapsFloor(deCapsfloor), HttpStatus.CREATED);
+						
+					}
+					
+				}else {
+					return new ResponseEntity<Object>("No se encontro el valor " +obj.get("5").asInt()+ " tiene que hacer el registro primero en cd_curvas", HttpStatus.NOT_FOUND);
+				}
+			}else {
+				return new ResponseEntity<Object>("No se encontro el valor " +obj.get("4").asInt()+ " tiene que hacer el registro primero en cd_curvas", HttpStatus.NOT_FOUND);
+			}
+		}else {
+			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("1").asInt()+ " tiene que hacer el registro primero en cd_instrumento", HttpStatus.NOT_FOUND);
+		}	
+	}
+	
+	@RequestMapping(value = "/flujoscapsfloor", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Object> uploadFlujosCapsFloor(@RequestBody ObjectNode obj) {
+		List<DeCapsfloor> lista4 = csvService.findByCdTransaccion(obj.get("0").asText());
+		
+		if(lista4.size() > 0) {
+			FlujosCapsfloor flujosCapsfloor = new FlujosCapsfloor();
+			flujosCapsfloor.setCdTransaccion(obj.get("0").asText());
+			flujosCapsfloor.setNuPago(obj.get("1").asInt());
+			flujosCapsfloor.setFhPago(obj.get("2").asText());
+			flujosCapsfloor.setNuMontoPago(obj.get("3").asDouble());
+			flujosCapsfloor.setNuPlazoCupon(obj.get("4").asInt());
+			flujosCapsfloor.setNuTasaVigente(obj.get("5").asDouble());
+			flujosCapsfloor.setCdActivo(obj.get("6").asInt());
+			return new ResponseEntity<Object>(this.csvService.saveFlujosCaps(flujosCapsfloor), HttpStatus.CREATED);
+		}else {
+			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro en de_capsfloor", HttpStatus.NOT_FOUND);
 		}
 	}
 	

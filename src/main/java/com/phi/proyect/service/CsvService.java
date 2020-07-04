@@ -11,6 +11,7 @@ import com.phi.proyect.models.CdCurvas;
 import com.phi.proyect.models.CdInstrumento;
 import com.phi.proyect.models.Curvas;
 import com.phi.proyect.models.DeCapsfloor;
+import com.phi.proyect.models.DeSwap;
 import com.phi.proyect.models.FlujosCapsfloor;
 import com.phi.proyect.models.HCurvas;
 import com.phi.proyect.repository.CdCurvasRepository;
@@ -18,6 +19,7 @@ import com.phi.proyect.repository.CdInstrumentoRepository;
 import com.phi.proyect.repository.CsvRepository;
 import com.phi.proyect.repository.CurvasRepository;
 import com.phi.proyect.repository.DeCapsfloorRepository;
+import com.phi.proyect.repository.DeSwapRepository;
 import com.phi.proyect.repository.FlujosCapsfloorRepository;
 import com.phi.proyect.repository.HCurvasRepositiry;
 
@@ -40,6 +42,8 @@ public class CsvService {
 	private CdInstrumentoRepository cdIntrumentoRepo;
 	@Autowired
 	private FlujosCapsfloorRepository flujosCapsFloorRepo;
+	@Autowired
+	private DeSwapRepository deSwapRepo;
 	
 	@Transactional
     public Caps create(Caps caps) {
@@ -87,4 +91,13 @@ public class CsvService {
 		return this.flujosCapsFloorRepo.save2(flujosCapsfloor.getCdTransaccion(),flujosCapsfloor.getNuPago(),flujosCapsfloor.getFhPago(),flujosCapsfloor.getNuMontoPago(),flujosCapsfloor.getNuPlazoCupon(),flujosCapsfloor.getNuTasaVigente(),flujosCapsfloor.getCdActivo());
 	}
 	
+	@Transactional
+	public int saveDeSwap(DeSwap deSwap) {
+		return this.deSwapRepo.save2(deSwap.getCdTransaccion(), deSwap.getCdInstrumento(), deSwap.getFhInicio(), deSwap.getFhFin(), deSwap.getNuCurvaDescuento(), deSwap.getNuFija(),deSwap.getNuFlotante(), deSwap.getNuNominal(), deSwap.getTcBanco(),deSwap.getTcCliente(),deSwap.getCdBcoRecibe(),deSwap.getNuConvencion());
+	}
+	
+	@Transactional
+	public List<DeSwap> findByTransaccion(String id){
+		return this.deSwapRepo.findByTransaccion(id);
+	}
 }

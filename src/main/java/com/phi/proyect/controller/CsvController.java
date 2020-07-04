@@ -24,6 +24,7 @@ import com.phi.proyect.models.CdCurvas;
 import com.phi.proyect.models.CdInstrumento;
 import com.phi.proyect.models.Curvas;
 import com.phi.proyect.models.DeCapsfloor;
+import com.phi.proyect.models.DeSwap;
 import com.phi.proyect.models.FlujosCapsfloor;
 import com.phi.proyect.models.HCurvas;
 import com.phi.proyect.models.LimitesMercado;
@@ -175,9 +176,9 @@ public class CsvController {
 	@RequestMapping(value = "/flujoscapsfloor", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Object> uploadFlujosCapsFloor(@RequestBody ObjectNode obj) {
-		List<DeCapsfloor> lista4 = csvService.findByCdTransaccion(obj.get("0").asText());
+		List<DeCapsfloor> lista = csvService.findByCdTransaccion(obj.get("0").asText());
 		
-		if(lista4.size() > 0) {
+		if(lista.size() > 0) {
 			FlujosCapsfloor flujosCapsfloor = new FlujosCapsfloor();
 			flujosCapsfloor.setCdTransaccion(obj.get("0").asText());
 			flujosCapsfloor.setNuPago(obj.get("1").asInt());
@@ -189,6 +190,30 @@ public class CsvController {
 			return new ResponseEntity<Object>(this.csvService.saveFlujosCaps(flujosCapsfloor), HttpStatus.CREATED);
 		}else {
 			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro en de_capsfloor", HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@RequestMapping(value = "/deswap", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Object> uploadDeSwap(@RequestBody ObjectNode obj) {
+		List<DeSwap> lista = csvService.findByTransaccion(obj.get("0").asText());
+		if(lista.size() > 0) {
+			return new ResponseEntity<Object>("El valor " +obj.get("0").asText()+ " ya se encuentra registrado", HttpStatus.NOT_ACCEPTABLE);
+		}else {
+			DeSwap deSwap = new DeSwap();
+			deSwap.setCdTransaccion(obj.get("0").asText());
+			deSwap.setCdInstrumento(obj.get("1").asInt());
+			deSwap.setFhInicio(obj.get("2").asText());
+			deSwap.setFhFin(obj.get("3").asText());
+			deSwap.setNuCurvaDescuento(obj.get("4").asInt());
+			deSwap.setNuFija(obj.get("5").asDouble());
+			deSwap.setNuFlotante(obj.get("6").asInt());
+			deSwap.setNuNominal(obj.get("7").asInt());
+			deSwap.setTcBanco(obj.get("8").asDouble());
+			deSwap.setTcCliente(obj.get("9").asDouble());
+			deSwap.setCdBcoRecibe(obj.get("10").asInt());
+			deSwap.setNuConvencion(obj.get("11").asDouble());
+			return new ResponseEntity<Object>(this.csvService.saveDeSwap(deSwap), HttpStatus.CREATED);
 		}
 	}
 	

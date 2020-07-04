@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mysql.cj.protocol.FullReadInputStream;
 import com.phi.proyect.models.Caps;
 import com.phi.proyect.models.CdCurvas;
 import com.phi.proyect.models.CdInstrumento;
@@ -26,6 +27,7 @@ import com.phi.proyect.models.Curvas;
 import com.phi.proyect.models.DeCapsfloor;
 import com.phi.proyect.models.DeSwap;
 import com.phi.proyect.models.FlujosCapsfloor;
+import com.phi.proyect.models.FlujosSwap;
 import com.phi.proyect.models.HCurvas;
 import com.phi.proyect.models.LimitesMercado;
 import com.phi.proyect.service.CsvService;
@@ -214,6 +216,27 @@ public class CsvController {
 			deSwap.setCdBcoRecibe(obj.get("10").asInt());
 			deSwap.setNuConvencion(obj.get("11").asDouble());
 			return new ResponseEntity<Object>(this.csvService.saveDeSwap(deSwap), HttpStatus.CREATED);
+		}
+	}
+	
+	
+	@RequestMapping(value = "/flujosSwap", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Object> uploadFlujosSwap(@RequestBody ObjectNode obj) {
+		List<DeSwap> lista = csvService.findByTransaccion(obj.get("0").asText());
+		if(lista.size() > 0) {
+			FlujosSwap flujosSwap = new FlujosSwap();
+			flujosSwap.setCdTransaccion(obj.get("0").asText());
+			flujosSwap.setNuPago(obj.get("1").asInt());
+			flujosSwap.setFhPago(obj.get("2").asText());
+			flujosSwap.setNuMontoPago(obj.get("3").asDouble());
+			flujosSwap.setNuPlazoCupon(obj.get("4").asInt());
+			flujosSwap.setNuTasaVigente(obj.get("5").asDouble());
+			flujosSwap.setCdActivo(obj.get("6").asInt());
+			
+			return new ResponseEntity<Object>(this.csvService.saveFlujosSwap(flujosSwap), HttpStatus.CREATED);
+		}else {
+			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro en de_swap", HttpStatus.NOT_FOUND);
 		}
 	}
 	

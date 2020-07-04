@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.phi.proyect.models.CdInstrumento;
 import com.phi.proyect.models.DeSwap;
 
 public interface DeSwapRepository extends JpaRepository<DeSwap, Integer>{

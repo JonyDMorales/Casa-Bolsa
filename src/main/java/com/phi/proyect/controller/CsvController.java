@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.GsonBuilderUtils;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +32,7 @@ import com.phi.proyect.models.FlujosCapsfloor;
 import com.phi.proyect.models.FlujosSwap;
 import com.phi.proyect.models.HCurvas;
 import com.phi.proyect.models.LimitesMercado;
+import com.phi.proyect.models.ResponseTransfer;
 import com.phi.proyect.service.CsvService;
 import com.phi.proyect.service.VarOperacionesMdService;
 
@@ -47,6 +50,7 @@ public class CsvController {
 		super();
 		this.csvService = csvService;
 	}
+	
 	
 	@RequestMapping(value = "/csv", method = RequestMethod.POST)
 	@ResponseBody
@@ -106,14 +110,14 @@ public class CsvController {
 		curvas.setN28(obj.get("29").asDouble());
 		return new ResponseEntity<Object>(this.csvService.createCurvas(curvas), HttpStatus.CREATED);
 		}else {
-			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en curvas", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en curvas", HttpStatus.CREATED);
 		}
 	}
 	
 	
 	@RequestMapping(value = "/curvas", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Object> uploadCurvas(@RequestBody ObjectNode obj) {
+	public ResponseTransfer uploadCurvas(@RequestBody ObjectNode obj) {
 		List<CdCurvas> lista = csvService.findByCdCurva(obj.get("0").asInt());
 		if(lista.size() > 0) {
 			
@@ -123,10 +127,16 @@ public class CsvController {
 		curvas.setFhDate(obj.get("1").asText());
 		curvas.setNuNodo(obj.get("2").asInt());
 		curvas.setValor(obj.get("3").asDouble(0));
-		
-		return new ResponseEntity<>(this.csvService.saveCurvas(curvas), HttpStatus.CREATED);
+		String response = "Error";
+		int resp = csvService.saveCurvas(curvas);
+		System.out.println("isnert " + resp);
+		if(resp == 1) {
+			response = "Insertado Correctamente";
+		}
+		return new ResponseTransfer(response);
 		}else {
-			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en cd_curvas", HttpStatus.NOT_FOUND);
+			
+			return new ResponseTransfer("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en cd_curvas");
 		}
 	}
 	

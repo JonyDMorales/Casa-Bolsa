@@ -72,7 +72,7 @@ public class CsvController {
 	
 	@RequestMapping(value = "/hcurvas", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Object> uploadHCurvas(@RequestBody ObjectNode obj) {
+	public ResponseTransfer uploadHCurvas(@RequestBody ObjectNode obj) {
 		
 		List<Curvas> lista = csvService.findByFkCdCurva(obj.get("0").asInt());
 		
@@ -108,9 +108,16 @@ public class CsvController {
 		curvas.setN26(obj.get("27").asDouble());
 		curvas.setN27(obj.get("28").asDouble());
 		curvas.setN28(obj.get("29").asDouble());
-		return new ResponseEntity<Object>(this.csvService.createCurvas(curvas), HttpStatus.CREATED);
+		
+		String response = "Error";
+		int resp = csvService.createCurvas(curvas);
+		if(resp == 1) {
+			response = "Insertado Correctamente";
+		}
+		return new ResponseTransfer(response);
+		
 		}else {
-			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en curvas", HttpStatus.CREATED);
+			return new ResponseTransfer("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en curvas");
 		}
 	}
 	
@@ -129,7 +136,6 @@ public class CsvController {
 		curvas.setValor(obj.get("3").asDouble(0));
 		String response = "Error";
 		int resp = csvService.saveCurvas(curvas);
-		System.out.println("isnert " + resp);
 		if(resp == 1) {
 			response = "Insertado Correctamente";
 		}
@@ -143,7 +149,7 @@ public class CsvController {
 	
 	@RequestMapping(value = "/decapsfloor", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Object> uploadDeCapsFloor(@RequestBody ObjectNode obj) {
+	public ResponseTransfer uploadDeCapsFloor(@RequestBody ObjectNode obj) {
 		
 		
 		List<CdInstrumento> lista = csvService.findByIdIntrumento(obj.get("1").asInt());
@@ -156,7 +162,7 @@ public class CsvController {
 					List<DeCapsfloor> lista4 = csvService.findByCdTransaccion(obj.get("0").asText());
 					
 					if(lista4.size() > 0) {
-						return new ResponseEntity<Object>("El valor " +obj.get("0").asInt()+ " ya se encuentra registrado", HttpStatus.NOT_ACCEPTABLE);
+						return new ResponseTransfer("El valor " +obj.get("0").asInt()+ " ya se encuentra registrado");
 					}else {
 						DeCapsfloor deCapsfloor = new DeCapsfloor();
 						deCapsfloor.setCdTransaccion(obj.get("0").asText());
@@ -170,24 +176,30 @@ public class CsvController {
 						deCapsfloor.setNuNominal(obj.get("8").asInt());
 						deCapsfloor.setNuConvencion(obj.get("9").asInt());
 						
-						return new ResponseEntity<>(this.csvService.saveDeCapsFloor(deCapsfloor), HttpStatus.CREATED);
+						String response = "Error";
+						int resp = csvService.saveDeCapsFloor(deCapsfloor);
+						if(resp == 1) {
+							response = "Insertado Correctamente";
+						}
+						
+						return new ResponseTransfer(response);
 						
 					}
 					
 				}else {
-					return new ResponseEntity<Object>("No se encontro el valor " +obj.get("5").asInt()+ " tiene que hacer el registro primero en cd_curvas", HttpStatus.NOT_FOUND);
+					return new ResponseTransfer("No se encontro el valor " +obj.get("5").asInt()+ " tiene que hacer el registro primero en cd_curvas");
 				}
 			}else {
-				return new ResponseEntity<Object>("No se encontro el valor " +obj.get("4").asInt()+ " tiene que hacer el registro primero en cd_curvas", HttpStatus.NOT_FOUND);
+				return new ResponseTransfer("No se encontro el valor " +obj.get("4").asInt()+ " tiene que hacer el registro primero en cd_curvas");
 			}
 		}else {
-			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("1").asInt()+ " tiene que hacer el registro primero en cd_instrumento", HttpStatus.NOT_FOUND);
+			return new ResponseTransfer("No se encontro el valor " +obj.get("1").asInt()+ " tiene que hacer el registro primero en cd_instrumento");
 		}	
 	}
 	
 	@RequestMapping(value = "/flujoscapsfloor", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Object> uploadFlujosCapsFloor(@RequestBody ObjectNode obj) {
+	public ResponseTransfer uploadFlujosCapsFloor(@RequestBody ObjectNode obj) {
 		List<DeCapsfloor> lista = csvService.findByCdTransaccion(obj.get("0").asText());
 		
 		if(lista.size() > 0) {
@@ -199,18 +211,25 @@ public class CsvController {
 			flujosCapsfloor.setNuPlazoCupon(obj.get("4").asInt());
 			flujosCapsfloor.setNuTasaVigente(obj.get("5").asDouble());
 			flujosCapsfloor.setCdActivo(obj.get("6").asInt());
-			return new ResponseEntity<Object>(this.csvService.saveFlujosCaps(flujosCapsfloor), HttpStatus.CREATED);
+			
+			String response = "Error";
+			int resp = csvService.saveFlujosCaps(flujosCapsfloor);
+			if(resp == 1) {
+				response = "Insertado Correctamente";
+			}
+			return new ResponseTransfer(response);
+			
 		}else {
-			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro en de_capsfloor", HttpStatus.NOT_FOUND);
+			return new ResponseTransfer("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro en de_capsfloor");
 		}
 	}
 	
 	@RequestMapping(value = "/deswap", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Object> uploadDeSwap(@RequestBody ObjectNode obj) {
+	public ResponseTransfer uploadDeSwap(@RequestBody ObjectNode obj) {
 		List<DeSwap> lista = csvService.findByTransaccion(obj.get("0").asText());
 		if(lista.size() > 0) {
-			return new ResponseEntity<Object>("El valor " +obj.get("0").asText()+ " ya se encuentra registrado", HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseTransfer("El valor " +obj.get("0").asText()+ " ya se encuentra registrado");
 		}else {
 			DeSwap deSwap = new DeSwap();
 			deSwap.setCdTransaccion(obj.get("0").asText());
@@ -225,14 +244,22 @@ public class CsvController {
 			deSwap.setTcCliente(obj.get("9").asDouble());
 			deSwap.setCdBcoRecibe(obj.get("10").asInt());
 			deSwap.setNuConvencion(obj.get("11").asDouble());
-			return new ResponseEntity<Object>(this.csvService.saveDeSwap(deSwap), HttpStatus.CREATED);
+			
+			String response = "Error";
+			int resp = csvService.saveDeSwap(deSwap);
+			if(resp == 1) {
+				response = "Insertado Correctamente";
+			}
+			return new ResponseTransfer(response);
+			
+			
 		}
 	}
 	
 	
 	@RequestMapping(value = "/flujosSwap", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Object> uploadFlujosSwap(@RequestBody ObjectNode obj) {
+	public ResponseTransfer uploadFlujosSwap(@RequestBody ObjectNode obj) {
 		List<DeSwap> lista = csvService.findByTransaccion(obj.get("0").asText());
 		if(lista.size() > 0) {
 			FlujosSwap flujosSwap = new FlujosSwap();
@@ -244,9 +271,17 @@ public class CsvController {
 			flujosSwap.setNuTasaVigente(obj.get("5").asDouble());
 			flujosSwap.setCdActivo(obj.get("6").asInt());
 			
-			return new ResponseEntity<Object>(this.csvService.saveFlujosSwap(flujosSwap), HttpStatus.CREATED);
+			String response = "Error";
+			int resp = csvService.saveFlujosSwap(flujosSwap);
+			if(resp == 1) {
+				response = "Insertado Correctamente";
+			}
+			return new ResponseTransfer(response);
+			
+			
+			
 		}else {
-			return new ResponseEntity<Object>("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro en de_swap", HttpStatus.NOT_FOUND);
+			return new ResponseTransfer("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro en de_swap");
 		}
 	}
 	

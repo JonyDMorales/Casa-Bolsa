@@ -27,6 +27,7 @@ import com.phi.proyect.models.CdCurvas;
 import com.phi.proyect.models.CdInstrumento;
 import com.phi.proyect.models.Curvas;
 import com.phi.proyect.models.DeCapsfloor;
+import com.phi.proyect.models.DeFuturos;
 import com.phi.proyect.models.DeSwap;
 import com.phi.proyect.models.FlujosCapsfloor;
 import com.phi.proyect.models.FlujosSwap;
@@ -285,6 +286,35 @@ public class CsvController {
 		}
 	}
 	
+	
+	@RequestMapping(value = "/deFuturos", method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseTransfer uploadDeFuturos(@RequestBody ObjectNode obj) {
+		List<DeFuturos> lista = csvService.findByCodigoDeTransaccion(obj.get("0").asInt());
+		if(lista.size() > 0) {
+			return new ResponseTransfer("El valor " +obj.get("0").asInt()+ " ya se encuentra registrado");
+		}else {
+			DeFuturos deFuturos = new DeFuturos();
+			deFuturos.setCodigoDeTransaccion(obj.get("0").asInt());
+			deFuturos.setCdInstrumento(obj.get("1").asInt());
+			deFuturos.setFechaInicio(obj.get("2").asText());
+			deFuturos.setFechaFin(obj.get("3").asText());
+			deFuturos.setUnCurvaLocal(obj.get("4").asInt());
+			deFuturos.setUnCurvaForanea(obj.get("5").asInt());
+			deFuturos.setUnCurvaIndice(obj.get("6").asInt());
+			deFuturos.setNuPactado(obj.get("7").asDouble());
+			deFuturos.setUnContratos(obj.get("8").asInt());
+			deFuturos.setUnPosicion(obj.get("9").asInt());
+			deFuturos.setUnPlazo(obj.get("10").asInt());
+			deFuturos.setConvencion(obj.get("11").asInt());
+			String response = "Error";
+			DeFuturos resp = csvService.createDeFuturos(deFuturos);
+			if(resp.getCodigoDeTransaccion() == obj.get("0").asInt()) {
+				response = "Insertado Correctamente";
+			}
+			return new ResponseTransfer(response);
+		}
+	}
 }
 
 

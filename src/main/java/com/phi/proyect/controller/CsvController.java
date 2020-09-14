@@ -39,20 +39,18 @@ import com.phi.proyect.service.VarOperacionesMdService;
 
 import io.jsonwebtoken.io.IOException;
 
-
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/archivos")
 public class CsvController {
-	
+
 	private final CsvService csvService;
-	
+
 	public CsvController(CsvService csvService) {
 		super();
 		this.csvService = csvService;
 	}
-	
-	
+
 	@RequestMapping(value = "/csv", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Caps> archivoUpload(@RequestBody ObjectNode obj) {
@@ -69,102 +67,99 @@ public class CsvController {
 		caps.setNuConvencion(obj.get("9").asInt());
 		return new ResponseEntity<>(this.csvService.create(caps), HttpStatus.CREATED);
 	}
-	
-	
+
 	@RequestMapping(value = "/hcurvas", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadHCurvas(@RequestBody ObjectNode obj) {
-		
+
 		List<Curvas> lista = csvService.findByFkCdCurva(obj.get("0").asInt());
-		
-		if(lista.size() > 0) {		
-		HCurvas curvas = new HCurvas();
-		curvas.setCdCurva(obj.get("0").asInt());
-		curvas.setFhDate(obj.get("1").asText());
-		curvas.setN1(obj.get("2").asDouble());
-		curvas.setN2(obj.get("3").asDouble());
-		curvas.setN3(obj.get("4").asDouble());
-		curvas.setN4(obj.get("5").asDouble());
-		curvas.setN5(obj.get("6").asDouble());
-		curvas.setN6(obj.get("7").asDouble());
-		curvas.setN7(obj.get("8").asDouble());
-		curvas.setN8(obj.get("9").asDouble());
-		curvas.setN9(obj.get("10").asDouble());
-		curvas.setN10(obj.get("11").asDouble());
-		curvas.setN11(obj.get("12").asDouble());
-		curvas.setN12(obj.get("13").asDouble());
-		curvas.setN13(obj.get("14").asDouble());
-		curvas.setN14(obj.get("15").asDouble());
-		curvas.setN15(obj.get("16").asDouble());
-		curvas.setN16(obj.get("17").asDouble());
-		curvas.setN17(obj.get("18").asDouble());
-		curvas.setN18(obj.get("19").asDouble());
-		curvas.setN19(obj.get("20").asDouble());
-		curvas.setN20(obj.get("21").asDouble());
-		curvas.setN21(obj.get("22").asDouble());
-		curvas.setN22(obj.get("23").asDouble());
-		curvas.setN23(obj.get("24").asDouble());
-		curvas.setN24(obj.get("25").asDouble());
-		curvas.setN25(obj.get("26").asDouble());
-		curvas.setN26(obj.get("27").asDouble());
-		curvas.setN27(obj.get("28").asDouble());
-		curvas.setN28(obj.get("29").asDouble());
-		
-		String response = "Error";
-		int resp = csvService.createCurvas(curvas);
-		if(resp == 1) {
-			response = "Insertado Correctamente";
-		}
-		return new ResponseTransfer(response);
-		
-		}else {
-			return new ResponseTransfer("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en curvas");
+
+		if (lista.size() > 0) {
+			HCurvas curvas = new HCurvas();
+			curvas.setCdCurva(obj.get("0").asInt());
+			curvas.setFhDate(obj.get("1").asText());
+			curvas.setN1(obj.get("2").asDouble());
+			curvas.setN2(obj.get("3").asDouble());
+			curvas.setN3(obj.get("4").asDouble());
+			curvas.setN4(obj.get("5").asDouble());
+			curvas.setN5(obj.get("6").asDouble());
+			curvas.setN6(obj.get("7").asDouble());
+			curvas.setN7(obj.get("8").asDouble());
+			curvas.setN8(obj.get("9").asDouble());
+			curvas.setN9(obj.get("10").asDouble());
+			curvas.setN10(obj.get("11").asDouble());
+			curvas.setN11(obj.get("12").asDouble());
+			curvas.setN12(obj.get("13").asDouble());
+			curvas.setN13(obj.get("14").asDouble());
+			curvas.setN14(obj.get("15").asDouble());
+			curvas.setN15(obj.get("16").asDouble());
+			curvas.setN16(obj.get("17").asDouble());
+			curvas.setN17(obj.get("18").asDouble());
+			curvas.setN18(obj.get("19").asDouble());
+			curvas.setN19(obj.get("20").asDouble());
+			curvas.setN20(obj.get("21").asDouble());
+			curvas.setN21(obj.get("22").asDouble());
+			curvas.setN22(obj.get("23").asDouble());
+			curvas.setN23(obj.get("24").asDouble());
+			curvas.setN24(obj.get("25").asDouble());
+			curvas.setN25(obj.get("26").asDouble());
+			curvas.setN26(obj.get("27").asDouble());
+			curvas.setN27(obj.get("28").asDouble());
+			curvas.setN28(obj.get("29").asDouble());
+
+			String response = "Error";
+			int resp = csvService.createCurvas(curvas);
+			if (resp == 1) {
+				response = "Insertado Correctamente";
+			}
+			return new ResponseTransfer(response);
+
+		} else {
+			return new ResponseTransfer("No se encontro el valor " + obj.get("0").asInt()
+					+ " tiene que hacer el registro primero en curvas");
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/curvas", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadCurvas(@RequestBody ObjectNode obj) {
 		List<CdCurvas> lista = csvService.findByCdCurva(obj.get("0").asInt());
-		if(lista.size() > 0) {
-			
-		
-		Curvas curvas = new Curvas();
-		curvas.setFkCdCurva(obj.get("0").asInt());
-		curvas.setFhDate(obj.get("1").asText());
-		curvas.setNuNodo(obj.get("2").asInt());
-		curvas.setValor(obj.get("3").asDouble(0));
-		String response = "Error";
-		int resp = csvService.saveCurvas(curvas);
-		if(resp == 1) {
-			response = "Insertado Correctamente";
-		}
-		return new ResponseTransfer(response);
-		}else {
-			
-			return new ResponseTransfer("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro primero en cd_curvas");
+		if (lista.size() > 0) {
+
+			Curvas curvas = new Curvas();
+			curvas.setFkCdCurva(obj.get("0").asInt());
+			curvas.setFhDate(obj.get("1").asText());
+			curvas.setNuNodo(obj.get("2").asInt());
+			curvas.setValor(obj.get("3").asDouble(0));
+			String response = "Error";
+			int resp = csvService.saveCurvas(curvas);
+			if (resp == 1) {
+				response = "Insertado Correctamente";
+			}
+			return new ResponseTransfer(response);
+		} else {
+
+			return new ResponseTransfer("No se encontro el valor " + obj.get("0").asInt()
+					+ " tiene que hacer el registro primero en cd_curvas");
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/decapsfloor", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadDeCapsFloor(@RequestBody ObjectNode obj) {
-		
-		
+
 		List<CdInstrumento> lista = csvService.findByIdIntrumento(obj.get("1").asInt());
-		if(lista.size() > 0) {
+		if (lista.size() > 0) {
 			List<CdCurvas> lista2 = csvService.findByCdCurva(obj.get("4").asInt());
-			if(lista2.size() > 0) {
+			if (lista2.size() > 0) {
 				List<CdCurvas> lista3 = csvService.findByCdCurva(obj.get("5").asInt());
-				if(lista3.size() > 0 ) {
-					
+				if (lista3.size() > 0) {
+
 					List<DeCapsfloor> lista4 = csvService.findByCdTransaccion(obj.get("0").asText());
-					
-					if(lista4.size() > 0) {
-						return new ResponseTransfer("El valor " +obj.get("0").asInt()+ " ya se encuentra registrado");
-					}else {
+
+					if (lista4.size() > 0) {
+						return new ResponseTransfer("El valor " + obj.get("0").asInt() + " ya se encuentra registrado");
+					} else {
 						DeCapsfloor deCapsfloor = new DeCapsfloor();
 						deCapsfloor.setCdTransaccion(obj.get("0").asText());
 						deCapsfloor.setCdInstrumento(obj.get("1").asInt());
@@ -176,34 +171,37 @@ public class CsvController {
 						deCapsfloor.setTc(obj.get("7").asDouble());
 						deCapsfloor.setNuNominal(obj.get("8").asInt());
 						deCapsfloor.setNuConvencion(obj.get("9").asInt());
-						
+
 						String response = "Error";
 						int resp = csvService.saveDeCapsFloor(deCapsfloor);
-						if(resp == 1) {
+						if (resp == 1) {
 							response = "Insertado Correctamente";
 						}
-						
+
 						return new ResponseTransfer(response);
-						
+
 					}
-					
-				}else {
-					return new ResponseTransfer("No se encontro el valor " +obj.get("5").asInt()+ " tiene que hacer el registro primero en cd_curvas");
+
+				} else {
+					return new ResponseTransfer("No se encontro el valor " + obj.get("5").asInt()
+							+ " tiene que hacer el registro primero en cd_curvas");
 				}
-			}else {
-				return new ResponseTransfer("No se encontro el valor " +obj.get("4").asInt()+ " tiene que hacer el registro primero en cd_curvas");
+			} else {
+				return new ResponseTransfer("No se encontro el valor " + obj.get("4").asInt()
+						+ " tiene que hacer el registro primero en cd_curvas");
 			}
-		}else {
-			return new ResponseTransfer("No se encontro el valor " +obj.get("1").asInt()+ " tiene que hacer el registro primero en cd_instrumento");
-		}	
+		} else {
+			return new ResponseTransfer("No se encontro el valor " + obj.get("1").asInt()
+					+ " tiene que hacer el registro primero en cd_instrumento");
+		}
 	}
-	
+
 	@RequestMapping(value = "/flujoscapsfloor", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadFlujosCapsFloor(@RequestBody ObjectNode obj) {
 		List<DeCapsfloor> lista = csvService.findByCdTransaccion(obj.get("0").asText());
-		
-		if(lista.size() > 0) {
+
+		if (lista.size() > 0) {
 			FlujosCapsfloor flujosCapsfloor = new FlujosCapsfloor();
 			flujosCapsfloor.setCdTransaccion(obj.get("0").asText());
 			flujosCapsfloor.setNuPago(obj.get("1").asInt());
@@ -212,57 +210,60 @@ public class CsvController {
 			flujosCapsfloor.setNuPlazoCupon(obj.get("4").asInt());
 			flujosCapsfloor.setNuTasaVigente(obj.get("5").asDouble());
 			flujosCapsfloor.setCdActivo(obj.get("6").asInt());
-			
+
 			String response = "Error";
 			int resp = csvService.saveFlujosCaps(flujosCapsfloor);
-			if(resp == 1) {
+			if (resp == 1) {
 				response = "Insertado Correctamente";
 			}
 			return new ResponseTransfer(response);
-			
-		}else {
-			return new ResponseTransfer("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro en de_capsfloor");
+
+		} else {
+			return new ResponseTransfer(
+					"No se encontro el valor " + obj.get("0").asInt() + " tiene que hacer el registro en de_capsfloor");
 		}
 	}
-	
+
 	@RequestMapping(value = "/deswap", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadDeSwap(@RequestBody ObjectNode obj) {
 		List<DeSwap> lista = csvService.findByTransaccion(obj.get("0").asText());
-		if(lista.size() > 0) {
-			return new ResponseTransfer("El valor " +obj.get("0").asText()+ " ya se encuentra registrado");
-		}else {
+		if (lista.size() > 0) {
+			return new ResponseTransfer("El valor " + obj.get("0").asText() + " ya se encuentra registrado");
+		} else {
 			DeSwap deSwap = new DeSwap();
 			deSwap.setCdTransaccion(obj.get("0").asText());
 			deSwap.setCdInstrumento(obj.get("1").asInt());
 			deSwap.setFhInicio(obj.get("2").asText());
 			deSwap.setFhFin(obj.get("3").asText());
 			deSwap.setNuCurvaDescuento(obj.get("4").asInt());
-			deSwap.setNuFija(obj.get("5").asDouble());
-			deSwap.setNuFlotante(obj.get("6").asInt());
-			deSwap.setNuNominal(obj.get("7").asInt());
-			deSwap.setTcBanco(obj.get("8").asDouble());
-			deSwap.setTcCliente(obj.get("9").asDouble());
-			deSwap.setCdBcoRecibe(obj.get("10").asInt());
-			deSwap.setNuConvencion(obj.get("11").asDouble());
-			
+			deSwap.setNuCurvaDescFlot(obj.get("5").asInt());
+			deSwap.setNuFija(obj.get("6").asDouble());
+			deSwap.setNuFlotante(obj.get("7").asInt());
+			deSwap.setNuNominal(obj.get("8").asInt());
+			deSwap.setTcBanco(obj.get("9").asDouble());
+			deSwap.setTcCliente(obj.get("10").asDouble());
+			deSwap.setCdBcoRecibe(obj.get("11").asInt());
+			deSwap.setNuConvencion(obj.get("12").asDouble());
+			deSwap.setTpProducto(obj.get("13").asInt());
+			deSwap.setTpTransaccion(obj.get("14").asInt());
+			deSwap.setTpEstandar(obj.get("15").asInt());
+
 			String response = "Error";
 			int resp = csvService.saveDeSwap(deSwap);
-			if(resp == 1) {
+			if (resp == 1) {
 				response = "Insertado Correctamente";
 			}
 			return new ResponseTransfer(response);
-			
-			
+
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/flujosSwap", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadFlujosSwap(@RequestBody ObjectNode obj) {
 		List<DeSwap> lista = csvService.findByTransaccion(obj.get("0").asText());
-		if(lista.size() > 0) {
+		if (lista.size() > 0) {
 			FlujosSwap flujosSwap = new FlujosSwap();
 			flujosSwap.setCdTransaccion(obj.get("0").asText());
 			flujosSwap.setNuPago(obj.get("1").asInt());
@@ -271,29 +272,30 @@ public class CsvController {
 			flujosSwap.setNuPlazoCupon(obj.get("4").asInt());
 			flujosSwap.setNuTasaVigente(obj.get("5").asDouble());
 			flujosSwap.setCdActivo(obj.get("6").asInt());
-			
+			flujosSwap.setFh_Pago_b(obj.get("7").asText());
+			flujosSwap.setNu_Monto_Pago_b(obj.get("8").asDouble());
+			flujosSwap.setNu_PlazoCupon_b(obj.get("9").asInt());
+
 			String response = "Error";
 			int resp = csvService.saveFlujosSwap(flujosSwap);
-			if(resp == 1) {
+			if (resp == 1) {
 				response = "Insertado Correctamente";
 			}
 			return new ResponseTransfer(response);
-			
-			
-			
-		}else {
-			return new ResponseTransfer("No se encontro el valor " +obj.get("0").asInt()+ " tiene que hacer el registro en de_swap");
+
+		} else {
+			return new ResponseTransfer(
+					"No se encontro el valor " + obj.get("0").asInt() + " tiene que hacer el registro en de_swap");
 		}
 	}
-	
-	
+
 	@RequestMapping(value = "/deFuturos", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadDeFuturos(@RequestBody ObjectNode obj) {
 		List<DeFuturos> lista = csvService.findByCodigoDeTransaccion(obj.get("0").asInt());
-		if(lista.size() > 0) {
-			return new ResponseTransfer("El valor " +obj.get("0").asInt()+ " ya se encuentra registrado");
-		}else {
+		if (lista.size() > 0) {
+			return new ResponseTransfer("El valor " + obj.get("0").asInt() + " ya se encuentra registrado");
+		} else {
 			DeFuturos deFuturos = new DeFuturos();
 			deFuturos.setCodigoDeTransaccion(obj.get("0").asInt());
 			deFuturos.setCdInstrumento(obj.get("1").asInt());
@@ -309,12 +311,10 @@ public class CsvController {
 			deFuturos.setConvencion(obj.get("11").asInt());
 			String response = "Error";
 			DeFuturos resp = csvService.createDeFuturos(deFuturos);
-			if(resp.getCodigoDeTransaccion() == obj.get("0").asInt()) {
+			if (resp.getCodigoDeTransaccion() == obj.get("0").asInt()) {
 				response = "Insertado Correctamente";
 			}
 			return new ResponseTransfer(response);
 		}
 	}
 }
-
-

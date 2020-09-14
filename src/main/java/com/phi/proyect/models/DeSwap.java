@@ -17,6 +17,7 @@ public class DeSwap implements Serializable{
 	private String FhInicio;
 	private String FhFin;
 	private int NuCurvaDescuento;
+	private int NuCurvaDescFlot;
 	private Double NuFija;
 	private int NuFlotante;
 	private int NuNominal;
@@ -24,6 +25,9 @@ public class DeSwap implements Serializable{
 	private Double TcCliente;
 	private int CdBcoRecibe;
 	private Double NuConvencion;
+	private int TpProducto;
+	private int TpTransaccion;
+	private int TpEstandar;
 	
 	public DeSwap() {
 		super();
@@ -67,6 +71,14 @@ public class DeSwap implements Serializable{
 
 	public void setNuCurvaDescuento(int nuCurvaDescuento) {
 		NuCurvaDescuento = nuCurvaDescuento;
+	}
+
+	public int getNuCurvaDescFlot() {
+		return NuCurvaDescFlot;
+	}
+
+	public void setNuCurvaDescFlot(int nuCurvaDescFlot) {
+		NuCurvaDescFlot = nuCurvaDescFlot;
 	}
 
 	public Double getNuFija() {
@@ -124,7 +136,30 @@ public class DeSwap implements Serializable{
 	public void setNuConvencion(Double nuConvencion) {
 		NuConvencion = nuConvencion;
 	}
-	
-	
+
+	public int getTpProducto() {
+		return TpProducto;
+	}
+
+	public void setTpProducto(int tpProducto) {
+		TpProducto = tpProducto;
+	}
+
+	public int getTpTransaccion() {
+		return TpTransaccion;
+	}
+
+	public void setTpTransaccion(int tpTransaccion) {
+		TpTransaccion = tpTransaccion;
+	}
+
+	public int getTpEstandar() {
+		return TpEstandar;
+	}
+
+	public void setTpEstandar(int tpEstandar) {
+		TpEstandar = tpEstandar;
+	}
+
 	
 }

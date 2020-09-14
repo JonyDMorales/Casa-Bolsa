@@ -101,7 +101,7 @@ public class CsvService {
 	
 	@Transactional
 	public int saveDeSwap(DeSwap deSwap) {
-		return this.deSwapRepo.save2(deSwap.getCdTransaccion(), deSwap.getCdInstrumento(), deSwap.getFhInicio(), deSwap.getFhFin(), deSwap.getNuCurvaDescuento(), deSwap.getNuFija(),deSwap.getNuFlotante(), deSwap.getNuNominal(), deSwap.getTcBanco(),deSwap.getTcCliente(),deSwap.getCdBcoRecibe(),deSwap.getNuConvencion());
+		return this.deSwapRepo.save2(deSwap.getCdTransaccion(), deSwap.getCdInstrumento(), deSwap.getFhInicio(), deSwap.getFhFin(), deSwap.getNuCurvaDescuento(), deSwap.getNuCurvaDescFlot(), deSwap.getNuFija(),deSwap.getNuFlotante(), deSwap.getNuNominal(), deSwap.getTcBanco(),deSwap.getTcCliente(),deSwap.getCdBcoRecibe(),deSwap.getNuConvencion(), deSwap.getTpProducto(), deSwap.getTpTransaccion(), deSwap.getTpEstandar());
 	}
 	
 	@Transactional
@@ -111,7 +111,7 @@ public class CsvService {
 	
 	@Transactional
 	public int saveFlujosSwap(FlujosSwap flujosSwap) {
-		return this.flujosSwapRepo.save2(flujosSwap.getCdTransaccion(),flujosSwap.getNuPago(),flujosSwap.getFhPago(),flujosSwap.getNuMontoPago(),flujosSwap.getNuPlazoCupon(),flujosSwap.getNuTasaVigente(),flujosSwap.getCdActivo());
+		return this.flujosSwapRepo.save2(flujosSwap.getCdTransaccion(),flujosSwap.getNuPago(),flujosSwap.getFhPago(),flujosSwap.getNuMontoPago(),flujosSwap.getNuPlazoCupon(),flujosSwap.getNuTasaVigente(),flujosSwap.getCdActivo(),flujosSwap.getFh_Pago_b(),flujosSwap.getNu_Monto_Pago_b(),flujosSwap.getNu_PlazoCupon_b());
 	}
 	
 	@Transactional

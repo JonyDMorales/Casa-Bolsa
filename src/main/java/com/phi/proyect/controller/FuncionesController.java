@@ -136,9 +136,10 @@ public class FuncionesController {
 	public double ValSwapTiie(@RequestBody ObjectNode obj) {
 
 		String CdTransaccion = obj.get("CdTransaccion").asText();
-		Integer CdCurva = obj.get("CdCurva").asInt();
+		int CdCurva = obj.get("CdCurva").asInt();
 		String LdFecha = obj.get("LdFecha").asText();
 		Date fechaFormated = null;
+		int CdDescuento = obj.get("CdDescuento").asInt();
 
 		
 		try {
@@ -148,7 +149,7 @@ public class FuncionesController {
 		}
 	
 		
-		double valorRetorno = fs.ValSwapTiie(CdTransaccion, CdCurva, fechaFormated);
+		double valorRetorno = fs.ValSwapTiieFijo(CdTransaccion, CdCurva, fechaFormated,CdDescuento);
 		return valorRetorno;
 	}
 	

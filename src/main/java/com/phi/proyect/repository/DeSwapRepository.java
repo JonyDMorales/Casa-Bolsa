@@ -8,8 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.phi.proyect.models.DeSwap;
+import com.phi.proyect.models.LimitesMercado;
 
 public interface DeSwapRepository extends JpaRepository<DeSwap, Integer>{
+	
+	
 	
 	@Query(value="SELECT * FROM de_swap where Cd_Transaccion =:id limit 1", nativeQuery =  true)
 	public List<DeSwap> findByTransaccion(@Param("id") String id);

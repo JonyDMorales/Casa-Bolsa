@@ -26,8 +26,8 @@ public interface FuncionesRepository extends JpaRepository<Divisas, String>{
 	@Query(value="SELECT ValSwapStarting(:CdTransaccion,:CdCurva,:LdFecha);", nativeQuery =  true)
 	public double ValSwapStarting(@Param("CdTransaccion") String CdTransaccion,@Param("CdCurva") int CdCurva,@Param("LdFecha") Date LdFecha);
 
-	@Query(value="SELECT ValSwapTiie(:CdTransaccion,:CdCurva,:LdFecha);", nativeQuery =  true)
-	public double ValSwapTiie(@Param("CdTransaccion") String CdTransaccion,@Param("CdCurva") int CdCurva,@Param("LdFecha") Date LdFecha);
+	@Query(value="SELECT ValSwapTiieFijo(:CdTransaccion,:CdCurva,:LdFecha,:CdDescuento);", nativeQuery =  true)
+	public double ValSwapTiieFijo(@Param("CdTransaccion") String CdTransaccion,@Param("CdCurva") int CdCurva,@Param("LdFecha") Date LdFecha,@Param("CdDescuento") int CdDescuento);
 
 	@Query(value="SELECT VaRFuDivisas(:CdTransaccion,:CdCurva,:LdFecha,:CdIndice,:CdCurvaFor);", nativeQuery =  true)
 	public double VaRFuDivisas(@Param("CdTransaccion") String CdTransaccion,@Param("CdCurva") int CdCurva,@Param("LdFecha") Date LdFecha,@Param("CdIndice") int CdIndice,@Param("CdCurvaFor") int CdCurvaFor);
@@ -41,4 +41,6 @@ public interface FuncionesRepository extends JpaRepository<Divisas, String>{
 	@Query(value="SELECT VarPPPPPPP(:CdTransaccion,:CdCurva,:LdFecha);", nativeQuery =  true)
 	public double VarPPPPPPP(@Param("CdTransaccion") String CdTransaccion,@Param("CdCurva") int CdCurva,@Param("LdFecha") Date LdFecha);
 	
+	@Query(value="SELECT VaRSwapTiieFijo(:CdTransaccion,:CdCurva,:LdFecha,:CdDescuento,:NuPercentil);", nativeQuery =  true)
+	public double VaRSwapTiieFijo(@Param("CdTransaccion") String CdTransaccion,@Param("CdCurva") int CdCurva,@Param("LdFecha") Date LdFecha,@Param("CdDescuento") int CdDescuento,@Param("NuPercentil") int NuPercentil);
 }

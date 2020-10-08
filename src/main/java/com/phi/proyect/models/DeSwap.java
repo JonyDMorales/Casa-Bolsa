@@ -2,6 +2,7 @@ package com.phi.proyect.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,7 +18,10 @@ public class DeSwap implements Serializable{
 	private String FhInicio;
 	private String FhFin;
 	private int NuCurvaDescuento;
+	
+	@Column(name = "Nu_Curva_DescFlot")
 	private int NuCurvaDescFlot;
+	
 	private Double NuFija;
 	private int NuFlotante;
 	private int NuNominal;

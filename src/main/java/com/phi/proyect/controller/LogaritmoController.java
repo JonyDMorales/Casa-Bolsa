@@ -18,23 +18,28 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.phi.proyect.models.CalculoDeVarSwap;
 import com.phi.proyect.models.DiasInhabiles;
 import com.phi.proyect.models.LimitesLineas;
 import com.phi.proyect.models.Logaritmo;
 import com.phi.proyect.models.OperacionesMd;
+import com.phi.proyect.models.Tvaluacionhoy;
 import com.phi.proyect.models.ValuacionesMd;
 import com.phi.proyect.models.VarLimite;
 import com.phi.proyect.models.VarOperacionesMd;
 import com.phi.proyect.models.Vector;
 import com.phi.proyect.models.VectorPreciosDia;
+import com.phi.proyect.service.CalculoDeVarSwapService;
 import com.phi.proyect.service.DiasInhabilesService;
 import com.phi.proyect.service.LogaritmoService;
 import com.phi.proyect.service.OperacionService;
+import com.phi.proyect.service.TvaluacionhoyService;
 import com.phi.proyect.service.ValuacionesMdService;
 import com.phi.proyect.service.VarLimiteService;
 import com.phi.proyect.service.VarOperacionesMdService;
 import com.phi.proyect.service.VectorPreciosDiaService;
 import com.phi.proyect.service.VectorService;
+import com.phi.proyect.vo.MesaDerivados;
 import com.phi.proyect.vo.MesadeDinero;
 
 @RestController
@@ -50,12 +55,14 @@ public class LogaritmoController {
 	private final ValuacionesMdService vs;
 	private final OperacionService ops;
 	private final VarOperacionesMdService vaOpMdSer;
+	private final TvaluacionhoyService tvSer;
+	private final CalculoDeVarSwapService cdvss;
 	
 	@Autowired
 	Algoritmos algoritmos;
 
 	public LogaritmoController(LogaritmoService log, VectorService vecSer, VectorPreciosDiaService vecpds,
-			DiasInhabilesService dis, VarLimiteService varlimSer, ValuacionesMdService vs,OperacionService ops,VarOperacionesMdService vaOpMdSer) {
+			DiasInhabilesService dis, VarLimiteService varlimSer, ValuacionesMdService vs,OperacionService ops,VarOperacionesMdService vaOpMdSer, TvaluacionhoyService tvSer, CalculoDeVarSwapService cdvss) {
 		super();
 		this.log = log;
 		this.vecSer = vecSer;
@@ -65,6 +72,8 @@ public class LogaritmoController {
 		this.vs = vs;
 		this.ops = ops;
 		this.vaOpMdSer = vaOpMdSer;
+		this.tvSer = tvSer;
+		this.cdvss = cdvss;
 	}
 
 	@GetMapping
@@ -230,6 +239,7 @@ public class LogaritmoController {
 				Double valor3 = null;
 				if (lista3.size() > 0) {
 					valor = lista3.get(0).getValorEnLibros();
+					multi = valor * Double.parseDouble(lista3.get(0).getTitulos());
 				}
 				
 				if(lista4.size() > 0) {
@@ -237,12 +247,55 @@ public class LogaritmoController {
 					valor2=lista4.get(0).getVarNoventaSiete();
 					valor3=lista4.get(0).getVarNoventaCinco();
 				}
-				multi = valor * Double.parseDouble(lista3.get(0).getTitulos());
+				
 				listReturn.add(new com.phi.proyect.vo.MesadeDinero(lista.get(i).getIdValmerPriceVector(),
 						lista.get(i).getIssue(), lista2.get(0).getLimite(), valor, multi,valor1,valor2,valor3));
 			}
 		}
 		return listReturn;
+	}
+	
+	
+	
+	@GetMapping(value = "/mesaDerivados")
+	public List<Object> mesaDerivados() {
+		List<Object> retorno = new ArrayList <Object>();
+		
+		List<com.phi.proyect.vo.MesaDerivados> nivelDetalle = new ArrayList<com.phi.proyect.vo.MesaDerivados>();
+		List<Tvaluacionhoy> listaTvaluaciones= tvSer.findBycdInstrumento("2");
+		List<VarLimite> varLimiteLista = varlimSer.findAll("2");
+		List<CalculoDeVarSwap> calculoDeVarSwapList = cdvss.findByCdInstrumento("2");
+		
+		 String producto;
+		 double valuacion;
+		 double var1;
+		 double var2;
+		 double var3;
+		 double limite=0.0;
+		 
+		 if(varLimiteLista.size()>0) {
+			 limite= varLimiteLista.get(0).getOperationLimitMoneyMarket();
+		 }
+		
+		for (int i = 0; i < listaTvaluaciones.size(); i++) {
+			
+			 producto=listaTvaluaciones.get(i).getCdTransaccion();
+			 valuacion=listaTvaluaciones.get(i).getValuacion();
+			 var1=listaTvaluaciones.get(i).getVar1();
+			 var2=listaTvaluaciones.get(i).getVar2();
+			 var3=listaTvaluaciones.get(i).getVar3();
+			
+			
+			nivelDetalle.add(new com.phi.proyect.vo.MesaDerivados(producto,valuacion,var1,var2,var3,limite));
+			
+		}
+		
+
+		
+		retorno.add(nivelDetalle);
+		retorno.add(varLimiteLista);
+		retorno.add(calculoDeVarSwapList);
+		return retorno;
 	}
 
 }

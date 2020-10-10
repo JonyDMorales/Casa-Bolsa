@@ -10,43 +10,78 @@ import javax.persistence.Table;
 @Table(name="calculo_de_var_swap")
 public class CalculoDeVarSwap {
 
-	@Id
-	private String CdTransaccion;
-	private Date Fecha;
-	private Double Valor;
-	private int Porcentaje;
 	
-	public CalculoDeVarSwap(String cdTransaccion, Date fecha, Double valor, int porcentaje) {
+
+	/* nuevos campos que quedaron en la tabla despues de las modificaciones de Jon*/
+	@Id
+	private String CdInstrumento;
+	private Date fecha;
+	private Double var1;
+	private Double var2;
+	private Double var3;
+	
+
+	
+	public CalculoDeVarSwap() {
 		super();
-		CdTransaccion = cdTransaccion;
-		Fecha = fecha;
-		Valor = valor;
-		Porcentaje = porcentaje;
 	}
-	public String getCdTransaccion() {
-		return CdTransaccion;
+	
+/*---------------cambios alejandro--------------------*/
+	
+	public CalculoDeVarSwap(String cdInstrumento, Date fecha, Double var1, Double var2, Double var3) {
+		super();
+		CdInstrumento = cdInstrumento;
+		this.fecha = fecha;
+		this.var1 = var1;
+		this.var2 = var2;
+		this.var3 = var3;
 	}
-	public void setCdTransaccion(String cdTransaccion) {
-		CdTransaccion = cdTransaccion;
+	
+	
+	public String getCdInstrumento() {
+		return CdInstrumento;
 	}
+
+	public void setCdInstrumento(String cdInstrumento) {
+		CdInstrumento = cdInstrumento;
+	}
+
 	public Date getFecha() {
-		return Fecha;
+		return fecha;
 	}
-	public void setFecha(Date fecha) {
-		Fecha = fecha;
+
+	public void setFecha(Date fecha2) {
+		this.fecha = fecha2;
 	}
-	public Double getValor() {
-		return Valor;
+
+	public Double getVar1() {
+		return var1;
 	}
-	public void setValor(Double valor) {
-		Valor = valor;
+
+	public void setVar1(Double var1) {
+		this.var1 = var1;
 	}
-	public int getPorcentaje() {
-		return Porcentaje;
+
+	public Double getVar2() {
+		return var2;
 	}
-	public void setPorcentaje(int porcentaje) {
-		Porcentaje = porcentaje;
+
+	public void setVar2(Double var2) {
+		this.var2 = var2;
 	}
+
+	public Double getVar3() {
+		return var3;
+	}
+
+	public void setVar3(Double var3) {
+		this.var3 = var3;
+	}
+
+/*-----------------------------------*/
+	
+	
+
 	
 
 	

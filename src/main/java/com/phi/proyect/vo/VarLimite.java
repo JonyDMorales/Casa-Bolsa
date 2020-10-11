@@ -22,6 +22,7 @@ public class VarLimite implements Serializable{
 	private Date registrationDate;
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss")
 	private Date modificationDate;
+	private String market;
 	
 	
 	
@@ -43,6 +44,9 @@ public class VarLimite implements Serializable{
 		this.registrationDate = registrationDate;
 		this.modificationDate = modificationDate;
 	}
+	
+	
+	
 	public Integer getIdVarLimiteMd() {
 		return idVarLimiteMd;
 	}
@@ -114,6 +118,18 @@ public class VarLimite implements Serializable{
 	}
 	public void setModificationDate(Date modificationDate) {
 		this.modificationDate = modificationDate;
+	}
+
+
+
+	public String getMarket() {
+		return market;
+	}
+
+
+
+	public void setMarket(String market) {
+		this.market = market;
 	}
 	
 	

@@ -10,8 +10,6 @@ import javax.persistence.Table;
 @Table(name="calculo_de_var_swap")
 public class CalculoDeVarSwap {
 
-	
-
 	/* nuevos campos que quedaron en la tabla despues de las modificaciones de Jon*/
 	@Id
 	private String CdInstrumento;
@@ -36,6 +34,8 @@ public class CalculoDeVarSwap {
 		this.var2 = var2;
 		this.var3 = var3;
 	}
+	
+	
 	
 	
 	public String getCdInstrumento() {

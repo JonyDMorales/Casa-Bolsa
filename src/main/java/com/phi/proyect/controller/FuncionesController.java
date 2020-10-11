@@ -149,7 +149,8 @@ public class FuncionesController {
 		}
 	
 		
-		double valorRetorno = fs.ValSwapTiieFijo(CdTransaccion, CdCurva, fechaFormated,CdDescuento);
+		//double valorRetorno = fs.ValSwapTiie(CdTransaccion, CdCurva, fechaFormated,CdDescuento);
+		double valorRetorno = 0.0;
 		return valorRetorno;
 	}
 	

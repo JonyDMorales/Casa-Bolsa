@@ -53,6 +53,7 @@ public class LimitesVarMdController {
 			varLimiteCreate.setStatus(varLimite.getStatus());
 			varLimiteCreate.setRegistrationDate(new Date());
 			varLimiteCreate.setModificationDate(new Date());
+			varLimiteCreate.setMarket(varLimite.getMarket());
 			return new ResponseEntity<>(this.vls.create(varLimiteCreate), HttpStatus.CREATED);
 	}
 	

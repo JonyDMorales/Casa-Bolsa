@@ -10,7 +10,7 @@ import com.phi.proyect.models.DeSwap;
 
 public interface MercadoDeDerivadosRepository extends JpaRepository<DeSwap, Integer>{
 	
-	@Query(value="SELECT Value FROM parameter where Id_Parameter =:id;", nativeQuery =  true)
+	@Query(value="SELECT Value FROM parameter where Id_Parameter =:id", nativeQuery =  true)
 	public String getValue(@Param("id") int id);
 
 }

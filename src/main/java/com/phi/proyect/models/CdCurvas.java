@@ -13,7 +13,6 @@ public class CdCurvas {
 	
 	private String Nombre;
 	
-	
 
 	public CdCurvas() {
 		super();

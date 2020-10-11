@@ -30,7 +30,7 @@ public class VarLimite implements Serializable {
 	private int status;
 	private Date registrationDate;
 	private Date modificationDate;
-
+	private String market;
 	
 	public VarLimite() {
 		super();
@@ -154,6 +154,16 @@ public class VarLimite implements Serializable {
 
 	public void setModificationDate(Date modificationDate) {
 		this.modificationDate = modificationDate;
+	}
+
+
+	public String getMarket() {
+		return market;
+	}
+
+
+	public void setMarket(String market) {
+		this.market = market;
 	}
 
 	

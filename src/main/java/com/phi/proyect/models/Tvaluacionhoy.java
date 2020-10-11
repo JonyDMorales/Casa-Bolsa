@@ -1,5 +1,7 @@
 package com.phi.proyect.models;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,9 +14,11 @@ public class Tvaluacionhoy {
 	private String CdTransaccion;
 	private double Valuacion;
 	private int CdInstrumento;
+	private Date fecha;
 	private double var1;
 	private double var2;
 	private double var3;
+	private Integer portafolio;
 	
 	
 	/*---------------cambios alejandro--------------------
@@ -36,11 +40,20 @@ public class Tvaluacionhoy {
 	public Tvaluacionhoy() {
 		super();
 	}
+	
+	
 
-	public Tvaluacionhoy(String cdTransaccion2, double resultado) {
+	public Tvaluacionhoy(String cdTransaccion, double valuacion, int cdInstrumento, Date fecha, double var1,
+			double var2, double var3, int portafolio) {
 		super();
-		CdTransaccion=cdTransaccion2;
-		Valuacion=resultado;
+		CdTransaccion = cdTransaccion;
+		Valuacion = valuacion;
+		CdInstrumento = cdInstrumento;
+		this.fecha = fecha;
+		this.var1 = var1;
+		this.var2 = var2;
+		this.var3 = var3;
+		this.portafolio = portafolio;
 	}
 
 	public String getCdTransaccion() {
@@ -67,6 +80,14 @@ public class Tvaluacionhoy {
 		CdInstrumento = cdInstrumento;
 	}
 
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
 	public double getVar1() {
 		return var1;
 	}
@@ -90,8 +111,18 @@ public class Tvaluacionhoy {
 	public void setVar3(double var3) {
 		this.var3 = var3;
 	}
-	
+
+	public Integer getPortafolio() {
+		return portafolio;
+	}
+
+	public void setPortafolio(Integer portafolio) {
+		this.portafolio = portafolio;
+	}
+
+
 
 	
+
 	
 }

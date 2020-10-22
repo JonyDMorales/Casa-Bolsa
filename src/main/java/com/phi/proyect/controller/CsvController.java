@@ -37,8 +37,6 @@ import com.phi.proyect.models.ResponseTransfer;
 import com.phi.proyect.service.CsvService;
 import com.phi.proyect.service.VarOperacionesMdService;
 
-import io.jsonwebtoken.io.IOException;
-
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/archivos")

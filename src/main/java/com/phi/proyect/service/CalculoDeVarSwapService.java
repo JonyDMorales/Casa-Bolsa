@@ -1,5 +1,6 @@
 package com.phi.proyect.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,12 @@ public class CalculoDeVarSwapService {
 	CalculoDeVarSwapRepository cdvsr;
 	
 	public List<CalculoDeVarSwap> findByCdInstrumento(String cdInstrumento){
-		return cdvsr.findByCdInstrumento(cdInstrumento);
+		List<CalculoDeVarSwap> listCalculoDeVarSwap = cdvsr.findByCdInstrumento(cdInstrumento);
+
+		if(listCalculoDeVarSwap == null || listCalculoDeVarSwap.isEmpty()){
+			return new ArrayList<>();
+		}
+		return listCalculoDeVarSwap;
 	}
 	
 }

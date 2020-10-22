@@ -1,5 +1,6 @@
 package com.phi.proyect.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,13 @@ public class VarLimiteService {
 	private VarLimiteRepository varlir;
 	
 	public List<VarLimite> findAll(String producto) {
-		return varlir.findByProducto(producto);
+		List<VarLimite> listVarLimite = varlir.findByProducto(producto);
+
+		if(listVarLimite == null || listVarLimite.isEmpty()){
+			return new ArrayList<>();
+		}
+
+		return listVarLimite;
 		
 	}
 		

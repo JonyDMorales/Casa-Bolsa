@@ -273,7 +273,7 @@ public class LogaritmoController {
 		 double var3;
 		 double limite=0.0;
 		 
-		 if(varLimiteLista.size()>0) {
+		 if(varLimiteLista.size() > 0) {
 			 limite= varLimiteLista.get(0).getOperationLimitMoneyMarket();
 		 }
 		

@@ -1,7 +1,9 @@
 package com.phi.proyect.controller;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -107,8 +109,12 @@ public class CsvController {
 			}
 			t++;
 		}
+
+		Date date2 = Calendar.getInstance().getTime();  
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+		String fecha2 = dateFormat.format(date2);
 		String response = "Error";
-		int resp = csvService.createCurvasNuevo(array, cdCurva, "2020-10-29");
+		int resp = csvService.createCurvasNuevo(array, cdCurva, fecha2);
 		if (resp == 1) {
 			response = "Insertado Correctamente";
 		}

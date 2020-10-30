@@ -41,6 +41,7 @@ import com.phi.proyect.models.LimitesMercado;
 import com.phi.proyect.models.Parametros;
 import com.phi.proyect.models.ResponseTransfer;
 import com.phi.proyect.service.CsvService;
+import com.phi.proyect.service.MercadoDeDerivadosService;
 import com.phi.proyect.service.ParametrosService;
 import com.phi.proyect.service.VarOperacionesMdService;
 
@@ -51,11 +52,13 @@ public class CsvController {
 
 	private final CsvService csvService;
 	private final ParametrosService params;
+	private final MercadoDeDerivadosService deDerivadosService;
 
-	public CsvController(CsvService csvService,ParametrosService params) {
+	public CsvController(CsvService csvService,ParametrosService params,MercadoDeDerivadosService deDerivadosService) {
 		super();
 		this.csvService = csvService;
 		this.params = params;
+		this.deDerivadosService = deDerivadosService;
 	}
 
 	@RequestMapping(value = "/Column", method = RequestMethod.POST)
@@ -110,9 +113,7 @@ public class CsvController {
 			t++;
 		}
 
-		Date date2 = Calendar.getInstance().getTime();  
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-		String fecha2 = dateFormat.format(date2);
+		String fecha2 = deDerivadosService.findValue();
 		String response = "Error";
 		int resp = csvService.createCurvasNuevo(array, cdCurva, fecha2);
 		if (resp == 1) {
@@ -133,12 +134,12 @@ public class CsvController {
 					csvService.deleteAllCurvas(register.get(i).getFkCdCurva());
 				}
 			}
-
+			String fecha2 = deDerivadosService.findValue();
 			Curvas curvas = new Curvas();
 			curvas.setFkCdCurva(obj.get("0").asInt());
-			curvas.setFhDate(obj.get("1").asText());
-			curvas.setNuNodo(obj.get("2").asInt());
-			curvas.setValor(obj.get("3").asDouble(0));
+			curvas.setFhDate(fecha2);
+			curvas.setNuNodo(obj.get("1").asInt());
+			curvas.setValor(obj.get("2").asDouble(0));
 			String response = "Error";
 			int resp = csvService.saveCurvas(curvas);
 			if (resp == 1) {

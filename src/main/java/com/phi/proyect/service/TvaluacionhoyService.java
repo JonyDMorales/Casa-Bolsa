@@ -1,5 +1,6 @@
 package com.phi.proyect.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,10 @@ public class TvaluacionhoyService {
 	TvaluacionhoyRepository tvr;
 	
 	public List<Tvaluacionhoy>findBycdInstrumento(String cdInstrumento){
-		return tvr.findBycdInstrumento(cdInstrumento);
+		List<Tvaluacionhoy> listaValuacionesHoy = tvr.findBycdInstrumento(cdInstrumento);
+		if(listaValuacionesHoy == null || listaValuacionesHoy.isEmpty()){
+			return new ArrayList<>();
+		}
+		return  listaValuacionesHoy;
 	} 
 }

@@ -1,6 +1,8 @@
 package com.phi.proyect.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +34,12 @@ import com.phi.proyect.models.DeSwap;
 import com.phi.proyect.models.FlujosCapsfloor;
 import com.phi.proyect.models.FlujosSwap;
 import com.phi.proyect.models.HCurvas;
+import com.phi.proyect.models.HCurvas2;
 import com.phi.proyect.models.LimitesMercado;
+import com.phi.proyect.models.Parametros;
 import com.phi.proyect.models.ResponseTransfer;
 import com.phi.proyect.service.CsvService;
+import com.phi.proyect.service.ParametrosService;
 import com.phi.proyect.service.VarOperacionesMdService;
 
 import io.jsonwebtoken.io.IOException;
@@ -45,12 +50,28 @@ import io.jsonwebtoken.io.IOException;
 public class CsvController {
 
 	private final CsvService csvService;
+	private final ParametrosService params;
 
-	public CsvController(CsvService csvService) {
+	public CsvController(CsvService csvService,ParametrosService params) {
 		super();
 		this.csvService = csvService;
+		this.params = params;
 	}
 
+	@RequestMapping(value = "/Column", method = RequestMethod.POST)
+	public Map<String, Object> getColumnasFilas() {
+		Map<String,Object> response = new HashMap<>();
+		List<Parametros> respCol = params.findParametro("COLUMNAS");
+		String columns = respCol.get(0).getValorDelParametro();
+		String[] parts = columns.split("\\|");
+		List<Parametros> respFil = params.findParametro("FILAS");
+		String filas = respFil.get(0).getValorDelParametro();
+		String[] parts2 = filas.split("\\|");
+		response.put("columnas", parts);
+		response.put("filas", parts2);
+		return response;
+	}
+	
 	@RequestMapping(value = "/csv", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Caps> archivoUpload(@RequestBody ObjectNode obj) {
@@ -69,55 +90,32 @@ public class CsvController {
 	}
 
 	@RequestMapping(value = "/hcurvas", method = RequestMethod.POST)
-	@ResponseBody
 	public ResponseTransfer uploadHCurvas(@RequestBody ObjectNode obj) {
 
-		List<Curvas> lista = csvService.findByFkCdCurva(obj.get("0").asInt());
+		List<HCurvas2> ultimo = csvService.getUltimoRegistro();
+		String fecha = ultimo.get(0).getFhDate();
+		int del = csvService.deleteUltimoRegistro(fecha);
+		double[] array = new double[107];
 
-		if (lista.size() > 0) {
-			HCurvas curvas = new HCurvas();
-			curvas.setCdCurva(obj.get("0").asInt());
-			curvas.setFhDate(obj.get("1").asText());
-			curvas.setN1(obj.get("2").asDouble());
-			curvas.setN2(obj.get("3").asDouble());
-			curvas.setN3(obj.get("4").asDouble());
-			curvas.setN4(obj.get("5").asDouble());
-			curvas.setN5(obj.get("6").asDouble());
-			curvas.setN6(obj.get("7").asDouble());
-			curvas.setN7(obj.get("8").asDouble());
-			curvas.setN8(obj.get("9").asDouble());
-			curvas.setN9(obj.get("10").asDouble());
-			curvas.setN10(obj.get("11").asDouble());
-			curvas.setN11(obj.get("12").asDouble());
-			curvas.setN12(obj.get("13").asDouble());
-			curvas.setN13(obj.get("14").asDouble());
-			curvas.setN14(obj.get("15").asDouble());
-			curvas.setN15(obj.get("16").asDouble());
-			curvas.setN16(obj.get("17").asDouble());
-			curvas.setN17(obj.get("18").asDouble());
-			curvas.setN18(obj.get("19").asDouble());
-			curvas.setN19(obj.get("20").asDouble());
-			curvas.setN20(obj.get("21").asDouble());
-			curvas.setN21(obj.get("22").asDouble());
-			curvas.setN22(obj.get("23").asDouble());
-			curvas.setN23(obj.get("24").asDouble());
-			curvas.setN24(obj.get("25").asDouble());
-			curvas.setN25(obj.get("26").asDouble());
-			curvas.setN26(obj.get("27").asDouble());
-			curvas.setN27(obj.get("28").asDouble());
-			curvas.setN28(obj.get("29").asDouble());
+		int t = 1;
+		int cdCurva = obj.get("0").asInt();
+		for (int i = 0; i < array.length; i++) {
+			String tConvert = "" + t + "";
+			if (obj.get(tConvert) != null) {
+				array[i] = obj.get(tConvert).asDouble();
 
-			String response = "Error";
-			int resp = csvService.createCurvas(curvas);
-			if (resp == 1) {
-				response = "Insertado Correctamente";
+			} else {
+				array[i] = 0.0;
 			}
-			return new ResponseTransfer(response);
-
-		} else {
-			return new ResponseTransfer("No se encontro el valor " + obj.get("0").asInt()
-					+ " tiene que hacer el registro primero en curvas");
+			t++;
 		}
+		String response = "Error";
+		int resp = csvService.createCurvasNuevo(array, cdCurva, "2020-10-29");
+		if (resp == 1) {
+			response = "Insertado Correctamente";
+		}
+
+		return new ResponseTransfer(response);
 	}
 
 	@RequestMapping(value = "/curvas", method = RequestMethod.POST)
@@ -125,6 +123,12 @@ public class CsvController {
 	public ResponseTransfer uploadCurvas(@RequestBody ObjectNode obj) {
 		List<CdCurvas> lista = csvService.findByCdCurva(obj.get("0").asInt());
 		if (lista.size() > 0) {
+			List<Curvas> register = csvService.getResultados();
+			if (register.size() > 0) {
+				for (int i = 0; i < register.size(); i++) {
+					csvService.deleteAllCurvas(register.get(i).getFkCdCurva());
+				}
+			}
 
 			Curvas curvas = new Curvas();
 			curvas.setFkCdCurva(obj.get("0").asInt());
@@ -231,13 +235,21 @@ public class CsvController {
 		if (lista.size() > 0) {
 			return new ResponseTransfer("El valor " + obj.get("0").asText() + " ya se encuentra registrado");
 		} else {
+			List<FlujosSwap> register = csvService.getResultadosFlujosSwap();
+			if (register.size() > 0) {
+
+				for (int j = 0; j < register.size(); j++) {
+					csvService.deleteFlujosSwap(register.get(j).getCdTransaccion());
+				}
+				csvService.deleteDeSwap();
+			}
 			DeSwap deSwap = new DeSwap();
 			deSwap.setCdTransaccion(obj.get("0").asText());
 			deSwap.setCdInstrumento(obj.get("1").asInt());
 			deSwap.setFhInicio(obj.get("2").asText());
 			deSwap.setFhFin(obj.get("3").asText());
 			deSwap.setNuCurvaDescuento(obj.get("4").asInt());
-			deSwap.setNuCurvaDescFlot(obj.get("5").asInt());
+			deSwap.setCurvaFlot(obj.get("5").asInt());
 			deSwap.setNuFija(obj.get("6").asDouble());
 			deSwap.setNuFlotante(obj.get("7").asInt());
 			deSwap.setNuNominal(obj.get("8").asInt());
@@ -247,7 +259,7 @@ public class CsvController {
 			deSwap.setNuConvencion(obj.get("12").asDouble());
 			deSwap.setTpProducto(obj.get("13").asInt());
 			deSwap.setTpTransaccion(obj.get("14").asInt());
-			deSwap.setTpEstandar(obj.get("15").asInt());
+			deSwap.setTpDescuento(obj.get("15").asInt());
 
 			String response = "Error";
 			int resp = csvService.saveDeSwap(deSwap);

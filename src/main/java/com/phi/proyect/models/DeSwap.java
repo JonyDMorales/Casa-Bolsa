@@ -19,8 +19,8 @@ public class DeSwap implements Serializable{
 	private String FhFin;
 	private int NuCurvaDescuento;
 	
-	@Column(name = "Nu_Curva_DescFlot")
-	private int NuCurvaDescFlot;
+	@Column(name = "Nu_Curva_Desc_Flot")
+	private int curvaFlot;
 	
 	private Double NuFija;
 	private int NuFlotante;
@@ -31,7 +31,7 @@ public class DeSwap implements Serializable{
 	private Double NuConvencion;
 	private int TpProducto;
 	private int TpTransaccion;
-	private int TpEstandar;
+	private int TpDescuento;
 	
 	public DeSwap() {
 		super();
@@ -77,12 +77,13 @@ public class DeSwap implements Serializable{
 		NuCurvaDescuento = nuCurvaDescuento;
 	}
 
-	public int getNuCurvaDescFlot() {
-		return NuCurvaDescFlot;
+
+	public int getCurvaFlot() {
+		return curvaFlot;
 	}
 
-	public void setNuCurvaDescFlot(int nuCurvaDescFlot) {
-		NuCurvaDescFlot = nuCurvaDescFlot;
+	public void setCurvaFlot(int curvaFlot) {
+		this.curvaFlot = curvaFlot;
 	}
 
 	public Double getNuFija() {
@@ -157,12 +158,12 @@ public class DeSwap implements Serializable{
 		TpTransaccion = tpTransaccion;
 	}
 
-	public int getTpEstandar() {
-		return TpEstandar;
+	public int getTpDescuento() {
+		return TpDescuento;
 	}
 
-	public void setTpEstandar(int tpEstandar) {
-		TpEstandar = tpEstandar;
+	public void setTpDescuento(int tpDescuento) {
+		TpDescuento = tpDescuento;
 	}
 
 	

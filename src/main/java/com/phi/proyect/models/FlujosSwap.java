@@ -2,6 +2,7 @@ package com.phi.proyect.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,6 +19,7 @@ public class FlujosSwap implements Serializable{
 	private int NuPago;
 	private String FhPago;
 	private Double NuMontoPago;
+	
 	private int NuPlazoCupon;
 	private Double NuTasaVigente;
 	private int CdActivo;

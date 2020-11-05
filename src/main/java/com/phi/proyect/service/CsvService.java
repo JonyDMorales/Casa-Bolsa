@@ -11,6 +11,7 @@ import com.phi.proyect.models.Caps;
 import com.phi.proyect.models.CdCurvas;
 import com.phi.proyect.models.CdInstrumento;
 import com.phi.proyect.models.Curvas;
+import com.phi.proyect.models.CurvasParametria;
 import com.phi.proyect.models.DeCapsfloor;
 import com.phi.proyect.models.DeFuturos;
 import com.phi.proyect.models.DeSwap;
@@ -21,6 +22,7 @@ import com.phi.proyect.models.HCurvas2;
 import com.phi.proyect.repository.CdCurvasRepository;
 import com.phi.proyect.repository.CdInstrumentoRepository;
 import com.phi.proyect.repository.CsvRepository;
+import com.phi.proyect.repository.CurvasParametriaRepository;
 import com.phi.proyect.repository.CurvasRepository;
 import com.phi.proyect.repository.DeCapsfloorRepository;
 import com.phi.proyect.repository.DeFuturosRepository;
@@ -57,6 +59,8 @@ public class CsvService {
 	private FlujosSwapRepository flujosSwapRepo;
 	@Autowired 
 	private DeFuturosRepository deFuturosRepo;
+	@Autowired 
+	private CurvasParametriaRepository curvasParametros;
 	
 	@Transactional
     public Caps create(Caps caps) {
@@ -177,5 +181,10 @@ public class CsvService {
 	public int deleteFlujosSwap(String data) {
 		this.HcurRepo.setSafeMode();
 		return this.flujosSwapRepo.deleteAll(data);
+	}
+	
+	@Transactional
+	public List<CurvasParametria> getCurvasParametria(){
+		return this.curvasParametros.curvasParametria();
 	}
 }

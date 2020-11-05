@@ -13,7 +13,7 @@ public class CalculoDeVarSwap {
 	/* nuevos campos que quedaron en la tabla despues de las modificaciones de Jon*/
 	@Id
 	private String CdInstrumento;
-	private Date fecha;
+	private String fecha;
 	private Double var1;
 	private Double var2;
 	private Double var3;
@@ -26,7 +26,7 @@ public class CalculoDeVarSwap {
 	
 /*---------------cambios alejandro--------------------*/
 	
-	public CalculoDeVarSwap(String cdInstrumento, Date fecha, Double var1, Double var2, Double var3) {
+	public CalculoDeVarSwap(String cdInstrumento, String fecha, Double var1, Double var2, Double var3) {
 		super();
 		CdInstrumento = cdInstrumento;
 		this.fecha = fecha;
@@ -46,12 +46,14 @@ public class CalculoDeVarSwap {
 		CdInstrumento = cdInstrumento;
 	}
 
-	public Date getFecha() {
+
+
+	public String getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha2) {
-		this.fecha = fecha2;
+	public void setFecha(String fecha) {
+		this.fecha = fecha;
 	}
 
 	public Double getVar1() {

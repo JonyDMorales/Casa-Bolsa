@@ -30,6 +30,7 @@ import com.phi.proyect.models.Caps;
 import com.phi.proyect.models.CdCurvas;
 import com.phi.proyect.models.CdInstrumento;
 import com.phi.proyect.models.Curvas;
+import com.phi.proyect.models.CurvasParametria;
 import com.phi.proyect.models.DeCapsfloor;
 import com.phi.proyect.models.DeFuturos;
 import com.phi.proyect.models.DeSwap;
@@ -62,16 +63,10 @@ public class CsvController {
 	}
 
 	@RequestMapping(value = "/Column", method = RequestMethod.POST)
-	public Map<String, Object> getColumnasFilas() {
-		Map<String,Object> response = new HashMap<>();
-		List<Parametros> respCol = params.findParametro("COLUMNAS");
-		String columns = respCol.get(0).getValorDelParametro();
-		String[] parts = columns.split("\\|");
-		List<Parametros> respFil = params.findParametro("FILAS");
-		String filas = respFil.get(0).getValorDelParametro();
-		String[] parts2 = filas.split("\\|");
-		response.put("columnas", parts);
-		response.put("filas", parts2);
+	public List<CurvasParametria> getColumnasFilas() {
+		
+		List<CurvasParametria> response = csvService.getCurvasParametria();
+		
 		return response;
 	}
 	

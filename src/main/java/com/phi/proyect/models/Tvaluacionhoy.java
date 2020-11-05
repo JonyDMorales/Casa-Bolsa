@@ -14,7 +14,7 @@ public class Tvaluacionhoy {
 	private String CdTransaccion;
 	private double Valuacion;
 	private int CdInstrumento;
-	private Date fecha;
+	private String fecha;
 	private double var1;
 	private double var2;
 	private double var3;
@@ -43,7 +43,7 @@ public class Tvaluacionhoy {
 	
 	
 
-	public Tvaluacionhoy(String cdTransaccion, double valuacion, int cdInstrumento, Date fecha, double var1,
+	public Tvaluacionhoy(String cdTransaccion, double valuacion, int cdInstrumento, String fecha, double var1,
 			double var2, double var3, int portafolio) {
 		super();
 		CdTransaccion = cdTransaccion;
@@ -80,11 +80,11 @@ public class Tvaluacionhoy {
 		CdInstrumento = cdInstrumento;
 	}
 
-	public Date getFecha() {
+	public String getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(String fecha) {
 		this.fecha = fecha;
 	}
 

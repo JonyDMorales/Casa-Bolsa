@@ -56,7 +56,7 @@ public class MercadoDeDerivadosController {
 		Date date2 = Calendar.getInstance().getTime();  
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
 		String fecha2 = dateFormat.format(date2);
-			
+		String f = deDerivadosService.findValue();
 
 
 			if (lista.size() > 0) {
@@ -90,13 +90,13 @@ public class MercadoDeDerivadosController {
 							 resultVar3 = (float) 0.0;
 							}
 					}
-
-					result = deDerivadosService.create(new Tvaluacionhoy(lista.get(i).getCdTransaccion(),resultado,2,date2, resultVar1, resultVar2,resultVar3,200));
+					
+					result = deDerivadosService.create(new Tvaluacionhoy(lista.get(i).getCdTransaccion(),resultado,2,f, resultVar1, resultVar2,resultVar3,200));
 					
 					list = deDerivadosService.findByInsertHistorico(lista.get(i).getCdTransaccion(), fecha2);
 					
 					if (list.size() == 0) {
-						result2 = deDerivadosService.createHistorico(new Tvaluacionhoy(lista.get(i).getCdTransaccion(),resultado,2,date2, resultVar1, resultVar2,resultVar3,200));
+						result2 = deDerivadosService.createHistorico(new Tvaluacionhoy(lista.get(i).getCdTransaccion(),resultado,2,f, resultVar1, resultVar2,resultVar3,200));
 					}
 					
 				}
@@ -109,7 +109,7 @@ public class MercadoDeDerivadosController {
 			listCal = deDerivadosService.selectVista();
 			
 			if(listCal.size() > 0) {
-				deDerivadosService.saveDeVarSwap(new CalculoDeVarSwap("2", date2, listCal.get(3).getPl(), listCal.get(8).getPl(), listCal.get(13).getPl()));
+				deDerivadosService.saveDeVarSwap(new CalculoDeVarSwap("2", f, listCal.get(3).getPl(), listCal.get(8).getPl(), listCal.get(13).getPl()));
 			}
 			
 		return new ResponseTransfer("Success");

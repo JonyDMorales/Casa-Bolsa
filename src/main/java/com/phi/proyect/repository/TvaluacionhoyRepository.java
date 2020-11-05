@@ -14,11 +14,11 @@ public interface TvaluacionhoyRepository extends JpaRepository<Tvaluacionhoy,Int
 
 	@Modifying
 	@Query(value="INSERT INTO tvaluacionhoy (Cd_Transaccion,Valuacion,cd_instrumento,fecha,var1,var2,var3,portafolio) VALUES(:cd, :valuacion,:instrumento,:fecha,:var1,:var2,:var3,:portafolio)", nativeQuery =  true)
-	int save2(@Param("cd") String cd,@Param("valuacion") double valuacion,@Param("instrumento") int instrumento,@Param("fecha") Date fecha, @Param("var1") double var1, @Param("var2") double var2, @Param("var3") double var3,@Param("portafolio") Integer portafolio);
+	int save2(@Param("cd") String cd,@Param("valuacion") double valuacion,@Param("instrumento") int instrumento,@Param("fecha") String fecha, @Param("var1") double var1, @Param("var2") double var2, @Param("var3") double var3,@Param("portafolio") Integer portafolio);
 	
 	@Modifying
 	@Query(value="INSERT INTO tvaluacionhistorico (Cd_Transaccion,Valuacion,cd_instrumento,var1,var2,var3,portafolio,fecha) VALUES(:cd, :valuacion,:instrumento,:var1,:var2,:var3,:portafolio,:fecha)", nativeQuery =  true)
-	int save3(@Param("cd") String cd,@Param("valuacion") double valuacion,@Param("instrumento") int instrumento, @Param("var1") double var1, @Param("var2") double var2, @Param("var3") double var3,@Param("portafolio") Integer portafolio,@Param("fecha") Date fecha);
+	int save3(@Param("cd") String cd,@Param("valuacion") double valuacion,@Param("instrumento") int instrumento, @Param("var1") double var1, @Param("var2") double var2, @Param("var3") double var3,@Param("portafolio") Integer portafolio,@Param("fecha") String fecha);
 	
 	@Query(value="select * from tvaluacionhoy WHERE cd_instrumento =:cdInstrumento", nativeQuery =  true)
 	public List<Tvaluacionhoy> findBycdInstrumento(@Param("cdInstrumento") String cdInstrumento);

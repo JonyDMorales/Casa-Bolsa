@@ -12,5 +12,7 @@ public interface MercadoDeDerivadosRepository extends JpaRepository<DeSwap, Inte
 	
 	@Query(value="SELECT Value FROM parameter where Id_Parameter =:id", nativeQuery =  true)
 	public String getValue(@Param("id") int id);
+	
+	
 
 }

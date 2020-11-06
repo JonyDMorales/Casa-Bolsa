@@ -25,4 +25,7 @@ public interface TvaluacionhoyRepository extends JpaRepository<Tvaluacionhoy,Int
 	
 	@Query(value="select * from tvaluacionhistorico WHERE Cd_Transaccion =:cd AND fecha =:fecha", nativeQuery =  true)
 	public List<Tvaluacionhoy> findByInsertHistorico(@Param("cd") String cd, @Param("fecha") String fecha);
+	
+	@Query(value="select * from tvaluacionhistorico WHERE Cd_Transaccion =:cd", nativeQuery =  true)
+	public List<Tvaluacionhoy> findByCdTransa(@Param("cd") String cd);
 }

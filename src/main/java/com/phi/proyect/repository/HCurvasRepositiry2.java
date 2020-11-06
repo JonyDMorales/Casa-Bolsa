@@ -14,8 +14,8 @@ import com.phi.proyect.models.HCurvas2;
 
 public interface HCurvasRepositiry2 extends JpaRepository<HCurvas2, Integer> {
 	
-	@Query(value="SELECT Cd_Curva,Fh_Date  FROM h_curvas order by Fh_Date ASC limit 1;", nativeQuery =  true)
-	public List<HCurvas2> getUltimoRegistro();
+	@Query(value="SELECT Cd_Curva,Fh_Date  FROM h_curvas where Cd_Curva =:curva order by Fh_Date ASC limit 1;", nativeQuery =  true)
+	public List<HCurvas2> getUltimoRegistro(@Param("curva") int curva);
 	
 	
 	@Modifying
@@ -24,7 +24,11 @@ public interface HCurvasRepositiry2 extends JpaRepository<HCurvas2, Integer> {
 	void setSafeMode();
 	
 	@Modifying
-	@Query(value="delete from h_curvas where Fh_Date =:fecha", nativeQuery =  true)
-	int deleteUltimo(@Param("fecha") String fecha);
+	@Query(value="delete from h_curvas where Fh_Date =:fecha and Cd_Curva=:curva", nativeQuery =  true)
+	int deleteUltimo(@Param("fecha") String fecha,@Param("curva") int curva);
+	
+	@Modifying
+	@Query(value="Update parameter set value = (Select getfechaplazo((select value from parameter where id_parameter =0),1)) where id_parameter = 0;", nativeQuery =  true)
+	int updateFecha();
 	
 }

@@ -64,7 +64,6 @@ public class CsvController {
 
 	@RequestMapping(value = "/Column", method = RequestMethod.POST)
 	public List<CurvasParametria> getColumnasFilas() {
-		
 		List<CurvasParametria> response = csvService.getCurvasParametria();
 		
 		return response;
@@ -89,14 +88,15 @@ public class CsvController {
 
 	@RequestMapping(value = "/hcurvas", method = RequestMethod.POST)
 	public ResponseTransfer uploadHCurvas(@RequestBody ObjectNode obj) {
-
-		List<HCurvas2> ultimo = csvService.getUltimoRegistro();
-		String fecha = ultimo.get(0).getFhDate();
-		int del = csvService.deleteUltimoRegistro(fecha);
 		double[] array = new double[107];
 
 		int t = 1;
 		int cdCurva = obj.get("0").asInt();
+		
+		List<HCurvas2> ultimo = csvService.getUltimoRegistro(cdCurva);
+		String fecha = ultimo.get(0).getFhDate();
+		int del = csvService.deleteUltimoRegistro(fecha,cdCurva);
+		
 		for (int i = 0; i < array.length; i++) {
 			String tConvert = "" + t + "";
 			if (obj.get(tConvert) != null) {

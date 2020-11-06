@@ -15,6 +15,7 @@ import com.phi.proyect.models.Vista;
 import com.phi.proyect.repository.CalculoDeVarSwapRepository;
 import com.phi.proyect.repository.DeSwapRepository;
 import com.phi.proyect.repository.DeSwapRepository2;
+import com.phi.proyect.repository.HCurvasRepositiry2;
 import com.phi.proyect.repository.MercadoDeDerivadosRepository;
 import com.phi.proyect.repository.TvaluacionhoyRepository;
 import com.phi.proyect.repository.VistaRepository;
@@ -33,6 +34,8 @@ public class MercadoDeDerivadosService {
 	private CalculoDeVarSwapRepository calRepo;
 	@Autowired
 	private VistaRepository vista;
+	@Autowired
+	private HCurvasRepositiry2 HcurRepo;
 	
 	@Transactional
 	public List<com.phi.proyect.models.DeSwap2> findAllDeSwap(){
@@ -65,7 +68,9 @@ public class MercadoDeDerivadosService {
 		return tvalRepo.findByInsertHistorico(cdTransaccion, fecha);
 	}
 	
-	
+	public List<Tvaluacionhoy>findByCdTransa(String cdTransaccion){
+		return tvalRepo.findByCdTransa(cdTransaccion);
+	}
 	public List<Vista> selectVista() {
 		return vista.selectVista();
 	}
@@ -76,4 +81,9 @@ public class MercadoDeDerivadosService {
     	
     }
 
+	@Transactional
+    public int updateFecha() {
+		this.HcurRepo.setSafeMode();
+    	return this.HcurRepo.updateFecha();
+    }
 }

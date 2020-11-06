@@ -146,14 +146,14 @@ public class CsvService {
     }
 	
 	@Transactional
-    public List<HCurvas2> getUltimoRegistro() {
-    	return this.HcurRepo.getUltimoRegistro();
+    public List<HCurvas2> getUltimoRegistro(int curva) {
+    	return this.HcurRepo.getUltimoRegistro(curva);
     }
 	
 	@Transactional
-    public int deleteUltimoRegistro(String fecha) {
+    public int deleteUltimoRegistro(String fecha,int curva) {
 		this.HcurRepo.setSafeMode();
-    	return this.HcurRepo.deleteUltimo(fecha);
+    	return this.HcurRepo.deleteUltimo(fecha,curva);
     }
 	
 	@Transactional

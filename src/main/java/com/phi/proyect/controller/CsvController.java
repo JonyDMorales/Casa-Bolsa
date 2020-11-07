@@ -55,7 +55,8 @@ public class CsvController {
 	private final ParametrosService params;
 	private final MercadoDeDerivadosService deDerivadosService;
 
-	public CsvController(CsvService csvService,ParametrosService params,MercadoDeDerivadosService deDerivadosService) {
+	public CsvController(CsvService csvService, ParametrosService params,
+			MercadoDeDerivadosService deDerivadosService) {
 		super();
 		this.csvService = csvService;
 		this.params = params;
@@ -65,10 +66,10 @@ public class CsvController {
 	@RequestMapping(value = "/Column", method = RequestMethod.POST)
 	public List<CurvasParametria> getColumnasFilas() {
 		List<CurvasParametria> response = csvService.getCurvasParametria();
-		
+
 		return response;
 	}
-	
+
 	@RequestMapping(value = "/csv", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Caps> archivoUpload(@RequestBody ObjectNode obj) {
@@ -90,13 +91,15 @@ public class CsvController {
 	public ResponseTransfer uploadHCurvas(@RequestBody ObjectNode obj) {
 		double[] array = new double[107];
 
-		int t = 1;
-		int cdCurva = obj.get("0").asInt();
+		int t = 2;
+		int cdCurva = obj.get("1").asInt();
+		if (obj.get("0").asInt() == 0) {
+			List<HCurvas2> ultimo = csvService.getUltimoRegistro(cdCurva);
+			String fecha = ultimo.get(0).getFhDate();
+			int del = csvService.deleteUltimoRegistro(fecha, cdCurva);
+		}
 		
-		List<HCurvas2> ultimo = csvService.getUltimoRegistro(cdCurva);
-		String fecha = ultimo.get(0).getFhDate();
-		int del = csvService.deleteUltimoRegistro(fecha,cdCurva);
-		
+
 		for (int i = 0; i < array.length; i++) {
 			String tConvert = "" + t + "";
 			if (obj.get(tConvert) != null) {
@@ -121,20 +124,23 @@ public class CsvController {
 	@RequestMapping(value = "/curvas", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadCurvas(@RequestBody ObjectNode obj) {
-		List<CdCurvas> lista = csvService.findByCdCurva(obj.get("0").asInt());
+
+		List<CdCurvas> lista = csvService.findByCdCurva(obj.get("1").asInt());
 		if (lista.size() > 0) {
-			List<Curvas> register = csvService.getResultados();
-			if (register.size() > 0) {
-				for (int i = 0; i < register.size(); i++) {
-					csvService.deleteAllCurvas(register.get(i).getFkCdCurva());
+			if (obj.get("0").asInt() == 0) {
+				List<Curvas> register = csvService.getResultados();
+				if (register.size() > 0) {
+					for (int i = 0; i < register.size(); i++) {
+						csvService.deleteAllCurvas(register.get(i).getFkCdCurva());
+					}
 				}
 			}
 			String fecha2 = deDerivadosService.findValue();
 			Curvas curvas = new Curvas();
-			curvas.setFkCdCurva(obj.get("0").asInt());
+			curvas.setFkCdCurva(obj.get("1").asInt());
 			curvas.setFhDate(fecha2);
-			curvas.setNuNodo(obj.get("1").asInt());
-			curvas.setValor(obj.get("2").asDouble(0));
+			curvas.setNuNodo(obj.get("2").asInt());
+			curvas.setValor(obj.get("3").asDouble(0));
 			String response = "Error";
 			int resp = csvService.saveCurvas(curvas);
 			if (resp == 1) {
@@ -143,7 +149,7 @@ public class CsvController {
 			return new ResponseTransfer(response);
 		} else {
 
-			return new ResponseTransfer("No se encontro el valor " + obj.get("0").asInt()
+			return new ResponseTransfer("No se encontro el valor " + obj.get("1").asInt()
 					+ " tiene que hacer el registro primero en cd_curvas");
 		}
 	}

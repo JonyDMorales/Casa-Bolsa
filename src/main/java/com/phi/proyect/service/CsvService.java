@@ -162,9 +162,9 @@ public class CsvService {
 	}
 	
 	@Transactional
-    public int deleteAllCurvas(int id) {
+    public void deleteAllCurvas() {
 		this.HcurRepo.setSafeMode();
-    	return this.curvasRepo.deleteAll(id);
+    	this.curvasRepo.deleteAll();
     }
 	
 	@Transactional

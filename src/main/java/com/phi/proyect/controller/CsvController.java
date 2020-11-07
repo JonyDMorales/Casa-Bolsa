@@ -128,12 +128,7 @@ public class CsvController {
 		List<CdCurvas> lista = csvService.findByCdCurva(obj.get("1").asInt());
 		if (lista.size() > 0) {
 			if (obj.get("0").asInt() == 0) {
-				List<Curvas> register = csvService.getResultados();
-				if (register.size() > 0) {
-					for (int i = 0; i < register.size(); i++) {
-						csvService.deleteAllCurvas(register.get(i).getFkCdCurva());
-					}
-				}
+				csvService.deleteAllCurvas();
 			}
 			String fecha2 = deDerivadosService.findValue();
 			Curvas curvas = new Curvas();

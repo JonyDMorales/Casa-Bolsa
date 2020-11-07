@@ -23,6 +23,6 @@ public interface CurvasRepository extends JpaRepository<Curvas, Integer>{
 	public List<Curvas> getRegistros();
 	
 	@Modifying
-	@Query(value="delete from curvas where Fk_Cd_Curva =:id", nativeQuery =  true)
-	int deleteAll(@Param("id") int id);
+	@Query(value="delete from curvas", nativeQuery =  true)
+	void deleteAll();
 }

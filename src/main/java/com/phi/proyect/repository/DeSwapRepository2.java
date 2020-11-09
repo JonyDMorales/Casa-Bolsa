@@ -14,4 +14,9 @@ public interface DeSwapRepository2 extends JpaRepository<com.phi.proyect.models.
 	@Modifying
 	@Query(value="delete from flujos_swap where Cd_Transaccion =:id", nativeQuery =  true)
 	int deleteAll(@Param("id") String data);
+	
+	@Modifying
+	@Query(value="delete from calculo_de_var_swap where Cd_Transaccion =:f", nativeQuery =  true)
+	int deleteCalculoSwap(@Param("f") String fecha);
+	
 }

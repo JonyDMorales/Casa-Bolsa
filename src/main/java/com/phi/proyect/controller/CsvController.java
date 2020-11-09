@@ -110,9 +110,7 @@ public class CsvController {
 		}
 
 		String fecha2 = deDerivadosService.findValue();
-		
 		int eliminar = csvService.deleteHcurvas(fecha2);
-		
 		String response = "Error";
 		int resp = csvService.createCurvasNuevo(array, cdCurva, fecha2);
 		if (resp == 1) {

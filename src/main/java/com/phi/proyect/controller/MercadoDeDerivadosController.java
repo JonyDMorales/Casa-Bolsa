@@ -125,6 +125,7 @@ public class MercadoDeDerivadosController {
 			}
 
 		} else {
+			deDerivadosService.updateFechaRetoceso();
 
 			return new ResponseTransfer("No hay swaps que procesar");
 		}
@@ -136,7 +137,7 @@ public class MercadoDeDerivadosController {
 					listCal.get(8).getPl(), listCal.get(13).getPl()));
 		}
 
-		return new ResponseTransfer("Success");
+		return new ResponseTransfer("El proceso ha terminado");
 
 	}
 }

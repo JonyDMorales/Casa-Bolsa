@@ -33,6 +33,11 @@ public interface HCurvasRepositiry2 extends JpaRepository<HCurvas2, Integer> {
 	
 	
 	@Modifying
+	@Query(value="Update parameter set value = ((select getfechaanterio(paremeter = 0),1)) where id_parameter = 0;", nativeQuery =  true)
+	int updateFechaRetoceso();
+	
+	
+	@Modifying
 	@Query(value="delete from h_curvas where Fh_Date =:fecha", nativeQuery =  true)
 	void deleteMismaFecha(@Param("fecha") String fecha);
 	

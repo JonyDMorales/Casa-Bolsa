@@ -96,11 +96,7 @@ public class MercadoDeDerivadosService {
 	
 
 	
-	@Transactional
-    public int deleteCalculoSwap(String fecha) {
-		this.HcurRepo.setSafeMode();
-    	return this.deSwapRepo2.deleteCalculoSwap(fecha);
-    }
+
 	
 	
 }

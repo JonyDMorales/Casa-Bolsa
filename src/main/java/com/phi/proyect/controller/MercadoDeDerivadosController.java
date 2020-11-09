@@ -126,7 +126,6 @@ public class MercadoDeDerivadosController {
 
 		} else {
 			deDerivadosService.updateFechaRetoceso();
-
 			return new ResponseTransfer("No hay swaps que procesar");
 		}
 

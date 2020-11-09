@@ -17,7 +17,6 @@ import com.phi.proyect.repository.DeSwapRepository;
 import com.phi.proyect.repository.DeSwapRepository2;
 import com.phi.proyect.repository.HCurvasRepositiry2;
 import com.phi.proyect.repository.MercadoDeDerivadosRepository;
-import com.phi.proyect.repository.ParameterRepository;
 import com.phi.proyect.repository.TvaluacionhoyRepository;
 import com.phi.proyect.repository.VistaRepository;
 
@@ -80,6 +79,18 @@ public class MercadoDeDerivadosService {
     public int saveDeVarSwap(CalculoDeVarSwap cal) {
      	return this.calRepo.saveDeVarSwap(cal.getCdInstrumento(),cal.getFecha(),cal.getVar1(),cal.getVar2(),cal.getVar3());
     	
+    }
+	
+	@Transactional
+    public List<CalculoDeVarSwap> getFechaCalculo(String fecha) {
+     	return this.calRepo.findByFecha(fecha);
+    	
+    }
+	
+	@Transactional
+    public void deleteCalculo(String fecha) {
+		this.calRepo.setSafeMode();
+    	this.calRepo.deleteUltimo(fecha);
     }
 
 	@Transactional

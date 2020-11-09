@@ -50,12 +50,18 @@ public class MercadoDeDerivadosController {
 		int resultFecha = deDerivadosService.updateFecha();
 		List<com.phi.proyect.models.DeSwap2> lista = deDerivadosService.findAllDeSwap();
 		List<Parametros> listaparam = params.findParametro("PORCENTAJE");
-		String porc = listaparam.get(0).getValorDelParametro();
-		System.out.println(listaparam.toString());
-		String[] parts = porc.split("\\|");
-		int porce1 = Integer.parseInt(parts[0]);
-		int porce2 = Integer.parseInt(parts[1]);
-		int porce3 = Integer.parseInt(parts[2]);
+		int porce1 = 3;
+		int porce2 = 7;
+		int porce3 = 13;
+		if(listaparam.size() > 0) {
+			String porc = listaparam.get(0).getValorDelParametro();
+			System.out.println(listaparam.toString());
+			String[] parts = porc.split("\\|");
+			porce1 = Integer.parseInt(parts[0]);
+			porce2 = Integer.parseInt(parts[1]);
+			porce3 = Integer.parseInt(parts[2]);
+		}
+		
 		
 		String fecha = deDerivadosService.findValue();
 		List<Tvaluacionhoy> list = new ArrayList<>();
@@ -127,6 +133,12 @@ public class MercadoDeDerivadosController {
 		} else {
 			deDerivadosService.updateFechaRetoceso();
 			return new ResponseTransfer("No hay swaps que procesar");
+		}
+		
+		List<CalculoDeVarSwap> listCalcu = deDerivadosService.getFechaCalculo(fecha2);
+		System.out.println(listCalcu.size());
+		if(listCalcu.size() > 0) {
+			deDerivadosService.deleteCalculo(fecha2);
 		}
 
 		listCal = deDerivadosService.selectVista();

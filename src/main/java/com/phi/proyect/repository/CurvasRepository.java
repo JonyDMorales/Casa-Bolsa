@@ -25,4 +25,6 @@ public interface CurvasRepository extends JpaRepository<Curvas, Integer>{
 	@Modifying
 	@Query(value="delete from curvas", nativeQuery =  true)
 	void deleteAll();
+	
+	
 }

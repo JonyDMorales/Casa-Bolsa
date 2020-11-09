@@ -187,4 +187,11 @@ public class CsvService {
 	public List<CurvasParametria> getCurvasParametria(){
 		return this.curvasParametros.curvasParametria();
 	}
+	
+	@Transactional
+	public int deleteHcurvas(String fecha) {
+		this.HcurRepo.setSafeMode();
+		this.HcurRepo.deleteMismaFecha(fecha);
+		return 1;
+	}
 }

@@ -66,7 +66,6 @@ public class CsvController {
 	@RequestMapping(value = "/Column", method = RequestMethod.POST)
 	public List<CurvasParametria> getColumnasFilas() {
 		List<CurvasParametria> response = csvService.getCurvasParametria();
-
 		return response;
 	}
 
@@ -104,7 +103,6 @@ public class CsvController {
 			String tConvert = "" + t + "";
 			if (obj.get(tConvert) != null) {
 				array[i] = obj.get(tConvert).asDouble();
-
 			} else {
 				array[i] = 0.0;
 			}
@@ -112,6 +110,8 @@ public class CsvController {
 		}
 
 		String fecha2 = deDerivadosService.findValue();
+		
+		int eliminar = csvService.deleteHcurvas(fecha2);
 		
 		String response = "Error";
 		int resp = csvService.createCurvasNuevo(array, cdCurva, fecha2);

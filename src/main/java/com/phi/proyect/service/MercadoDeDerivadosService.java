@@ -44,7 +44,7 @@ public class MercadoDeDerivadosService {
 	
 	@Transactional
 	public String findValue() {
-		return this.MercadoDeRepo.getValue(0);
+		return this.MercadoDeRepo.getValue();
 	}
 	
 	@Transactional

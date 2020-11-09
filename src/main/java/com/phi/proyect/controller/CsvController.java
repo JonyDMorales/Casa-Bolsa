@@ -112,6 +112,7 @@ public class CsvController {
 		}
 
 		String fecha2 = deDerivadosService.findValue();
+		
 		String response = "Error";
 		int resp = csvService.createCurvasNuevo(array, cdCurva, fecha2);
 		if (resp == 1) {
@@ -143,7 +144,6 @@ public class CsvController {
 			}
 			return new ResponseTransfer(response);
 		} else {
-
 			return new ResponseTransfer("No se encontro el valor " + obj.get("1").asInt()
 					+ " tiene que hacer el registro primero en cd_curvas");
 		}

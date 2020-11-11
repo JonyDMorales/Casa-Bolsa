@@ -20,8 +20,8 @@ public class FlujosSwap implements Serializable{
 	private String FhPago;
 	private Double NuMontoPago;
 	
-	private int NuPlazoCupon;
-	private Double NuTasaVigente;
+	private int Nu_PlazoCupon;
+	private Double Nu_TasaVigente;
 	private int CdActivo;
 	private String Fh_Pago_b;
 	private Double Nu_Monto_Pago_b;
@@ -64,19 +64,19 @@ public class FlujosSwap implements Serializable{
 	}
 
 	public int getNuPlazoCupon() {
-		return NuPlazoCupon;
+		return Nu_PlazoCupon;
 	}
 
 	public void setNuPlazoCupon(int nuPlazoCupon) {
-		NuPlazoCupon = nuPlazoCupon;
+		Nu_PlazoCupon = nuPlazoCupon;
 	}
 
 	public Double getNuTasaVigente() {
-		return NuTasaVigente;
+		return Nu_TasaVigente;
 	}
 
 	public void setNuTasaVigente(Double nuTasaVigente) {
-		NuTasaVigente = nuTasaVigente;
+		Nu_TasaVigente = nuTasaVigente;
 	}
 
 	public int getCdActivo() {

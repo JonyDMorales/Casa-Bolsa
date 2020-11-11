@@ -76,7 +76,6 @@ public class MercadoDeDerivadosController {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String fecha2 = dateFormat.format(date2);
 		String f = deDerivadosService.findValueDate();
-
 		if (lista.size() > 0) {
 			for (int i = 0; i < lista.size(); i++) {
 				if (lista.get(i).getTpProducto() == 1) {
@@ -143,6 +142,9 @@ public class MercadoDeDerivadosController {
 			return new ResponseTransfer("No hay swaps que procesar");
 		}
 		
+
+
+		
 		List<CalculoDeVarSwap> listCalcu = deDerivadosService.getFechaCalculo(fecha2);
 		System.out.println(listCalcu.size());
 		if(listCalcu.size() > 0) {
@@ -150,13 +152,16 @@ public class MercadoDeDerivadosController {
 		}
 
 		listCal = deDerivadosService.selectVista();
+		
 
 		if (listCal.size() > 0) {
 			deDerivadosService.saveDeVarSwap(new CalculoDeVarSwap("2", f, listCal.get(3).getPl(),
 					listCal.get(8).getPl(), listCal.get(13).getPl()));
 		}
+		
 
-		return new ResponseTransfer("El proceso ha terminado");
+
+		return new ResponseTransfer("Success");
 
 	}
 }

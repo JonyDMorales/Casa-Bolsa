@@ -226,14 +226,26 @@ public class CsvController {
 					"No se encontro el valor " + obj.get("0").asInt() + " tiene que hacer el registro en de_capsfloor");
 		}
 	}
-
+	
+	
+	@RequestMapping(value = "/deleteSwap", method = RequestMethod.POST)
+	public ResponseTransfer eliminarSwapFlujos() {
+		String response = "Error";
+		int a =  csvService.deleteDeSwap();
+		if (a == 0) {
+				int b = csvService.deleteFlujosSwap();
+			if (b == 0) {
+				response = "Success";		
+			}
+		}
+		return new ResponseTransfer(response);
+	}
 	@RequestMapping(value = "/deswap", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadDeSwap(@RequestBody ObjectNode obj) {
-		//csvService.deleteFlujosSwap();
-		List<DeSwap> lista = csvService.findByTransaccion(obj.get("0").asText());
+		List<DeSwap> lista = csvService.findByTransaccion(obj.get("1").asText());
 		if (lista.size() > 0) {
-			return new ResponseTransfer("El valor " + obj.get("0").asText() + " ya se encuentra registrado");
+			return new ResponseTransfer("El valor " + obj.get("1").asText() + " ya se encuentra registrado");
 		} else {
 			List<FlujosSwap> register = csvService.getResultadosFlujosSwap();
 			if (register.size() > 0) {
@@ -241,25 +253,24 @@ public class CsvController {
 				for (int j = 0; j < register.size(); j++) {
 					//csvService.deleteFlujosSwap(register.get(j).getCdTransaccion());
 				}
-				csvService.deleteDeSwap();
 			}
 			DeSwap deSwap = new DeSwap();
-			deSwap.setCdTransaccion(obj.get("0").asText());
-			deSwap.setCdInstrumento(obj.get("1").asInt());
-			deSwap.setFhInicio(obj.get("2").asText());
-			deSwap.setFhFin(obj.get("3").asText());
-			deSwap.setNuCurvaDescuento(obj.get("4").asInt());
-			deSwap.setCurvaFlot(obj.get("5").asInt());
-			deSwap.setNuFija(obj.get("6").asDouble());
-			deSwap.setNuFlotante(obj.get("7").asInt());
-			deSwap.setNuNominal(obj.get("8").asInt());
-			deSwap.setTcBanco(obj.get("9").asDouble());
-			deSwap.setTcCliente(obj.get("10").asDouble());
-			deSwap.setCdBcoRecibe(obj.get("11").asInt());
-			deSwap.setNuConvencion(obj.get("12").asDouble());
-			deSwap.setTpProducto(obj.get("13").asInt());
-			deSwap.setTpTransaccion(obj.get("14").asInt());
-			deSwap.setTpDescuento(obj.get("15").asInt());
+			deSwap.setCdTransaccion(obj.get("1").asText());
+			deSwap.setCdInstrumento(obj.get("2").asInt());
+			deSwap.setFhInicio(obj.get("3").asText());
+			deSwap.setFhFin(obj.get("4").asText());
+			deSwap.setNuCurvaDescuento(obj.get("5").asInt());
+			deSwap.setCurvaFlot(obj.get("6").asInt());
+			deSwap.setNuFija(obj.get("7").asDouble());
+			deSwap.setNuFlotante(obj.get("8").asInt());
+			deSwap.setNuNominal(obj.get("9").asInt());
+			deSwap.setTcBanco(obj.get("10").asDouble());
+			deSwap.setTcCliente(obj.get("11").asDouble());
+			deSwap.setCdBcoRecibe(obj.get("12").asInt());
+			deSwap.setNuConvencion(obj.get("13").asDouble());
+			deSwap.setTpProducto(obj.get("14").asInt());
+			deSwap.setTpTransaccion(obj.get("15").asInt());
+			deSwap.setTpDescuento(obj.get("16").asInt());
 
 			String response = "Error";
 			int resp = csvService.saveDeSwap(deSwap);

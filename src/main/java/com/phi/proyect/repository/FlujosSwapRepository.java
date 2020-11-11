@@ -20,7 +20,9 @@ public interface FlujosSwapRepository extends JpaRepository<FlujosSwap, Integer>
 	public List<FlujosSwap> getRegistros();
 	
 	@Modifying
-	@Query(value="delete from flujos_swap where Cd_Transaccion =:id", nativeQuery =  true)
-	int deleteAll(@Param("id") String data);
+	@Query(value="delete from flujos_swap", nativeQuery =  true)
+	int deleteAllFlujos();
+	
+
 
 }

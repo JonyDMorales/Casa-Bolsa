@@ -291,6 +291,7 @@ public class LogaritmoController {
 		retorno.add(nivelDetalle);
 		retorno.add(varLimiteLista);
 		retorno.add(calculoDeVarSwapList);
+		
 		return retorno;
 	}
 

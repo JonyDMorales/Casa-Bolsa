@@ -170,9 +170,10 @@ public class CsvService {
 	}
 	
 	@Transactional
-    public void deleteAllCurvas() {
+    public int deleteAllCurvas() {
 		this.HcurRepo.setSafeMode();
     	this.curvasRepo.deleteAll();
+    	return 0;
     }
 	
 	@Transactional
@@ -181,14 +182,17 @@ public class CsvService {
 	}
 	
 	@Transactional
-	public void deleteDeSwap() {
-		this.deSwapRepo.deleteAll();
+	public int deleteDeSwap() {
+		this.HcurRepo.setSafeMode();
+		this.deSwapRepo.deleteAllsSwaf();
+
+		return 0;
 	}
 	
 	@Transactional
 	public int deleteFlujosSwap() {
 		this.HcurRepo.setSafeMode();
-		this.flujosSwapRepo.deleteAll();
+		this.flujosSwapRepo.deleteAllFlujos();
 		return 0;
 	}
 	

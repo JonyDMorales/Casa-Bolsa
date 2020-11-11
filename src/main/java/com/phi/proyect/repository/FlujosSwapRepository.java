@@ -13,7 +13,7 @@ import com.phi.proyect.models.FlujosSwap;
 public interface FlujosSwapRepository extends JpaRepository<FlujosSwap, Integer>{
 	
 	@Modifying
-	@Query(value="INSERT INTO flujos_swap (Cd_Transaccion,Nu_Pago,Fh_Pago,Nu_Monto_Pago,Nu_Plazo_Cupon,Nu_Tasa_Vigente,Cd_Activo,Fh_Pago_B,Nu_Monto_Pago_B,Nu_Plazo_Cupon_B) VALUES( :transaccion, :nPago, :fPago, :monto, :plazo, :tasa, :activo, :fPagoB, :nuMontoPagoB, :nuPlazoCuponB)", nativeQuery =  true)
+	@Query(value="INSERT INTO flujos_swap (Cd_Transaccion,Nu_Pago,Fh_Pago,Nu_Monto_Pago,Nu_PlazoCupon,Nu_TasaVigente,Cd_Activo,Fh_Pago_B,Nu_Monto_Pago_B,Nu_PlazoCupon_B) VALUES( :transaccion, :nPago, :fPago, :monto, :plazo, :tasa, :activo, :fPagoB, :nuMontoPagoB, :nuPlazoCuponB)", nativeQuery =  true)
 	int save2(@Param("transaccion") String transaccion,@Param("nPago") int nPago,@Param("fPago") String fPago,@Param("monto") Double monto,@Param("plazo") int plazo, @Param("tasa") Double tasa, @Param("activo") int activo, @Param("fPagoB") String fPagoB, @Param("nuMontoPagoB") Double nuMontoPagoB, @Param("nuPlazoCuponB") int nuPlazoCuponB);
 	
 	@Query(value="SELECT * FROM flujos_swap group by Cd_Transaccion;", nativeQuery =  true)

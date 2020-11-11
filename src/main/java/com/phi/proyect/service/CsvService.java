@@ -71,6 +71,8 @@ public class CsvService {
 	
 	@Transactional
     public int createCurvasNuevo(double[] valores,int curva,String fecha) {
+		System.out.println("Curva: " + curva);
+		System.out.println("Fecha: " + fecha);
     	return this.curRepo.insertHcurvasNuevo(curva, fecha, valores[0], valores[1] ,valores[2],valores[3],valores[4],valores[5],valores[6],valores[7],valores[8],valores[9],valores[10],valores[11],valores[12],valores[13],valores[14],valores[15],valores[16],valores[17],valores[18],valores[19],valores[20],valores[21],valores[22],valores[23],valores[24],valores[25],valores[26],valores[27],valores[28],valores[29],valores[30],valores[31],valores[32],valores[33],valores[34],valores[35],valores[36],valores[37],valores[38],valores[39],valores[40],valores[41],valores[42],valores[43],valores[44],valores[45],valores[46],valores[47],valores[48],valores[49],valores[50],valores[51],valores[52],valores[53],valores[54],valores[55],valores[56],valores[57],valores[58],valores[59],valores[60],valores[61],valores[62],valores[63],valores[64],valores[65],valores[66],valores[67],valores[68],valores[69],valores[70],valores[71],valores[72],valores[73],valores[74],valores[75],valores[76],valores[77],valores[78],valores[79],valores[80],valores[81],valores[82],valores[83],valores[84],valores[85],valores[86],valores[87],valores[88],valores[89],valores[90],valores[91],valores[92],valores[93],valores[94],valores[95],valores[96],valores[97],valores[98],valores[99],valores[100],valores[101],valores[102],valores[103],valores[104],valores[105],valores[106]);    	
     }
 	
@@ -85,6 +87,7 @@ public class CsvService {
 	
 	@Transactional
 	public int saveCurvas(Curvas curvas) {
+		System.out.println(curvas.getFhDate());
 		return this.curvasRepo.save2(curvas.getFkCdCurva(), curvas.getFhDate(), curvas.getNuNodo(), curvas.getValor());
 	}
 	
@@ -131,6 +134,9 @@ public class CsvService {
 	
 	@Transactional
 	public int saveFlujosSwap(FlujosSwap flujosSwap) {
+		System.out.println(flujosSwap.getCdTransaccion());
+		System.out.println(flujosSwap.getNuPago());
+		System.out.println(flujosSwap.getFhPago());
 		return this.flujosSwapRepo.save2(flujosSwap.getCdTransaccion(),flujosSwap.getNuPago(),flujosSwap.getFhPago(),flujosSwap.getNuMontoPago(),flujosSwap.getNuPlazoCupon(),flujosSwap.getNuTasaVigente(),flujosSwap.getCdActivo(),flujosSwap.getFh_Pago_b(),flujosSwap.getNu_Monto_Pago_b(),flujosSwap.getNu_PlazoCupon_b());
 	}
 	
@@ -152,6 +158,8 @@ public class CsvService {
 	
 	@Transactional
     public int deleteUltimoRegistro(String fecha,int curva) {
+		System.out.println("Se elimina: " + curva);
+		System.out.println("Se elimina con fecha: " + fecha);
 		this.HcurRepo.setSafeMode();
     	return this.HcurRepo.deleteUltimo(fecha,curva);
     }
@@ -178,9 +186,10 @@ public class CsvService {
 	}
 	
 	@Transactional
-	public int deleteFlujosSwap(String data) {
+	public int deleteFlujosSwap() {
 		this.HcurRepo.setSafeMode();
-		return this.flujosSwapRepo.deleteAll(data);
+		this.flujosSwapRepo.deleteAll();
+		return 0;
 	}
 	
 	@Transactional

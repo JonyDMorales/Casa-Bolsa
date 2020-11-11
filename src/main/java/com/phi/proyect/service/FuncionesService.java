@@ -36,6 +36,10 @@ public class FuncionesService {
 	}
 	
 	public Float ValSwapTiie(String CdTransaccion, int CdCurva,String LdFecham, int cdDescuento) {
+		System.out.println(CdTransaccion);
+		System.out.println(CdCurva);
+		System.out.println(LdFecham);
+		System.out.println(cdDescuento);
 		return this.fr.ValSwapTiie(CdTransaccion, CdCurva, LdFecham,cdDescuento);
 	}
 

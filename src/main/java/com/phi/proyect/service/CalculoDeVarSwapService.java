@@ -17,8 +17,8 @@ public class CalculoDeVarSwapService {
 	@Autowired
 	CalculoDeVarSwapRepository cdvsr;
 	
-	public List<CalculoDeVarSwap> findByCdInstrumento(String cdInstrumento){
-		List<CalculoDeVarSwap> listCalculoDeVarSwap = cdvsr.findByCdInstrumento(cdInstrumento);
+	public List<CalculoDeVarSwap> findByCdInstrumento(String cdInstrumento, String fecha){
+		List<CalculoDeVarSwap> listCalculoDeVarSwap = cdvsr.findByCdInstrumento(cdInstrumento, fecha);
 
 		if(listCalculoDeVarSwap == null || listCalculoDeVarSwap.isEmpty()){
 			return new ArrayList<>();

@@ -89,14 +89,14 @@ public class CsvController {
 	@RequestMapping(value = "/hcurvas", method = RequestMethod.POST)
 	public ResponseTransfer uploadHCurvas(@RequestBody ObjectNode obj) {
 		double[] array = new double[107];
-
+		System.out.println("Entro con curva: " + obj.get("1").asInt());
 		int t = 2;
 		int cdCurva = obj.get("1").asInt();
-		if (obj.get("0").asInt() == 0) {
+		//if (obj.get("0").asInt() == 0) {
 			List<HCurvas2> ultimo = csvService.getUltimoRegistro(cdCurva);
 			String fecha = ultimo.get(0).getFhDate();
 			int del = csvService.deleteUltimoRegistro(fecha, cdCurva);
-		}
+		//}
 		
 
 		for (int i = 0; i < array.length; i++) {
@@ -230,6 +230,7 @@ public class CsvController {
 	@RequestMapping(value = "/deswap", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadDeSwap(@RequestBody ObjectNode obj) {
+		//csvService.deleteFlujosSwap();
 		List<DeSwap> lista = csvService.findByTransaccion(obj.get("0").asText());
 		if (lista.size() > 0) {
 			return new ResponseTransfer("El valor " + obj.get("0").asText() + " ya se encuentra registrado");
@@ -238,7 +239,7 @@ public class CsvController {
 			if (register.size() > 0) {
 
 				for (int j = 0; j < register.size(); j++) {
-					csvService.deleteFlujosSwap(register.get(j).getCdTransaccion());
+					//csvService.deleteFlujosSwap(register.get(j).getCdTransaccion());
 				}
 				csvService.deleteDeSwap();
 			}
@@ -273,6 +274,7 @@ public class CsvController {
 	@RequestMapping(value = "/flujosSwap", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadFlujosSwap(@RequestBody ObjectNode obj) {
+		//csvService.deleteFlujosSwap();
 		List<DeSwap> lista = csvService.findByTransaccion(obj.get("0").asText());
 		if (lista.size() > 0) {
 			FlujosSwap flujosSwap = new FlujosSwap();

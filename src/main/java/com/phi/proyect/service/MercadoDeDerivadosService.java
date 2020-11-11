@@ -46,13 +46,25 @@ public class MercadoDeDerivadosService {
 	public String findValue() {
 		return this.MercadoDeRepo.getValue();
 	}
+
+	@Transactional
+	public String findValueDate() {
+		return this.MercadoDeRepo.getValueDate();
+	}
 	
 	@Transactional
     public int create(Tvaluacionhoy tvaluacionhoy) {
      	return this.tvalRepo.save2(tvaluacionhoy.getCdTransaccion(), tvaluacionhoy.getValuacion(),tvaluacionhoy.getCdInstrumento(),tvaluacionhoy.getFecha(),tvaluacionhoy.getVar1(),tvaluacionhoy.getVar2(),tvaluacionhoy.getVar3(),tvaluacionhoy.getPortafolio());
     	
     }
-	
+
+
+	@Transactional
+	public int actualizarReg(Tvaluacionhoy tvaluacionhoy) {
+		this.tvalRepo.actualizarRegistro(tvaluacionhoy.getCdTransaccion(), tvaluacionhoy.getFecha(),tvaluacionhoy.getVar1(),tvaluacionhoy.getVar2(),tvaluacionhoy.getVar3());
+		return 0;
+	}
+
 	@Transactional
     public int createHistorico(Tvaluacionhoy tvaluacionhoy) {
      	return this.tvalRepo.save3(tvaluacionhoy.getCdTransaccion(), tvaluacionhoy.getValuacion(),tvaluacionhoy.getCdInstrumento(),tvaluacionhoy.getVar1(),tvaluacionhoy.getVar2(),tvaluacionhoy.getVar3(),tvaluacionhoy.getPortafolio(),tvaluacionhoy.getFecha());
@@ -77,8 +89,8 @@ public class MercadoDeDerivadosService {
 	
 	@Transactional
     public int saveDeVarSwap(CalculoDeVarSwap cal) {
+		System.out.println(cal);
      	return this.calRepo.saveDeVarSwap(cal.getCdInstrumento(),cal.getFecha(),cal.getVar1(),cal.getVar2(),cal.getVar3());
-    	
     }
 	
 	@Transactional

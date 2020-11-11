@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.phi.proyect.algoritmos.Algoritmos;
+import com.phi.proyect.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,16 +30,6 @@ import com.phi.proyect.models.VarLimite;
 import com.phi.proyect.models.VarOperacionesMd;
 import com.phi.proyect.models.Vector;
 import com.phi.proyect.models.VectorPreciosDia;
-import com.phi.proyect.service.CalculoDeVarSwapService;
-import com.phi.proyect.service.DiasInhabilesService;
-import com.phi.proyect.service.LogaritmoService;
-import com.phi.proyect.service.OperacionService;
-import com.phi.proyect.service.TvaluacionhoyService;
-import com.phi.proyect.service.ValuacionesMdService;
-import com.phi.proyect.service.VarLimiteService;
-import com.phi.proyect.service.VarOperacionesMdService;
-import com.phi.proyect.service.VectorPreciosDiaService;
-import com.phi.proyect.service.VectorService;
 import com.phi.proyect.vo.MesaDerivados;
 import com.phi.proyect.vo.MesadeDinero;
 
@@ -57,7 +48,11 @@ public class LogaritmoController {
 	private final VarOperacionesMdService vaOpMdSer;
 	private final TvaluacionhoyService tvSer;
 	private final CalculoDeVarSwapService cdvss;
-	
+
+	@Autowired
+	public MercadoDeDerivadosService deDerivadosService;
+
+
 	@Autowired
 	Algoritmos algoritmos;
 
@@ -262,9 +257,10 @@ public class LogaritmoController {
 		List<Object> retorno = new ArrayList <Object>();
 		
 		List<com.phi.proyect.vo.MesaDerivados> nivelDetalle = new ArrayList<com.phi.proyect.vo.MesaDerivados>();
-		List<Tvaluacionhoy> listaTvaluaciones= tvSer.findBycdInstrumento("2");
+		String fecha = deDerivadosService.findValueDate();
+		List<Tvaluacionhoy> listaTvaluaciones= tvSer.findBycdInstrumento("2", fecha);
 		List<VarLimite> varLimiteLista = varlimSer.findAll("2");
-		List<CalculoDeVarSwap> calculoDeVarSwapList = cdvss.findByCdInstrumento("2");
+		List<CalculoDeVarSwap> calculoDeVarSwapList = cdvss.findByCdInstrumento("2", fecha);
 		
 		 String producto;
 		 double valuacion;

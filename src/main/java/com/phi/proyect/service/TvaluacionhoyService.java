@@ -17,8 +17,8 @@ public class TvaluacionhoyService {
 	@Autowired
 	TvaluacionhoyRepository tvr;
 	
-	public List<Tvaluacionhoy>findBycdInstrumento(String cdInstrumento){
-		List<Tvaluacionhoy> listaValuacionesHoy = tvr.findBycdInstrumento(cdInstrumento);
+	public List<Tvaluacionhoy>findBycdInstrumento(String cdInstrumento, String fecha){
+		List<Tvaluacionhoy> listaValuacionesHoy = tvr.findBycdInstrumento(cdInstrumento, fecha);
 		if(listaValuacionesHoy == null || listaValuacionesHoy.isEmpty()){
 			return new ArrayList<>();
 		}

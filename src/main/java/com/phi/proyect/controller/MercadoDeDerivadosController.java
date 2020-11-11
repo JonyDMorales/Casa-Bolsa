@@ -63,7 +63,7 @@ public class MercadoDeDerivadosController {
 		}
 		
 		
-		String fecha = deDerivadosService.findValue();
+		String fecha = deDerivadosService.findValueDate();
 		List<Tvaluacionhoy> list = new ArrayList<>();
 		List<Vista> listCal = new ArrayList<>();
 		int result = 0;
@@ -75,10 +75,9 @@ public class MercadoDeDerivadosController {
 		Date date2 = Calendar.getInstance().getTime();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String fecha2 = dateFormat.format(date2);
-		String f = deDerivadosService.findValue();
+		String f = deDerivadosService.findValueDate();
 
 		if (lista.size() > 0) {
-			deDerivadosService.DeleteAll();
 			for (int i = 0; i < lista.size(); i++) {
 				if (lista.get(i).getTpProducto() == 1) {
 					// resultado =
@@ -93,34 +92,43 @@ public class MercadoDeDerivadosController {
 				} else if (lista.get(i).getTpProducto() == 2) {
 					resultado = fsFuncionesService.ValSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante());
+					System.out.println("Val: " + resultado);
 					if (resultado == (Float) null) {
 						resultado = (float) 0.0;
 					}
+
+					result = deDerivadosService.create(new Tvaluacionhoy(lista.get(i).getCdTransaccion(), resultado, 2, f,
+							resultVar1, resultVar2, resultVar3, 200));
+
 					resultVar1 = fsFuncionesService.VaRSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante(), porce1);
+					System.out.println("Porcentaje 1: " + porce1);
+					System.out.println("Var 1: " + resultVar1);
 					if (resultVar1 == (Float) null) {
 						resultVar1 = (float) 0.0;
 					}
 					resultVar2 = fsFuncionesService.VaRSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante(), porce2);
+					System.out.println("Porcentaje 2: " + porce2);
+					System.out.println("Var 2: " + resultVar2);
 					if (resultVar2 == (Float) null) {
 						resultVar2 = (float) 0.0;
 					}
 					resultVar3 = fsFuncionesService.VaRSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante(), porce3);
+					System.out.println("Porcentaje 3: " + porce3);
+					System.out.println("Var 3: " + resultVar3);
 					if (resultVar3 == (Float) null) {
 						resultVar3 = (float) 0.0;
 					}
 				}
 
-				result = deDerivadosService.create(new Tvaluacionhoy(lista.get(i).getCdTransaccion(), resultado, 2, f,
+				result = deDerivadosService.actualizarReg(new Tvaluacionhoy(lista.get(i).getCdTransaccion(), resultado, 2, f,
 						resultVar1, resultVar2, resultVar3, 200));
 
 				list = deDerivadosService.findByInsertHistorico(lista.get(i).getCdTransaccion(), fecha2);
-				System.out.println(list.size());
-				System.out.println(fecha2);
+
 				if (list.size() == 0) {
-					System.out.println(lista.get(i).getCdTransaccion());
 					list = deDerivadosService.findByCdTransa(lista.get(i).getCdTransaccion());
 					if (list.size() == 0) {
 						result2 = deDerivadosService.createHistorico(new Tvaluacionhoy(lista.get(i).getCdTransaccion(),

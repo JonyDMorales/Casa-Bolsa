@@ -68,10 +68,10 @@ public class MercadoDeDerivadosController {
 		List<Vista> listCal = new ArrayList<>();
 		int result = 0;
 		int result2 = 0;
-		Float resultado = (float) 0.0;
-		Float resultVar1 = (float) 0.0;
-		Float resultVar2 = (float) 0.0;
-		Float resultVar3 = (float) 0.0;
+		Double resultado = (double) 0.0;
+		Double resultVar1 = (double) 0.0;
+		Double resultVar2 = (double) 0.0;
+		Double resultVar3 = (double) 0.0;
 		Date date2 = Calendar.getInstance().getTime();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String fecha2 = dateFormat.format(date2);
@@ -92,8 +92,8 @@ public class MercadoDeDerivadosController {
 					resultado = fsFuncionesService.ValSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante());
 					System.out.println("Val: " + resultado);
-					if (resultado == (Float) null) {
-						resultado = (float) 0.0;
+					if (resultado == (Double) null) {
+						resultado = (double) 0.0;
 					}
 
 					result = deDerivadosService.create(new Tvaluacionhoy(lista.get(i).getCdTransaccion(), resultado, 2, f,
@@ -103,22 +103,22 @@ public class MercadoDeDerivadosController {
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante(), porce1);
 					System.out.println("Porcentaje 1: " + porce1);
 					System.out.println("Var 1: " + resultVar1);
-					if (resultVar1 == (Float) null) {
-						resultVar1 = (float) 0.0;
+					if (resultVar1 == (Double) null) {
+						resultVar1 = (double) 0.0;
 					}
 					resultVar2 = fsFuncionesService.VaRSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante(), porce2);
 					System.out.println("Porcentaje 2: " + porce2);
 					System.out.println("Var 2: " + resultVar2);
-					if (resultVar2 == (Float) null) {
-						resultVar2 = (float) 0.0;
+					if (resultVar2 == (Double) null) {
+						resultVar2 = (double) 0.0;
 					}
 					resultVar3 = fsFuncionesService.VaRSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante(), porce3);
 					System.out.println("Porcentaje 3: " + porce3);
 					System.out.println("Var 3: " + resultVar3);
-					if (resultVar3 == (Float) null) {
-						resultVar3 = (float) 0.0;
+					if (resultVar3 == (Double) null) {
+						resultVar3 = (double) 0.0;
 					}
 				}
 

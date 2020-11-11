@@ -35,7 +35,7 @@ public class FuncionesService {
 		return this.fr.ValSwapStarting(CdTransaccion, CdCurva, LdFecha);
 	}
 	
-	public Float ValSwapTiie(String CdTransaccion, int CdCurva,String LdFecham, int cdDescuento) {
+	public Double ValSwapTiie(String CdTransaccion, int CdCurva,String LdFecham, int cdDescuento) {
 		System.out.println(CdTransaccion);
 		System.out.println(CdCurva);
 		System.out.println(LdFecham);
@@ -59,7 +59,7 @@ public class FuncionesService {
 		return this.fr.VarPPPPPPP(CdTransaccion, CdCurva, LdFecha);
 	}
 	
-	public Float VaRSwapTiie(String CdTransaccion, int CdCurva,String LdFecham, int cdDescuento,int NuPercentil) {
+	public Double VaRSwapTiie(String CdTransaccion, int CdCurva,String LdFecham, int cdDescuento,int NuPercentil) {
 		return this.fr.VaRSwapTiie(CdTransaccion, CdCurva, LdFecham, cdDescuento, NuPercentil);
 	}
 	

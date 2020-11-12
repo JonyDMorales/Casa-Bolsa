@@ -73,7 +73,7 @@ public class LimitesLineasController {
 		
 		
 		LimitesLineas limitesLineas2 = new LimitesLineas();
-		System.out.println(limitesLineas.getContraparte());
+
 		limitesLineas2.setContraparte(limitesLineas.getContraparte());
 		limitesLineas2.setGlobalLimit(limitesLineas.getGlobalLimit());
 		limitesLineas2.setDirectOperationLimit(limitesLineas.getDirectOperationLimit());

@@ -55,7 +55,6 @@ public class MercadoDeDerivadosController {
 		int porce3 = 13;
 		if(listaparam.size() > 0) {
 			String porc = listaparam.get(0).getValorDelParametro();
-			System.out.println(listaparam.toString());
 			String[] parts = porc.split("\\|");
 			porce1 = Integer.parseInt(parts[0]);
 			porce2 = Integer.parseInt(parts[1]);
@@ -91,7 +90,6 @@ public class MercadoDeDerivadosController {
 				} else if (lista.get(i).getTpProducto() == 2) {
 					resultado = fsFuncionesService.ValSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante());
-					System.out.println("Val: " + resultado);
 					if (resultado == (Double) null) {
 						resultado = (double) 0.0;
 					}
@@ -101,22 +99,18 @@ public class MercadoDeDerivadosController {
 
 					resultVar1 = fsFuncionesService.VaRSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante(), porce1);
-					System.out.println("Porcentaje 1: " + porce1);
-					System.out.println("Var 1: " + resultVar1);
 					if (resultVar1 == (Double) null) {
 						resultVar1 = (double) 0.0;
 					}
 					resultVar2 = fsFuncionesService.VaRSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante(), porce2);
-					System.out.println("Porcentaje 2: " + porce2);
-					System.out.println("Var 2: " + resultVar2);
+
 					if (resultVar2 == (Double) null) {
 						resultVar2 = (double) 0.0;
 					}
 					resultVar3 = fsFuncionesService.VaRSwapTiie(lista.get(i).getCdTransaccion(),
 							lista.get(i).getNuCurvaDescuento(), fecha, lista.get(i).getNuFlotante(), porce3);
-					System.out.println("Porcentaje 3: " + porce3);
-					System.out.println("Var 3: " + resultVar3);
+
 					if (resultVar3 == (Double) null) {
 						resultVar3 = (double) 0.0;
 					}
@@ -146,7 +140,7 @@ public class MercadoDeDerivadosController {
 
 		
 		List<CalculoDeVarSwap> listCalcu = deDerivadosService.getFechaCalculo(fecha2);
-		System.out.println(listCalcu.size());
+
 		if(listCalcu.size() > 0) {
 			deDerivadosService.deleteCalculo(fecha2);
 		}

@@ -89,7 +89,6 @@ public class MercadoDeDerivadosService {
 	
 	@Transactional
     public int saveDeVarSwap(CalculoDeVarSwap cal) {
-		System.out.println(cal);
      	return this.calRepo.saveDeVarSwap(cal.getCdInstrumento(),cal.getFecha(),cal.getVar1(),cal.getVar2(),cal.getVar3());
     }
 	

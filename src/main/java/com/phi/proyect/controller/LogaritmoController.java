@@ -97,10 +97,8 @@ public class LogaritmoController {
 				List<Vector> listaValores = vecSer.findIssue(parametro.get(0).getDescripcion(), Integer.parseInt(desc[0]));
 				int cont = 1;
 				for (int i = 0; i < listaValores.size() - 1; i++) {
-					//System.out.println(listaValores.get(i).getMarketSurcharge() + " / " + listaValores.get(cont).getMarketSurcharge());
 					float division = (listaValores.get(i).getMarketSurcharge() / listaValores.get(cont).getMarketSurcharge());
 					Double logaritmo = Math.log(division);
-					//System.out.println("LOG: " + logaritmo);
 
 					if (Double.isNaN(logaritmo)) {
 					    logaritmo = 1.0; // lo puse porque en ocaciones viene con NaN
@@ -114,7 +112,6 @@ public class LogaritmoController {
 				for(Double logaritmo : logaritmos){
 					Double calculaPrecio = algoritmos.CalculaPrecio(listaVectorDia.get(0), fechaRegistro, logaritmo + tasa);
 					listReturn.add(new com.phi.proyect.vo.Logaritmo(logaritmo,calculaPrecio));
-					System.out.println("algoritmo - " + calculaPrecio);
 				}
 
 				return listReturn;
@@ -171,11 +168,6 @@ public class LogaritmoController {
 				String fecha = dateFormat.format(date2);
 				createVarOperacionMd(lista.get(i).getInstrumento(), fecha, param1, param2, param3);
 				list.add(new VarOperacionesMd(lista.get(i).getInstrumento(), fecha, param1, param2, param3));
-				System.out.println("instrumento - " + lista.get(i).getInstrumento());
-				System.out.println("fecha - " + fecha);
-				System.out.println("param1 - " + param1);
-				System.out.println("param2 - " + param2);
-				System.out.println("param3 - " + param3);
 			}
 			
 		}
@@ -201,10 +193,7 @@ public class LogaritmoController {
 
 		List<VectorPreciosDia> lista = vecpds.findVectorPrecioDia(descripcion);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
-		System.out.println("position 1" + lista.get(0));
-		System.out.println("position 2" + sdf.parse(fecha, new ParsePosition(0)));
-		System.out.println("position 3" + tasa);
+
 		return algoritmos.CalculaPrecio(lista.get(0), sdf.parse(fecha, new ParsePosition(0)), tasa);
 
 	}
@@ -217,7 +206,6 @@ public class LogaritmoController {
 		 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
 		    Date date = new Date();  
 		    String fechaEnvio= ""+formatter.format(date)+"";
-		    //System.out.println(fechaEnvio); 
 		    fechaEnvio="2020-05-20";
 		
 		for (int i = 0; i < lista.size(); i++) {

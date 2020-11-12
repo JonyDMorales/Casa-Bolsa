@@ -89,14 +89,14 @@ public class CsvController {
 	@RequestMapping(value = "/hcurvas", method = RequestMethod.POST)
 	public ResponseTransfer uploadHCurvas(@RequestBody ObjectNode obj) {
 		double[] array = new double[107];
-		System.out.println("Entro con curva: " + obj.get("1").asInt());
+
 		int t = 2;
 		int cdCurva = obj.get("1").asInt();
-		//if (obj.get("0").asInt() == 0) {
-			List<HCurvas2> ultimo = csvService.getUltimoRegistro(cdCurva);
-			String fecha = ultimo.get(0).getFhDate();
-			int del = csvService.deleteUltimoRegistro(fecha, cdCurva);
-		//}
+
+		List<HCurvas2> ultimo = csvService.getUltimoRegistro(cdCurva);
+		String fecha = ultimo.get(0).getFhDate();
+		int del = csvService.deleteUltimoRegistro(fecha, cdCurva);
+
 		
 
 		for (int i = 0; i < array.length; i++) {
@@ -231,9 +231,9 @@ public class CsvController {
 	@RequestMapping(value = "/deleteSwap", method = RequestMethod.POST)
 	public ResponseTransfer eliminarSwapFlujos() {
 		String response = "Error";
-		int a =  csvService.deleteDeSwap();
+		int a =  csvService.deleteFlujosSwap();
 		if (a == 0) {
-				int b = csvService.deleteFlujosSwap();
+				int b = csvService.deleteDeSwap();
 			if (b == 0) {
 				response = "Success";		
 			}

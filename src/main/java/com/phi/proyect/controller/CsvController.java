@@ -64,9 +64,17 @@ public class CsvController {
 	}
 
 	@RequestMapping(value = "/Column", method = RequestMethod.POST)
-	public List<CurvasParametria> getColumnasFilas() {
+	public List<Object> getColumnasFilas() {
+		
+		List<Object> retorno = new ArrayList <Object>();
 		List<CurvasParametria> response = csvService.getCurvasParametria();
-		return response;
+		
+		String fecha = deDerivadosService.findValueDate();
+
+		retorno.add(response);
+		retorno.add(fecha);
+
+		return retorno;
 	}
 
 	@RequestMapping(value = "/csv", method = RequestMethod.POST)
@@ -89,15 +97,11 @@ public class CsvController {
 	@RequestMapping(value = "/hcurvas", method = RequestMethod.POST)
 	public ResponseTransfer uploadHCurvas(@RequestBody ObjectNode obj) {
 		double[] array = new double[107];
-
 		int t = 2;
 		int cdCurva = obj.get("1").asInt();
-
 		List<HCurvas2> ultimo = csvService.getUltimoRegistro(cdCurva);
 		String fecha = ultimo.get(0).getFhDate();
-		int del = csvService.deleteUltimoRegistro(fecha, cdCurva);
-
-		
+		int del = csvService.deleteUltimoRegistro(fecha, cdCurva);		
 
 		for (int i = 0; i < array.length; i++) {
 			String tConvert = "" + t + "";
@@ -120,15 +124,27 @@ public class CsvController {
 		return new ResponseTransfer(response);
 	}
 
+	
+	
+	
+	@RequestMapping(value = "/deleteCurvas", method = RequestMethod.POST)
+	public ResponseTransfer deleteAllCurvas() {
+		String response = "Error";
+		int a = csvService.deleteAllCurvas();
+
+		if (a == 0) {
+	      	response = "Success";		
+		}
+		return new ResponseTransfer(response);
+	}
+	
+	
 	@RequestMapping(value = "/curvas", method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseTransfer uploadCurvas(@RequestBody ObjectNode obj) {
 
 		List<CdCurvas> lista = csvService.findByCdCurva(obj.get("1").asInt());
 		if (lista.size() > 0) {
-			if (obj.get("0").asInt() == 0) {
-				csvService.deleteAllCurvas();
-			}
 			String fecha2 = deDerivadosService.findValue();
 			Curvas curvas = new Curvas();
 			curvas.setFkCdCurva(obj.get("1").asInt());

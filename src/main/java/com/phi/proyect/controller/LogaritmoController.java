@@ -268,18 +268,18 @@ public class LogaritmoController {
 			 var1=listaTvaluaciones.get(i).getVar1();
 			 var2=listaTvaluaciones.get(i).getVar2();
 			 var3=listaTvaluaciones.get(i).getVar3();
-			
-			
-			nivelDetalle.add(new com.phi.proyect.vo.MesaDerivados(producto,valuacion,var1,var2,var3,limite));
+    			nivelDetalle.add(new com.phi.proyect.vo.MesaDerivados(producto,valuacion,var1,var2,var3,limite));
 			
 		}
 		
+		String fechaParameter = deDerivadosService.findValueDate();
 
 		
 		retorno.add(nivelDetalle);
 		retorno.add(varLimiteLista);
 		retorno.add(calculoDeVarSwapList);
-		
+		retorno.add(fechaParameter);
+
 		return retorno;
 	}
 
